@@ -1,4 +1,4 @@
-package ru.alfa.model.entity;
+package ru.alfa.data.entity.service;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

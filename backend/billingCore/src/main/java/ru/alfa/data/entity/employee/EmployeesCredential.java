@@ -1,4 +1,4 @@
-package ru.alfa.model.entity;
+package ru.alfa.data.entity.employee;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,19 +9,19 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "user_credentials")
-public class UserCredential {
+@Table(name = "employees_credentials")
+public class EmployeesCredential {
     @Id
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "employee_id", nullable = false)
     private Long id;
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 
-    @Column(name = "phone_number", length = Integer.MAX_VALUE)
-    private String phoneNumber;
+    @Column(name = "email", length = Integer.MAX_VALUE)
+    private String email;
 
     @Column(name = "password_hash", length = Integer.MAX_VALUE)
     private String passwordHash;

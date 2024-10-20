@@ -1,8 +1,10 @@
-package ru.alfa.model.entity;
+package ru.alfa.data.entity.tariff;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import ru.alfa.data.entity.tariff.enums.TariffStatus;
+import ru.alfa.data.entity.tariff.enums.TariffType;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -36,24 +38,22 @@ public class Tariff {
 
     @Column(name = "\"count_Gigabytes\"")
     private Double countGigabytes;
+
     @Column(name = "updated_at")
     private Instant updatedAt;
 
     @Column(name = "created_at")
     private Instant createdAt;
+
     @OneToMany(mappedBy = "tariff")
     private Set<PhoneNumberTariff> phoneNumberTariffs = new LinkedHashSet<>();
 
-/*
- TODO [Reverse Engineering] create field to map the 'type' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
+
     @Column(name = "type", columnDefinition = "tariff_type")
-    private Object type;
-*/
-/*
- TODO [Reverse Engineering] create field to map the 'status' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
+    private TariffType type;
+
+
     @Column(name = "status", columnDefinition = "tariff_status")
-    private Object status;
-*/
+    private TariffStatus status;
+
 }

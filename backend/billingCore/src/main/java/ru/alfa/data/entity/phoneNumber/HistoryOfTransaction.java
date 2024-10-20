@@ -1,8 +1,9 @@
-package ru.alfa.model.entity;
+package ru.alfa.data.entity.phoneNumber;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import ru.alfa.data.entity.phoneNumber.enums.HistoryType;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -26,13 +27,11 @@ public class HistoryOfTransaction {
 
     @Column(name = "amount_of_transaction", precision = 10, scale = 2)
     private BigDecimal amountOfTransaction;
+
     @Column(name = "date_of_transaction")
     private Instant dateOfTransaction;
 
-/*
- TODO [Reverse Engineering] create field to map the 'type_of_transaction' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
     @Column(name = "type_of_transaction", columnDefinition = "history_type")
-    private Object typeOfTransaction;
-*/
+    private HistoryType typeOfTransaction;
+
 }
