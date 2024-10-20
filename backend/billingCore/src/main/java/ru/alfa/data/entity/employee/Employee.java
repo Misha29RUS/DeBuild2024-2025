@@ -1,8 +1,9 @@
-package ru.alfa.model.entity;
+package ru.alfa.data.entity.employee;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import ru.alfa.data.entity.employee.enums.EmployeeRole;
 
 @Getter
 @Setter
@@ -22,13 +23,12 @@ public class Employee {
 
     @Column(name = "patronymic", length = Integer.MAX_VALUE)
     private String patronymic;
+
     @OneToOne(mappedBy = "employee")
     private EmployeesCredential employeesCredential;
 
-/*
- TODO [Reverse Engineering] create field to map the 'role' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
+
     @Column(name = "role", columnDefinition = "employee_role")
-    private Object role;
-*/
+    private EmployeeRole role;
+
 }

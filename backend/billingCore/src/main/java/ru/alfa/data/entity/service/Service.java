@@ -1,8 +1,9 @@
-package ru.alfa.model.entity;
+package ru.alfa.data.entity.service;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import ru.alfa.data.entity.service.enums.ServiceStatus;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -45,13 +46,11 @@ public class Service {
 
     @Column(name = "updated_at")
     private Instant updatedAt;
+
     @OneToMany(mappedBy = "service")
     private Set<PhoneNumberService> phoneNumberServices = new LinkedHashSet<>();
 
-/*
- TODO [Reverse Engineering] create field to map the 'status' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
     @Column(name = "status", columnDefinition = "service_status")
-    private Object status;
-*/
+    private ServiceStatus status;
+
 }

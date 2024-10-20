@@ -1,8 +1,11 @@
-package ru.alfa.model.entity;
+package ru.alfa.data.entity.phoneNumber;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import ru.alfa.data.entity.service.PhoneNumberService;
+import ru.alfa.data.entity.tariff.PhoneNumberTariff;
+import ru.alfa.data.entity.user.User;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;

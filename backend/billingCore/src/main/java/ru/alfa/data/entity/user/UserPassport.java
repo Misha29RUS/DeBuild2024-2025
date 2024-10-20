@@ -1,4 +1,4 @@
-package ru.alfa.model.entity;
+package ru.alfa.data.entity.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,8 +1,9 @@
-package ru.alfa.model.entity;
+package ru.alfa.data.entity.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import ru.alfa.data.entity.phoneNumber.PhoneNumber;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
