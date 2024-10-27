@@ -19,10 +19,10 @@ public class BaseCostOfResource {
     @Column(name = "cost_one_minute", precision = 10, scale = 2)
     private BigDecimal costOneMinute;
 
-    @Column(name = "\"cost_one_SMS\"", precision = 10, scale = 2)
+    @Column(name = "cost_one_sms", precision = 10, scale = 2)
     private BigDecimal costOneSms;
 
-    @Column(name = "\"cost_one_Gigabyte\"", precision = 10, scale = 2)
+    @Column(name = "cost_one_gigabyte", precision = 10, scale = 2)
     private BigDecimal costOneGigabyte;
 
 }

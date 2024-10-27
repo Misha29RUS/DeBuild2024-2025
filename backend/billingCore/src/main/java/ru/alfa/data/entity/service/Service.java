@@ -3,10 +3,11 @@ package ru.alfa.data.entity.service;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import ru.alfa.data.entity.service.enums.ResourceType;
 import ru.alfa.data.entity.service.enums.ServiceStatus;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -23,6 +24,14 @@ public class Service {
     @Column(name = "one_time_service")
     private Boolean oneTimeService;
 
+    @Column(name = "status", columnDefinition = "service_status")
+    @Enumerated(EnumType.STRING)
+    private ServiceStatus status;
+
+    @Column(name = "type_of_resource", columnDefinition = "resource_type")
+    @Enumerated(EnumType.STRING)
+    private ResourceType type;
+
     @Column(name = "name", length = Integer.MAX_VALUE)
     private String name;
 
@@ -32,25 +41,17 @@ public class Service {
     @Column(name = "cost", precision = 10, scale = 2)
     private BigDecimal cost;
 
-    @Column(name = "count_minutes")
-    private Integer countMinutes;
-
-    @Column(name = "\"count_SMS\"")
-    private Integer countSms;
-
-    @Column(name = "\"count_Gigabytes\"")
-    private Double countGigabytes;
+    @Column(name = "count_resources")
+    private Double countResources;
 
     @Column(name = "created_at")
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
-    private Instant updatedAt;
+    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "service")
     private Set<PhoneNumberService> phoneNumberServices = new LinkedHashSet<>();
 
-    @Column(name = "status", columnDefinition = "service_status")
-    private ServiceStatus status;
 
 }

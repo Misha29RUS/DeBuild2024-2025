@@ -6,7 +6,7 @@ import lombok.Setter;
 import ru.alfa.data.entity.phoneNumber.enums.HistoryType;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -29,9 +29,10 @@ public class HistoryOfTransaction {
     private BigDecimal amountOfTransaction;
 
     @Column(name = "date_of_transaction")
-    private Instant dateOfTransaction;
+    private LocalDateTime dateOfTransaction;
 
     @Column(name = "type_of_transaction", columnDefinition = "history_type")
+    @Enumerated(EnumType.STRING)
     private HistoryType typeOfTransaction;
 
 }
