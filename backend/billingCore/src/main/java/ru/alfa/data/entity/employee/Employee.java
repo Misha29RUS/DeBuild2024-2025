@@ -29,6 +29,7 @@ public class Employee {
 
 
     @Column(name = "role", columnDefinition = "employee_role")
+    @Enumerated(EnumType.STRING)
     private EmployeeRole role;
 
 }

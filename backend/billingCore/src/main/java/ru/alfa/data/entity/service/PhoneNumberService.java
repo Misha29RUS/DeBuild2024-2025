@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import ru.alfa.data.entity.phoneNumber.PhoneNumber;
+import ru.alfa.data.entity.service.enums.ResourceType;
 
 import java.time.LocalDate;
 
@@ -31,13 +32,11 @@ public class PhoneNumberService {
     @Column(name = "date_of_end_period")
     private LocalDate dateOfEndPeriod;
 
-    @Column(name = "remaining_minutes")
-    private Integer remainingMinutes;
+    @Column(name = "type_of_resource", columnDefinition = "resource_type")
+    @Enumerated(EnumType.STRING)
+    private ResourceType type;
 
-    @Column(name = "\"remaining_SMS\"")
-    private Integer remainingSms;
-
-    @Column(name = "\"remaining_Gigabytes\"")
-    private Double remainingGigabytes;
+    @Column(name = "remaining_resources")
+    private Double remainingResources;
 
 }

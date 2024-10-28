@@ -37,19 +37,19 @@ public class PhoneNumberTariff {
     @Column(name = "remaining_minutes")
     private Integer remainingMinutes;
 
-    @Column(name = "\"remaining_SMS\"")
+    @Column(name = "remaining_sms")
     private Integer remainingSms;
 
-    @Column(name = "\"remaining_Gigabytes\"")
+    @Column(name = "remaining_gigabytes")
     private Double remainingGigabytes;
 
     @Column(name = "count_minutes_at_start_of_period")
     private Integer countMinutesAtStartOfPeriod;
 
-    @Column(name = "\"count_SMS_at_start_of_period\"")
+    @Column(name = "count_sms_at_start_of_period")
     private Integer countSmsAtStartOfPeriod;
 
-    @Column(name = "\"count_Gigabytes_at_start_of_period\"")
+    @Column(name = "count_gigabytes_at_start_of_period")
     private Double countGigabytesAtStartOfPeriod;
 
 }

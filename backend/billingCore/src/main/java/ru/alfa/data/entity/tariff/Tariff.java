@@ -1,5 +1,6 @@
 package ru.alfa.data.entity.tariff;
 
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +8,7 @@ import ru.alfa.data.entity.tariff.enums.TariffStatus;
 import ru.alfa.data.entity.tariff.enums.TariffType;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -21,6 +22,14 @@ public class Tariff {
     @Column(name = "tariff_id", nullable = false)
     private Long id;
 
+    @Column(name = "type", columnDefinition = "tariff_type")
+    @Enumerated(EnumType.STRING)
+    private TariffType type;
+
+    @Column(name = "status", columnDefinition = "tariff_status")
+    @Enumerated(EnumType.STRING)
+    private TariffStatus status;
+
     @Column(name = "name", length = Integer.MAX_VALUE)
     private String name;
 
@@ -33,27 +42,19 @@ public class Tariff {
     @Column(name = "count_minutes")
     private Integer countMinutes;
 
-    @Column(name = "\"count_SMS\"")
+    @Column(name = "count_sms")
     private Integer countSms;
 
-    @Column(name = "\"count_Gigabytes\"")
+    @Column(name = "count_gigabytes")
     private Double countGigabytes;
 
     @Column(name = "updated_at")
-    private Instant updatedAt;
+    private LocalDateTime updatedAt;
 
     @Column(name = "created_at")
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "tariff")
     private Set<PhoneNumberTariff> phoneNumberTariffs = new LinkedHashSet<>();
-
-
-    @Column(name = "type", columnDefinition = "tariff_type")
-    private TariffType type;
-
-
-    @Column(name = "status", columnDefinition = "tariff_status")
-    private TariffStatus status;
 
 }
