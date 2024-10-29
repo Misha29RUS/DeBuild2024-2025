@@ -15,7 +15,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "service")
-public class Service {
+public class MobileService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "service_id", nullable = false)
@@ -50,7 +50,7 @@ public class Service {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "service")
+    @OneToMany(mappedBy = "mobileService")
     private Set<PhoneNumberService> phoneNumberServices = new LinkedHashSet<>();
 
 
