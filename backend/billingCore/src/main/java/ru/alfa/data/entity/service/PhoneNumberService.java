@@ -24,7 +24,7 @@ public class PhoneNumberService {
     @MapsId("serviceId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "service_id", nullable = false)
-    private Service service;
+    private MobileService mobileService;
 
     @Column(name = "date_of_start_period")
     private LocalDate dateOfStartPeriod;
