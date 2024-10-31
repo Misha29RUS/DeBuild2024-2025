@@ -33,7 +33,7 @@ export const Header = () => {
     }, []);
 
     return (
-        <header className="px-[90px] py-5 bg-black flex items-center">
+        <header className="px-[90px] py-[19px] bg-s-black flex items-center h-[80px]">
             <LogoSvg className="mr-auto" />
             <div className="flex items-center">
                 <NavButton styles="mr-5" text="Абоненты"
@@ -46,7 +46,7 @@ export const Header = () => {
                     isActive={lastPartURL === 'active_tariffs' || lastPartURL === 'archive_tariffs'} />
                     {isTariffsDropdownOpen && (
                         <div className="absolute px-5 rounded-b-[10px]
-                        bg-black -left-5 top-14">
+                        bg-s-black -left-5 top-14">
                             <NavButton styles="mb-[26px]" text="Активные"
                             onClick={() => setIsTariffsDropdownOpen(false)}
                             iconLeft={<ActiveSvg />} to="active_tariffs" />
@@ -62,7 +62,7 @@ export const Header = () => {
                 <NavButton styles="mr-5" text="Квоты" 
                 iconLeft={<QuotasSvg />} to="/quotas"
                 isActive={lastPartURL === 'quotas'} />
-                <Button styles="mr-5" text="Иванов И. И." type="red" 
+                <Button styles="mr-5" text="Иванов И. И." type="red"
                 iconLeft={<ProfileSvg />} />
                 <Button type="grey" onlyIcon={<ExitSvg />} />
             </div>

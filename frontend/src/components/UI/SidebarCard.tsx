@@ -30,9 +30,9 @@ export const SidebarCard = ({
     // пока не пойму, какие будут запросы
 
     return (
-        <div className={`p-5 rounded-[20px] text-[18px] text-white
+        <div className={`p-5 rounded-[20px] text-[18px] text-s-white
         ${type === 'active' ? 'bg-s-red'
-        : (type === 'archive' ? 'bg-black'
+        : (type === 'archive' ? 'bg-s-black'
         : (type === 'internet' ? 'bg-s-blue'
         : (type === 'call' ? 'bg-s-green'
         : (type === 'message' ? 'bg-s-violet'

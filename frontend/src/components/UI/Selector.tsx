@@ -67,20 +67,20 @@ export const Selector = <T extends object>({
                     : selectedData || ''}
                 className={`py-3 px-4 outline-none border font-extralight text-[18px] w-[inherit] 
                 ${showDropdown ?
-                `rounded-t-lg ${type ? 'border-white' : 'border-s-dark-grey'} `
-                : `rounded-lg ${type ? 'border-white' : 'border-s-light-grey'}`}
+                `rounded-t-lg ${type ? 'border-s-white' : 'border-s-dark-grey'} `
+                : `rounded-lg ${type ? 'border-s-white' : 'border-s-light-grey'}`}
                 ${type ? 
-                'border-white text-white placeholder:text-white group-hover:border-white group-hover:text-white' 
+                'border-s-white text-s-white placeholder:text-s-white group-hover:border-s-white group-hover:text-s-white' 
                 : 'placeholder:text-s-light-grey group-hover:border-s-dark-grey group-hover:text-s-dark-grey'}
                 ${type === 'active' ? 'bg-s-red' 
-                : (type === 'archive' ? 'bg-black'
+                : (type === 'archive' ? 'bg-s-black'
                 : (type === 'more' && 'bg-s-dark-grey'))}`}
                 placeholder={placeholder}
                 id="input"
             />
             {selectedData && (
                 <CloseSvg className={`absolute top-3.5 right-[38px] cursor-pointer
-                ${type ? 'fill-white' : 'fill-black'}`}
+                ${type ? 'fill-s-white' : 'fill-s-black'}`}
                 onClick={() => {
                     setSelectedData("")
                     setTakeValue("")
@@ -90,15 +90,15 @@ export const Selector = <T extends object>({
             <ArrowSvg
                 onClick={() => setShowDropdown(!showDropdown)}
                 className={`absolute top-3.5 cursor-pointer right-4 
-                ${type ? 'group-hover:fill-white' : 'group-hover:fill-s-dark-grey'}
-                ${showDropdown ? `rotate-180 ${type ? 'fill-white' : 'fill-s-dark-grey'}` 
-                : `${type ? 'fill-white' : 'fill-s-light-grey'}`}`}
+                ${type ? 'group-hover:fill-s-white' : 'group-hover:fill-s-dark-grey'}
+                ${showDropdown ? `rotate-180 ${type ? 'fill-s-white' : 'fill-s-dark-grey'}` 
+                : `${type ? 'fill-s-white' : 'fill-s-light-grey'}`}`}
             />
 
             {showDropdown && (
                 <ul className={`absolute left-0 right-0 max-h-[200px]
                 overflow-y-auto border rounded-b-lg z-10
-                ${type ? 'border-white' : 'border-s-dark-grey'}`}>
+                ${type ? 'border-s-white' : 'border-s-dark-grey'}`}>
                     {list?.slice(0, 10).map((data, index) => (
                         <li
                             onClick={() => {
@@ -110,10 +110,10 @@ export const Selector = <T extends object>({
                             className={`py-3 px-4 transition-colors cursor-pointer
                             ${!type && 'hover:bg-s-light-grey'}
                             ${type === 'active' ? 'bg-s-red'
-                            : (type === 'archive' ? 'bg-black'
+                            : (type === 'archive' ? 'bg-s-black'
                             : (type === 'more' && 'bg-s-dark-grey'))}`}>
                             <p className={`font-extralight text-[18px]
-                            ${type && 'text-white'}`}>
+                            ${type && 'text-s-white'}`}>
                                 {String(data[labelKey])}
                             </p>
                         </li>

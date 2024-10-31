@@ -19,26 +19,26 @@ export const Button = ({
     iconRight,
     onlyIcon 
 }: ButtonProps) => {
-    const greyStyle = "border-s-dark-grey text-s-dark-grey hover:text-white " +
-    "hover:bg-black disabled:text-s-dark-grey disabled:border-s-dark-grey " +
-    "disabled:bg-transparent border bg-transparent hover:border-white"
-    const redStyle = "text-white bg-s-red hover:bg-s-light-red disabled:bg-s-dark-red"
+    const greyStyle = "py-[9px] border-s-dark-grey text-s-dark-grey hover:text-s-white " +
+    "hover:bg-s-black disabled:text-s-dark-grey disabled:border-s-dark-grey " +
+    "disabled:bg-transparent border bg-transparent hover:border-s-black"
+    const redStyle = "py-[10px] text-s-white bg-s-red hover:bg-s-light-red disabled:bg-s-dark-red"
 
     return (
         <button 
             onClick={onClick} 
             disabled={disabled} 
-            className={`group font-medium text-[18px] py-2.5
+            className={`group font-medium text-[18px]
             rounded-md transition ease-linear delay-75
-            disabled:cursor-not-allowed flex items-center
-            ${onlyIcon ? 'px-2.5' : 'px-4'}
+            disabled:cursor-not-allowed flex items-center leading-[1.22]
+            ${onlyIcon ? (type === 'red' ? 'px-[10px]' : (type === 'grey') && 'px-[9px]') : (type === 'red' ? 'px-[16px]' : (type === 'grey') && 'px-[15px]')}
             ${type === 'grey' ? greyStyle : (type === 'red' && redStyle)} 
             ${styles}`}>
                 {onlyIcon ? (
                     <span className={`delay-75 transition ease-linear
                         ${type === 'grey' 
-                        ? 'fill-s-dark-grey group-hover:fill-white'
-                        : (type === 'red') && 'fill-white'}`}>
+                        ? 'fill-s-dark-grey group-hover:fill-s-white'
+                        : (type === 'red') && 'fill-s-white'}`}>
                         {onlyIcon}
                     </span>
                 ) : (
@@ -46,16 +46,16 @@ export const Button = ({
                         {iconLeft && <span 
                         className={`mr-1 delay-75 transition ease-linear
                         ${type === 'grey' 
-                        ? 'fill-s-dark-grey group-hover:fill-white'
-                        : (type === 'red') && 'fill-white'}`}>
+                        ? 'fill-s-dark-grey group-hover:fill-s-white'
+                        : (type === 'red') && 'fill-s-white'}`}>
                             {iconLeft}
                         </span>}
                         {text && <span>{text}</span>}
                         {iconRight && <span 
                         className={`ml-1 delay-75 transition ease-linear
                         ${type === 'grey' 
-                        ? 'fill-s-dark-grey group-hover:fill-white'
-                        : (type === 'red') && 'fill-white'}`}>
+                        ? 'fill-s-dark-grey group-hover:fill-s-white'
+                        : (type === 'red') && 'fill-s-white'}`}>
                             {iconRight}
                         </span>}
                     </>

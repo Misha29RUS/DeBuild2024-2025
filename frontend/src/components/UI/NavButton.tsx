@@ -27,24 +27,24 @@ export const NavButton = ({
             onClick={onClick}
             className={`group font-medium text-[18px] 
             transition ease-linear delay-75 flex items-center
-            ${isActive ? 'text-s-red' : 'text-white hover:text-s-dark-grey'}
+            ${isActive ? 'text-s-red' : 'text-s-white hover:text-s-dark-grey'}
              ${styles}`}>
                 {onlyIcon ? (
                     <span className={`delay-75 transition ease-linear
-                    ${isActive ? 'fill-s-red' : 'fill-white hover:fill-s-dark-grey'}`}>
+                    ${isActive ? 'fill-s-red' : 'fill-s-white hover:fill-s-dark-grey'}`}>
                         {onlyIcon}
                     </span>
                 ) : (
                     <>
                         {iconLeft && <span 
                         className={`mr-1 delay-75 transition ease-linear
-                        ${isActive ? 'fill-s-red' : 'fill-white group-hover:fill-s-dark-grey'}`}>
+                        ${isActive ? 'fill-s-red' : 'fill-s-white group-hover:fill-s-dark-grey'}`}>
                             {iconLeft}
                         </span>}
                         {text && <span>{text}</span>}
                         {iconRight && <span 
                         className={`ml-1 delay-75 transition ease-linear
-                        ${isActive ? 'fill-s-red' : 'fill-white group-hover:fill-s-dark-grey'}`}>
+                        ${isActive ? 'fill-s-red' : 'fill-s-white group-hover:fill-s-dark-grey'}`}>
                             {iconRight}
                         </span>}
                     </>

@@ -12,8 +12,8 @@ type TableTagProps = {
 
 export const TableTag = ({type, text}: TableTagProps) => {
     const iconMap: { [key: string]: JSX.Element } = {
-        active: <ActiveTariffSvg className="fill-white" />,
-        archive: <ArchiveTariffSvg className="fill-white" />,
+        active: <ActiveTariffSvg className="fill-s-white" />,
+        archive: <ArchiveTariffSvg className="fill-s-white" />,
         internet: <InternetSvg className="fill-s-blue" />,
         call: <CallSvg className="fill-s-green" />,
         message: <MessageSvg className="fill-s-violet" />,
@@ -22,10 +22,10 @@ export const TableTag = ({type, text}: TableTagProps) => {
     const Icon = iconMap[type] || null;
 
     return (
-        <div 
+        <div
         className={`py-[5px] text-[18px] px-1.5 rounded-[20px] flex items-center
-        ${type === 'active' ? "text-white bg-s-red"
-        : (type === 'archive' ? "text-white bg-black"
+        ${type === 'active' ? "text-s-white bg-s-red"
+        : (type === 'archive' ? "text-s-white bg-s-black"
         : (type === 'internet' ? "text-s-blue border border-s-blue"
         : (type === 'call' ? "text-s-green border border-s-green"
         : (type === 'message' ? "text-s-violet border border-s-violet"

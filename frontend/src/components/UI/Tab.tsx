@@ -14,7 +14,7 @@ export const Tab = ({
     return (
         <button onClick={onClick} 
         className={`font-medium text-[18px] text-s-light-grey 
-        hover:text-black transition ease-linear delay-75 relative   
+        hover:text-s-black transition ease-linear delay-75 relative   
         ${select && 'text-s-red hover:text-s-red'} 
         ${styles}`}>
             {text}
