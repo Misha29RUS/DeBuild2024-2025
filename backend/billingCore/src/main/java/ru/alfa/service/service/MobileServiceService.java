@@ -8,6 +8,7 @@ import ru.alfa.data.dto.service.ResponseMobileServiceDto;
 import ru.alfa.data.entity.service.MobileService;
 import ru.alfa.data.mapper.service.MobileServiceMapper;
 import ru.alfa.data.repository.service.MobileServiceRepository;
+import ru.alfa.exception.EntityNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,7 +37,8 @@ public class MobileServiceService {
 
     @Transactional
     public ResponseMobileServiceDto updateService(Long id, RequestMobileServiceDto requestMobileServiceDto) {
-        MobileService mobileServiceDb = mobileServiceRepository.getServiceById(id);
+        MobileService mobileServiceDb = mobileServiceRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
 
         mobileServiceDb.setOneTimeService(requestMobileServiceDto.oneTimeService());
         mobileServiceDb.setStatus(requestMobileServiceDto.status());
@@ -53,11 +55,12 @@ public class MobileServiceService {
 
     @Transactional
     public void deleteMobileServiceById(Long id) {
-        mobileServiceRepository.deleteMobileServiceById(id);
+        mobileServiceRepository.deleteById(id);
     }
 
     public ResponseMobileServiceDto getServiceById(Long id) {
-        MobileService mobileService = mobileServiceRepository.getServiceById(id);
+        MobileService mobileService = mobileServiceRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
         return mobileServiceMapper.toResponseDto(mobileService);
     }
 }

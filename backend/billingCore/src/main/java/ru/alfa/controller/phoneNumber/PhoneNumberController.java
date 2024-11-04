@@ -1,0 +1,57 @@
+package ru.alfa.controller.phoneNumber;
+
+
+import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ru.alfa.data.dto.phoneNumber.ResponsePhoneNumberBalanceDto;
+import ru.alfa.data.dto.phoneNumber.ResponsePhoneNumberWithServicesInfoDto;
+import ru.alfa.data.dto.phoneNumber.ResponsePhoneNumberWithTariffInfoDto;
+import ru.alfa.data.dto.phoneNumber.ResponsePhoneNumberWithUserInfoDto;
+import ru.alfa.service.phoneNumber.PhoneNumberService;
+
+@RestController
+@RequestMapping("/api/phoneNumber")
+@RequiredArgsConstructor
+@Validated
+public class PhoneNumberController {
+
+    private final PhoneNumberService phoneNumberService;
+
+    @GetMapping("/balance/{id}")
+    public ResponseEntity<ResponsePhoneNumberBalanceDto> getBalanceHistory(
+            @Parameter(name = "id", description = "Идентификатор номера телефона",
+                    example = "1") @NotNull @Positive @PathVariable("id") Long id) {
+        return ResponseEntity.ok(phoneNumberService.getBalanceHistory(id));
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<ResponsePhoneNumberWithUserInfoDto> getPhoneNumberAndUserInfo(
+            @Parameter(name = "id", description = "Идентификатор номера телефона",
+                    example = "1") @NotNull @Positive @PathVariable("id") Long id) {
+        return ResponseEntity.ok(phoneNumberService.getPhoneNumberAndUserInfo(id));
+    }
+
+    @GetMapping("/tariff/{id}")
+    public ResponseEntity<ResponsePhoneNumberWithTariffInfoDto> getPhoneNumberAndTariffInfo(
+            @Parameter(name = "id", description = "Идентификатор номера телефона",
+                    example = "1") @NotNull @Positive @PathVariable("id") Long id) {
+        return ResponseEntity.ok(phoneNumberService.getPhoneNumberAndTariffInfo(id));
+    }
+
+    @GetMapping("/service/{id}")
+    public ResponseEntity<ResponsePhoneNumberWithServicesInfoDto> getPhoneNumberAndServicesInfo(
+            @Parameter(name = "id", description = "Идентификатор номера телефона",
+                    example = "1") @NotNull @Positive @PathVariable("id") Long id) {
+        return ResponseEntity.ok(phoneNumberService.getPhoneNumberAndServicesInfo(id));
+    }
+
+
+}

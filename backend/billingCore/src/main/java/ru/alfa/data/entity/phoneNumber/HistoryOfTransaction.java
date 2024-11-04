@@ -13,13 +13,13 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "history_of_transactions")
 public class HistoryOfTransaction {
+
     @Id
-    @Column(name = "phone_number_id", nullable = false)
+    @Column(name = "transaction_id", nullable = false)
     private Long id;
 
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "phone_number_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "phone_number_id")
     private PhoneNumber phoneNumber;
 
     @Column(name = "name_of_transaction", length = Integer.MAX_VALUE)

@@ -51,7 +51,7 @@ public class MobileService {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "mobileService")
-    private Set<PhoneNumberService> phoneNumberServices = new LinkedHashSet<>();
+    private Set<PhoneNumberMobileService> phoneNumberMobileServices = new LinkedHashSet<>();
 
 
 }

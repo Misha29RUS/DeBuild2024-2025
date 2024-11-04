@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 /**
  * DTO for {@link MobileService}
  */
-public record ResponseMobileServiceDto(Long id, Boolean oneTimeService, ServiceStatus status, ResourceType type, String name,
-                                       String description, BigDecimal cost, Double countResources) implements Serializable {
+public record ResponseMobileServiceDto(Long id, Boolean oneTimeService, ServiceStatus status, ResourceType type,
+                                       String name, String description, BigDecimal cost,
+                                       Double countResources) implements Serializable {
 }

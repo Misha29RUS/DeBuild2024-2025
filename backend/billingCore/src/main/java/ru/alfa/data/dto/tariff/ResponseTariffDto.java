@@ -10,7 +10,6 @@ import java.math.BigDecimal;
  * DTO for {@link ru.alfa.data.entity.tariff.Tariff}
  */
 public record ResponseTariffDto(Long id, TariffType type, TariffStatus status, String name, String description,
-                                BigDecimal cost, Integer countMinutes, Integer countSms,
-                                Double countGigabytes) implements Serializable {
+                                BigDecimal cost, ResponseTariffResourceDto tariffResourceDto) implements Serializable {
 
 }
