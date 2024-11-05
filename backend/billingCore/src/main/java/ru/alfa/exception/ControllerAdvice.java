@@ -30,4 +30,12 @@ public class ControllerAdvice {
                 errors.put(violation.getPropertyPath().toString(), violation.getMessage()));
         return errors;
     }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, String> handleEntityNotFoundException(EntityNotFoundException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", ex.getMessage());
+        return errors;
+    }
 }

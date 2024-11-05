@@ -1,6 +1,5 @@
 package ru.alfa.data.entity.tariff;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,14 +38,8 @@ public class Tariff {
     @Column(name = "cost", precision = 10, scale = 2)
     private BigDecimal cost;
 
-    @Column(name = "count_minutes")
-    private Integer countMinutes;
-
-    @Column(name = "count_sms")
-    private Integer countSms;
-
-    @Column(name = "count_gigabytes")
-    private Double countGigabytes;
+    @OneToOne(mappedBy = "tariff", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private TariffResource tariffResource;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;

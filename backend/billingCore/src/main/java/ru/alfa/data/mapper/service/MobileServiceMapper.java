@@ -11,4 +11,5 @@ public interface MobileServiceMapper {
     MobileService toEntity(RequestMobileServiceDto requestMobileServiceDto);
 
     ResponseMobileServiceDto toResponseDto(MobileService mobileService);
+
 }

@@ -3,12 +3,14 @@ package ru.alfa.data.entity.phoneNumber;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import ru.alfa.data.entity.service.PhoneNumberService;
+import ru.alfa.data.entity.service.PhoneNumberMobileService;
 import ru.alfa.data.entity.tariff.PhoneNumberTariff;
 import ru.alfa.data.entity.user.User;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -31,11 +33,11 @@ public class PhoneNumber {
     @Column(name = "balance", precision = 10, scale = 2)
     private BigDecimal balance;
 
-    @OneToOne(mappedBy = "phoneNumber")
-    private HistoryOfTransaction historyOfTransaction;
+    @OneToMany(mappedBy = "phoneNumber")
+    private List<HistoryOfTransaction> historyOfTransaction = new ArrayList<>();
 
     @OneToMany(mappedBy = "phoneNumber")
-    private Set<PhoneNumberService> phoneNumberServices = new LinkedHashSet<>();
+    private Set<PhoneNumberMobileService> phoneNumberMobileServices = new LinkedHashSet<>();
 
     @OneToOne(mappedBy = "phoneNumber")
     private PhoneNumberTariff phoneNumberTariff;

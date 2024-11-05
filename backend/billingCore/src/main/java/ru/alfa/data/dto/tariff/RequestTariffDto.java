@@ -19,13 +19,6 @@ public record RequestTariffDto(@NotNull(message = "Тип тарифа не мо
                                @NotNull(message = "Стоимость тарифа не может быть пустым")
                                @PositiveOrZero(message = "Стоимость тарифа не должна быть меньше нуля")
                                BigDecimal cost,
-                               @NotNull(message = "Количество минут не может быть пустым")
-                               @PositiveOrZero(message = "Количество минут не должно быть меньше нуля")
-                               Integer countMinutes,
-                               @NotNull(message = "Количество SMS не может быть пустым")
-                               @PositiveOrZero(message = "Количество SMS не должно быть меньше нуля")
-                               Integer countSms,
-                               @NotNull(message = "Количество ГБ не может быть пустым")
-                               @PositiveOrZero(message = "Количество ГБ не должно быть меньше нуля")
-                               Double countGigabytes) implements Serializable {
+                               @NotNull(message = "Ресурс тарифа не может быть пустым")
+                               RequestTariffResourceDto tariffResourceDto) implements Serializable {
 }

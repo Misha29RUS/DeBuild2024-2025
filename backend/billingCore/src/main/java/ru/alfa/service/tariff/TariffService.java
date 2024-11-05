@@ -8,6 +8,7 @@ import ru.alfa.data.dto.tariff.ResponseTariffDto;
 import ru.alfa.data.entity.tariff.Tariff;
 import ru.alfa.data.mapper.tariff.TariffMapper;
 import ru.alfa.data.repository.tariff.TariffRepository;
+import ru.alfa.exception.EntityNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,6 +27,7 @@ public class TariffService {
                 .toList();
     }
 
+    @Transactional
     public ResponseTariffDto createTariff(RequestTariffDto requestTariffDto) {
         Tariff tariff = tariffMapper.toEntity(requestTariffDto);
         tariff.setCreatedAt(LocalDateTime.now());
@@ -36,28 +38,24 @@ public class TariffService {
 
     @Transactional
     public ResponseTariffDto updateTariff(Long id, RequestTariffDto requestTariffDto) {
-        Tariff tariffDb = tariffRepository.getTariffById(id);
+        Tariff tariffDb = tariffRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
 
-        tariffDb.setType(requestTariffDto.type());
-        tariffDb.setStatus(requestTariffDto.status());
-        tariffDb.setDescription(requestTariffDto.description());
-        tariffDb.setCost(requestTariffDto.cost());
-        tariffDb.setCountGigabytes(requestTariffDto.countGigabytes());
-        tariffDb.setCountMinutes(requestTariffDto.countMinutes());
-        tariffDb.setCountSms(requestTariffDto.countSms());
-        tariffDb.setUpdatedAt(LocalDateTime.now());
+        Tariff newTariff = tariffMapper.toEntity(requestTariffDto);
+        newTariff.setId(id);
+        newTariff.getTariffResource().setId(id);
+        newTariff.setUpdatedAt(LocalDateTime.now());
+        newTariff.setCreatedAt(tariffDb.getCreatedAt());
 
-        Tariff newTariff = tariffRepository.save(tariffDb);
-        return tariffMapper.toResponseDto(newTariff);
+        return tariffMapper.toResponseDto(tariffRepository.save(newTariff));
     }
 
     @Transactional
     public void deleteTariffById(Long id) {
-        tariffRepository.deleteTariffById(id);
+        tariffRepository.deleteById(id);
     }
 
     public ResponseTariffDto getTariffById(Long id) {
-        Tariff tariff = tariffRepository.getTariffById(id);
+        Tariff tariff = tariffRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
         return tariffMapper.toResponseDto(tariff);
     }
 }

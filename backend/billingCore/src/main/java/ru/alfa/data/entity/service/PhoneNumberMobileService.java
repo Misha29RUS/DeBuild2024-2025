@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "phone_number_service")
-public class PhoneNumberService {
+public class PhoneNumberMobileService {
     @EmbeddedId
     private PhoneNumberServiceId id;
 
