@@ -2,6 +2,7 @@ package ru.alfa.service.phoneNumber;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.alfa.data.dto.phoneNumber.ResponsePhoneNumberBalanceDto;
 import ru.alfa.data.dto.phoneNumber.ResponsePhoneNumberWithServicesInfoDto;
 import ru.alfa.data.dto.phoneNumber.ResponsePhoneNumberWithTariffInfoDto;
@@ -19,23 +20,31 @@ public class PhoneNumberService {
 
     private final PhoneNumberMapper phoneNumberMapper;
 
+    @Transactional
     public ResponsePhoneNumberBalanceDto getBalanceHistory(Long id) {
-        PhoneNumber phoneNumber = phoneNumberRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
+        PhoneNumber phoneNumber = phoneNumberRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("PhoneNumber", id));
         return phoneNumberMapper.toResponseBalanceDto(phoneNumber);
     }
 
+    @Transactional
     public ResponsePhoneNumberWithUserInfoDto getPhoneNumberAndUserInfo(Long id) {
-        PhoneNumber phoneNumber = phoneNumberRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
+        PhoneNumber phoneNumber = phoneNumberRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("PhoneNumber", id));
         return phoneNumberMapper.toResponseWithUserInfoDto(phoneNumber);
     }
 
+    @Transactional
     public ResponsePhoneNumberWithTariffInfoDto getPhoneNumberAndTariffInfo(Long id) {
-        PhoneNumber phoneNumber = phoneNumberRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
+        PhoneNumber phoneNumber = phoneNumberRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("PhoneNumber", id));
         return phoneNumberMapper.toResponseWithTariffInfoDto(phoneNumber);
     }
 
+    @Transactional
     public ResponsePhoneNumberWithServicesInfoDto getPhoneNumberAndServicesInfo(Long id) {
-        PhoneNumber phoneNumber = phoneNumberRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
+        PhoneNumber phoneNumber = phoneNumberRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("PhoneNumber", id));
         return phoneNumberMapper.toResponseWithServicesInfoDto(phoneNumber);
     }
 }

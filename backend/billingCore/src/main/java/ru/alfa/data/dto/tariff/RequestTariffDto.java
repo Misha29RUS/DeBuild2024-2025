@@ -1,5 +1,6 @@
 package ru.alfa.data.dto.tariff;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -19,6 +20,6 @@ public record RequestTariffDto(@NotNull(message = "Тип тарифа не мо
                                @NotNull(message = "Стоимость тарифа не может быть пустым")
                                @PositiveOrZero(message = "Стоимость тарифа не должна быть меньше нуля")
                                BigDecimal cost,
-                               @NotNull(message = "Ресурс тарифа не может быть пустым")
+                               @NotNull(message = "Ресурс тарифа не может быть пустым") @Valid
                                RequestTariffResourceDto tariffResourceDto) implements Serializable {
 }

@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class HistoryOfTransaction {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id", nullable = false)
     private Long id;
 

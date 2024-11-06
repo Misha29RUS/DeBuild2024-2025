@@ -1,6 +1,7 @@
 package ru.alfa.data.mapper.tariff;
 
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import ru.alfa.data.dto.tariff.ResponsePhoneNumberTariffDto;
 import ru.alfa.data.entity.tariff.PhoneNumberTariff;
 
