@@ -33,3 +33,7 @@ body {
 .user-info-ul li{
   display: flex;
 }
+
+.user-service-info > li:not(:first-child){
+  @apply mt-5;
+}

@@ -38,7 +38,7 @@ export const Selector = <T extends object>({
     // Ввод в инпут
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedData(e.target.value);
-        setTakeValue(e.target.value as unknown as T);
+        // setTakeValue(e.target.value as unknown as T);
         handleSearch(e.target.value);
     };
 

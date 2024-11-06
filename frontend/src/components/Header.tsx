@@ -5,7 +5,6 @@ import TariffsSvg from "../img/header_svg/menu.svg?react"
 import ActiveSvg from "../img/header_svg/file_download_done.svg?react"
 import ArchiveSvg from "../img/header_svg/folder_open.svg?react"
 import ServicesSvg from "../img/header_svg/list_alt.svg?react"
-import QuotasSvg from "../img/header_svg/insert_chart_outlined.svg?react"
 import ProfileSvg from "../img/header_svg/account_circle.svg?react"
 import ExitSvg from "../img/header_svg/exit_to_app.svg?react"
 import { NavButton } from "./UI/NavButton"
@@ -59,9 +58,6 @@ export const Header = () => {
                 <NavButton styles="mr-5" text="Услуги" 
                 iconLeft={<ServicesSvg />} to="/services"
                 isActive={lastPartURL === 'services'} />
-                <NavButton styles="mr-5" text="Квоты" 
-                iconLeft={<QuotasSvg />} to="/quotas"
-                isActive={lastPartURL === 'quotas'} />
                 <Button styles="mr-5" text="Иванов И. И." type="red"
                 iconLeft={<ProfileSvg />} />
                 <Button type="grey" onlyIcon={<ExitSvg />} />
