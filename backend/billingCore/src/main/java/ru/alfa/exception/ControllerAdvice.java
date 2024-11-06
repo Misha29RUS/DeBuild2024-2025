@@ -38,4 +38,10 @@ public class ControllerAdvice {
         errors.put("message", ex.getMessage());
         return errors;
     }
+
+    @ExceptionHandler(InsufficientFundsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleInsufficientFundsException(InsufficientFundsException ex) {
+        return ex.getMessage();
+    }
 }

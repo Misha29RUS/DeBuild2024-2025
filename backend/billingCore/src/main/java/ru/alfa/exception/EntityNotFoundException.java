@@ -1,7 +1,7 @@
 package ru.alfa.exception;
 
 public class EntityNotFoundException extends RuntimeException {
-    public EntityNotFoundException(Long id) {
-        super("Entity with id " + id + " not found");
+    public EntityNotFoundException(String entity, Long id) {
+        super(entity + " with id " + id + " not found");
     }
 }

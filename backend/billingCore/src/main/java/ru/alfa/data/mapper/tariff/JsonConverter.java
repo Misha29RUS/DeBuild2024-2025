@@ -1,11 +1,11 @@
 package ru.alfa.data.mapper.tariff;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,7 +27,8 @@ public class JsonConverter implements AttributeConverter<List<Integer>, String> 
     @Override
     public List<Integer> convertToEntityAttribute(String dbData) {
         try {
-            return dbData == null ? null : objectMapper.readValue(dbData, new TypeReference<List<Integer>>() {});
+            return dbData == null ? null : objectMapper.readValue(dbData, new TypeReference<List<Integer>>() {
+            });
         } catch (IOException e) {
             throw new IllegalArgumentException("Error reading JSON from database", e);
         }

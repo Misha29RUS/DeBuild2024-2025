@@ -38,7 +38,7 @@ public class TariffService {
 
     @Transactional
     public ResponseTariffDto updateTariff(Long id, RequestTariffDto requestTariffDto) {
-        Tariff tariffDb = tariffRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
+        Tariff tariffDb = tariffRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Tariff", id));
 
         Tariff newTariff = tariffMapper.toEntity(requestTariffDto);
         newTariff.setId(id);
@@ -55,7 +55,7 @@ public class TariffService {
     }
 
     public ResponseTariffDto getTariffById(Long id) {
-        Tariff tariff = tariffRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
+        Tariff tariff = tariffRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Tariff", id));
         return tariffMapper.toResponseDto(tariff);
     }
 }

@@ -38,7 +38,7 @@ public class MobileServiceService {
     @Transactional
     public ResponseMobileServiceDto updateService(Long id, RequestMobileServiceDto requestMobileServiceDto) {
         MobileService mobileServiceDb = mobileServiceRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(id));
+                .orElseThrow(() -> new EntityNotFoundException("Mobile service", id));
 
         mobileServiceDb.setOneTimeService(requestMobileServiceDto.oneTimeService());
         mobileServiceDb.setStatus(requestMobileServiceDto.status());
@@ -60,7 +60,7 @@ public class MobileServiceService {
 
     public ResponseMobileServiceDto getServiceById(Long id) {
         MobileService mobileService = mobileServiceRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(id));
+                .orElseThrow(() -> new EntityNotFoundException("Mobile service", id));
         return mobileServiceMapper.toResponseDto(mobileService);
     }
 }
