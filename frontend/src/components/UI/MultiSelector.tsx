@@ -1,32 +1,35 @@
 import { useState, useEffect, useRef } from "react";
+import { SelectElement } from "./SelectElement";
+import { Checkbox } from "./Checkbox";
 import ArrowSvg from "../../img/selectors_svg/keyboard_arrow_down.svg?react"
 import CloseSvg from "../../img/selectors_svg/close.svg?react"
 
-type SelectorProps<T> = {
+type MultiSelectorProps<T> = {
     placeholder: string;
     selectList: T[];
-    setTakeValue: React.Dispatch<React.SetStateAction<string | T | null>>;
-    value?: T;
+    setTakeValue: React.Dispatch<React.SetStateAction<T[]>>;
+    value?: T[];
     labelKey: keyof T;
     type?: string;
 };
 
-export const Selector = <T extends object>({
+export const MultiSelector = <T extends object>({
     placeholder,
     selectList,
     setTakeValue,
     value,
     labelKey,
     type
-}: SelectorProps<T>) => {
-    const [selectedData, setSelectedData] = useState<T | string | undefined>(value);
+}: MultiSelectorProps<T>) => {
+    const [selectedData, setSelectedData] = useState<T[]>(value || []);
     const [showDropdown, setShowDropdown] = useState(false);
     const [list, setList] = useState(selectList);
-
+    const [searchText, setSearchText] = useState("");
+    
     // Поиск по элементам в инпуте
     const handleSearch = (search: string) => {
         if (search !== "") {
-            const filteredData = selectList?.filter((item: T) =>
+            const filteredData = selectList.filter((item) =>
                 String(item[labelKey]).toLowerCase().startsWith(search.toLowerCase())
             );
             setList(filteredData);
@@ -37,9 +40,20 @@ export const Selector = <T extends object>({
 
     // Ввод в инпут
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedData(e.target.value);
-        setTakeValue(e.target.value as unknown as T);
+        setSearchText(e.target.value)
         handleSearch(e.target.value);
+    };
+
+    const toggleSelect = (data: T) => {
+        const isSelected = selectedData.some(
+            (item) => item[labelKey] === data[labelKey]
+        );
+        const updatedSelectedData = isSelected
+            ? selectedData.filter((item) => item[labelKey] !== data[labelKey])
+            : [...selectedData, data];
+        
+        setSelectedData(updatedSelectedData);
+        setTakeValue(updatedSelectedData);
     };
 
     // Закрытие выпадающего списка при клике вне элемента
@@ -48,6 +62,7 @@ export const Selector = <T extends object>({
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !(dropdownRef.current).contains(event.target as Node)) {
                 setShowDropdown(false);
+                setSearchText("")
             }
         };
 
@@ -62,9 +77,11 @@ export const Selector = <T extends object>({
             <input
                 onChange={handleChange}
                 onFocus={() => setShowDropdown(true)}
-                value={typeof selectedData === 'object' && selectedData !== null
-                    ? String((selectedData as T)[labelKey]) 
-                    : selectedData || ''}
+                value={showDropdown
+                    ? searchText
+                    : selectedData.length > 0
+                    ? `Выбрано: ${selectedData.length}`
+                    : ""}
                 className={`py-3 px-4 pr-[60px]  outline-none border font-extralight text-[18px] w-[inherit] 
                 ${showDropdown ?
                 `rounded-t-lg ${type ? 'border-s-white' : 'border-s-dark-grey'} `
@@ -78,15 +95,25 @@ export const Selector = <T extends object>({
                 placeholder={placeholder}
                 id="input"
             />
-            {selectedData && (
+            {selectedData.length > 0 && (
                 <CloseSvg className={`absolute top-3.5 right-[38px] cursor-pointer
                 ${type ? 'fill-s-white' : 'fill-s-black'}`}
                 onClick={() => {
-                    setSelectedData("")
-                    setTakeValue("")
+                    setSelectedData([])
+                    setTakeValue([])
                     setList(selectList)
                 }} />
             )}
+            {showDropdown && selectedData.length !== 0 && (
+                <div className={`flex flex-wrap border-x py-3 px-4 gap-2.5
+                ${type ? 'border-x-s-white' : 'border-x-s-dark-grey'}`}>
+                    {selectedData.map((item, index) => (
+                        <SelectElement key={index} data={item} 
+                        data_name={labelKey} handleSelect={() => toggleSelect(item)} />
+                    ))}
+                </div>
+            )}
+            
             <ArrowSvg
                 onClick={() => setShowDropdown(!showDropdown)}
                 className={`absolute top-3.5 cursor-pointer right-4 
@@ -99,25 +126,29 @@ export const Selector = <T extends object>({
                 <ul className={`absolute left-0 right-0 max-h-[200px]
                 overflow-y-auto border rounded-b-lg z-10
                 ${type ? 'border-s-white' : 'border-s-dark-grey'}`}>
-                    {list?.slice(0, 10).map((data, index) => (
-                        <li
-                            onClick={() => {
-                                setSelectedData(data);
-                                setTakeValue(data);
-                                setShowDropdown(false);
-                            }}
-                            key={index}
-                            className={`py-3 px-4 transition-colors cursor-pointer
-                            ${!type && 'hover:bg-s-light-grey'}
-                            ${type === 'active' ? 'bg-s-red'
-                            : (type === 'archive' ? 'bg-s-black'
-                            : (type === 'more' && 'bg-s-dark-grey'))}`}>
-                            <p className={`font-extralight text-[18px]
-                            ${type && 'text-s-white'}`}>
-                                {String(data[labelKey])}
-                            </p>
-                        </li>
-                    ))}
+                    {list?.slice(0, 10).map((data, index) => {
+                        const isChecked = selectedData.some(
+                            (item) => item[labelKey] === data[labelKey]
+                        )
+                        return (
+                            <li
+                                onClick={() => toggleSelect(data)}
+                                key={index}
+                                className={`py-3 px-4 transition-colors cursor-pointer
+                                flex items-center
+                                ${!type && 'hover:bg-s-light-grey'}
+                                ${type === 'active' ? 'bg-s-red'
+                                : (type === 'archive' ? 'bg-s-black'
+                                : (type === 'more' && 'bg-s-dark-grey'))}`}>
+                                <Checkbox filterChecked={isChecked} />    
+                                <p className={`font-extralight text-[18px] ml-4
+                                ${type && 'text-s-white'}`}> 
+                                    {String(data[labelKey])}
+                                </p>
+                            </li>
+                        )
+                        })
+                    }
                 </ul>
             )}
         </div>
