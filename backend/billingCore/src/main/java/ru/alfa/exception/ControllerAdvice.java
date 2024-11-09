@@ -44,4 +44,10 @@ public class ControllerAdvice {
     public String handleInsufficientFundsException(InsufficientFundsException ex) {
         return ex.getMessage();
     }
+
+    @ExceptionHandler(TariffIsNotAvailableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handlerTariffIsNotAvailableException(TariffIsNotAvailableException ex) {
+        return ex.getMessage();
+    }
 }
