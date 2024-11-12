@@ -23,7 +23,7 @@ export const TableTag = ({type, text}: TableTagProps) => {
 
     return (
         <div
-        className={`py-[5px] text-[18px] px-1.5 rounded-[20px] flex items-center
+        className={`py-[5px] text-[18px] px-1.5 rounded-[20px] flex items-center whitespace-nowrap
         ${type === 'active' ? "text-s-white bg-s-red"
         : (type === 'archive' ? "text-s-white bg-s-black"
         : (type === 'internet' ? "text-s-blue border border-s-blue"
@@ -31,11 +31,9 @@ export const TableTag = ({type, text}: TableTagProps) => {
         : (type === 'message' ? "text-s-violet border border-s-violet"
         : (type === 'more' && "border border-s-dark-grey")))))}`}>
             {Icon && <span className={`${type !== 'more' && 'mr-1.5'}`}>{Icon}</span>}
-            {type === 'active' ? (
-                <span>Активный тариф</span>
-            ): type === 'archive' ? (
-                <span>Архивный тариф</span>
-            ) : (
+            {type === 'active' || type == 'archive' ? (
+                <span>{text}</span>
+            ): (
                 <span>{text} {type === 'internet' ? 'ГБ'
                         : (type === 'call' ? 'МИНУТ'
                         : (type === 'message' && 'СМС')

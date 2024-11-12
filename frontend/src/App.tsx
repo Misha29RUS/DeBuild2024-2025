@@ -8,7 +8,7 @@ import { Quotas } from "./pages/Quotas"
 
 function App() {
   return (
-   <div className="h-screen flex flex-col">
+   <div className="h-screen flex flex-col overflow-y-hidden">
       <Header />
       <Routes>
         <Route path="/" element={<Users />} />

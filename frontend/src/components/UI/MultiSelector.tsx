@@ -24,6 +24,9 @@ export const MultiSelector = <T extends object>({
     const [selectedData, setSelectedData] = useState<T[]>(value || []);
     const [showDropdown, setShowDropdown] = useState(false);
     const [list, setList] = useState(selectList);
+    useEffect(() => {
+        setSelectedData(value!)
+    }, [value])
     const [searchText, setSearchText] = useState("");
     
     // Поиск по элементам в инпуте
@@ -71,7 +74,7 @@ export const MultiSelector = <T extends object>({
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-
+    
     return (
         <div className="relative group w-full" ref={dropdownRef}>
             <input
@@ -82,7 +85,8 @@ export const MultiSelector = <T extends object>({
                     : selectedData.length > 0
                     ? `Выбрано: ${selectedData.length}`
                     : ""}
-                className={`py-3 px-4 pr-[60px]  outline-none border font-extralight text-[18px] w-[inherit] 
+                className={`py-3 px-4 pr-[60px]  outline-none border font-extralight text-[18px] w-[inherit]
+                hover:placeholder:text-s-dark-grey 
                 ${showDropdown ?
                 `rounded-t-lg ${type ? 'border-s-white' : 'border-s-dark-grey'} `
                 : `rounded-lg ${type ? 'border-s-white' : 'border-s-light-grey'}`}
@@ -95,6 +99,13 @@ export const MultiSelector = <T extends object>({
                 placeholder={placeholder}
                 id="input"
             />
+            <ArrowSvg
+                onClick={() => setShowDropdown(!showDropdown)}
+                className={`absolute top-3.5 cursor-pointer right-4 
+                ${type ? 'group-hover:fill-s-white' : 'group-hover:fill-s-dark-grey'}
+                ${showDropdown ? `rotate-180 ${type ? 'fill-s-white' : 'fill-s-dark-grey'}` 
+                : `${type ? 'fill-s-white' : 'fill-s-light-grey'}`}`}
+            />
             {selectedData.length > 0 && (
                 <CloseSvg className={`absolute top-3.5 right-[38px] cursor-pointer
                 ${type ? 'fill-s-white' : 'fill-s-black'}`}
@@ -104,52 +115,46 @@ export const MultiSelector = <T extends object>({
                     setList(selectList)
                 }} />
             )}
-            {showDropdown && selectedData.length !== 0 && (
-                <div className={`flex flex-wrap border-x py-3 px-4 gap-2.5
-                ${type ? 'border-x-s-white' : 'border-x-s-dark-grey'}`}>
-                    {selectedData.map((item, index) => (
-                        <SelectElement key={index} data={item} 
-                        data_name={labelKey} handleSelect={() => toggleSelect(item)} />
-                    ))}
-                </div>
-            )}
-            
-            <ArrowSvg
-                onClick={() => setShowDropdown(!showDropdown)}
-                className={`absolute top-3.5 cursor-pointer right-4 
-                ${type ? 'group-hover:fill-s-white' : 'group-hover:fill-s-dark-grey'}
-                ${showDropdown ? `rotate-180 ${type ? 'fill-s-white' : 'fill-s-dark-grey'}` 
-                : `${type ? 'fill-s-white' : 'fill-s-light-grey'}`}`}
-            />
 
             {showDropdown && (
-                <ul className={`absolute left-0 right-0 max-h-[200px]
-                overflow-y-auto border rounded-b-lg z-10
-                ${type ? 'border-s-white' : 'border-s-dark-grey'}`}>
-                    {list?.slice(0, 10).map((data, index) => {
-                        const isChecked = selectedData.some(
-                            (item) => item[labelKey] === data[labelKey]
-                        )
-                        return (
-                            <li
-                                onClick={() => toggleSelect(data)}
-                                key={index}
-                                className={`py-3 px-4 transition-colors cursor-pointer
-                                flex items-center
-                                ${!type && 'hover:bg-s-light-grey'}
-                                ${type === 'active' ? 'bg-s-red'
-                                : (type === 'archive' ? 'bg-s-black'
-                                : (type === 'more' && 'bg-s-dark-grey'))}`}>
-                                <Checkbox filterChecked={isChecked} />    
-                                <p className={`font-extralight text-[18px] ml-4
-                                ${type && 'text-s-white'}`}> 
-                                    {String(data[labelKey])}
-                                </p>
-                            </li>
-                        )
-                        })
-                    }
-                </ul>
+                <div className="absolute left-0 right-0 z-10">
+                    {selectedData.length > 0 && (
+                        <div className={`z-20 flex flex-wrap border-x py-3 px-4 gap-2.5
+                        ${type ? 'border-x-s-white' : 'border-x-s-dark-grey bg-white'}`}>
+                            {selectedData.map((item, index) => (
+                                <SelectElement key={index} data={item} 
+                                data_name={labelKey} handleSelect={() => toggleSelect(item)} />
+                            ))}
+                        </div>
+                    )}
+                    <ul className={`max-h-[200px]
+                    overflow-y-auto border rounded-b-lg z-10
+                    ${type ? 'border-s-white' : 'border-s-dark-grey bg-white'}`}>
+                        {list?.slice(0, 10).map((data, index) => {
+                            const isChecked = selectedData.some(
+                                (item) => item[labelKey] === data[labelKey]
+                            )
+                            return (
+                                <li
+                                    onClick={() => toggleSelect(data)}
+                                    key={index}
+                                    className={`py-3 px-4 transition-colors cursor-pointer
+                                    flex items-center
+                                    ${!type && 'hover:bg-s-light-grey'}
+                                    ${type === 'active' ? 'bg-s-red'
+                                    : (type === 'archive' ? 'bg-s-black'
+                                    : (type === 'more' && 'bg-s-dark-grey'))}`}>
+                                    <Checkbox filterChecked={isChecked} />    
+                                    <p className={`font-extralight text-[18px] ml-4
+                                    ${type && 'text-s-white'}`}> 
+                                        {String(data[labelKey])}
+                                    </p>
+                                </li>
+                            )
+                            })
+                        }
+                    </ul>
+                </div>
             )}
         </div>
     );
