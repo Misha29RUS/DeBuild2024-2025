@@ -2,6 +2,7 @@ package ru.alfa.data.mapper.user;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import ru.alfa.data.dto.user.ResponseUserDto;
 import ru.alfa.data.dto.user.ResponseUserWithPassportDto;
 import ru.alfa.data.entity.user.User;
 
@@ -9,5 +10,7 @@ import ru.alfa.data.entity.user.User;
 public interface UserMapper {
 
     @Mapping(target = "userPassport", source = "userPassport")
-    ResponseUserWithPassportDto toDto(User user);
+    ResponseUserWithPassportDto toResponseDtoWithPassport(User user);
+
+    ResponseUserDto toDto(User user);
 }
