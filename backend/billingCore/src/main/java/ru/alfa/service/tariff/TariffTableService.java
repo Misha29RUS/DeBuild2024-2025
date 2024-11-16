@@ -24,15 +24,15 @@ public class TariffTableService {
     @Transactional
     public Page<ResponseTariffDto> getTariffsWithFilters(
             Integer page, Integer size,
-            RequestFiltersForTariffsTableDto requestFiltersForTariffsTableDto){
-        Pageable pageable = PageRequest.of(page,size);
+            RequestFiltersForTariffsTableDto requestFiltersForTariffsTableDto) {
+        Pageable pageable = PageRequest.of(page, size);
 
         Specification<Tariff> tariffSpecification = Specification.
                 where(TariffTableSpecification.hasName(requestFiltersForTariffsTableDto.name())).
                 and(TariffTableSpecification.hasStatus(requestFiltersForTariffsTableDto.status())).
                 and(TariffTableSpecification.hasType(requestFiltersForTariffsTableDto.type()));
 
-        Page<Tariff> tariffs = tariffRepository.findAll(tariffSpecification,pageable);
+        Page<Tariff> tariffs = tariffRepository.findAll(tariffSpecification, pageable);
 
         return tariffs.map(tariffMapper::toResponseDto);
     }

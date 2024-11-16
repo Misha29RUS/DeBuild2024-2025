@@ -1,4 +1,4 @@
-package ru.alfa.controller.tariff;
+package ru.alfa.controller.service;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -9,29 +9,29 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.alfa.data.dto.tariff.RequestFiltersForTariffsTableDto;
-import ru.alfa.data.dto.tariff.ResponseTariffDto;
-import ru.alfa.service.tariff.TariffTableService;
+import ru.alfa.data.dto.service.RequestFiltersForServiceTableDto;
+import ru.alfa.data.dto.service.ResponseMobileServiceDto;
+import ru.alfa.service.service.ServiceTableService;
 
-@Tag(name = "Контроллер вывода таблицы тарифов с фильтрами")
+@Tag(name = "Контроллер вывода таблицы сервисы с фильтрами")
 @RestController
-@RequestMapping("/api/tariffs")
+@RequestMapping("/api/services")
 @RequiredArgsConstructor
 @Validated
-public class TariffTableController {
+public class ServiceTableController {
 
-    private final TariffTableService tariffTableService;
+    private final ServiceTableService serviceTableService;
 
     @PostMapping
-    public ResponseEntity<Page<ResponseTariffDto>> getTariffWithFilters(
+    public ResponseEntity<Page<ResponseMobileServiceDto>> getServiceWithFilters(
             @Parameter(name = "page", description = "Номер страницы", example = "0")
             @NotNull @PositiveOrZero @RequestParam(value = "page", defaultValue = "0") Integer page,
             @Parameter(name = "size", description = "Размер страницы", example = "10")
             @NotNull @PositiveOrZero @RequestParam(value = "size", defaultValue = "10") Integer size,
-            @RequestBody @Validated RequestFiltersForTariffsTableDto requestFiltersForTariffsTableDto) {
-        Page<ResponseTariffDto> responseTariffDtoPage =
-                tariffTableService.getTariffsWithFilters(page, size, requestFiltersForTariffsTableDto);
+            @RequestBody @Validated RequestFiltersForServiceTableDto requestFiltersForServiceTableDto) {
+        Page<ResponseMobileServiceDto> responseServiceDtoPage =
+                serviceTableService.getServicesWithFilters(page, size, requestFiltersForServiceTableDto);
 
-        return ResponseEntity.ok(responseTariffDtoPage);
+        return ResponseEntity.ok(responseServiceDtoPage);
     }
 }
