@@ -4,7 +4,6 @@ import { Users } from "./pages/Users"
 import { ActiveTariffs } from "./pages/ActiveTariffs"
 import { ArchiveTariffs } from "./pages/ArchiveTariffs"
 import { Services } from "./pages/Services"
-import { Quotas } from "./pages/Quotas"
 
 function App() {
   return (
@@ -15,7 +14,6 @@ function App() {
         <Route path="/active_tariffs" element={<ActiveTariffs />} />
         <Route path="/archive_tariffs" element={<ArchiveTariffs />} />
         <Route path="/services" element={<Services />} />
-        <Route path="/quotas" element={<Quotas />} />
       </Routes>
    </div>
   )

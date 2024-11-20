@@ -8,9 +8,10 @@ import MoreSvg from "../../img/tag_table_svg/more_horiz.svg?react"
 type TableTagProps = {
     type: string;
     text?: string | number;
+    styles?: string;
 }
 
-export const TableTag = ({type, text}: TableTagProps) => {
+export const TableTag = ({type, text, styles}: TableTagProps) => {
     const iconMap: { [key: string]: JSX.Element } = {
         active: <ActiveTariffSvg className="fill-s-white" />,
         archive: <ArchiveTariffSvg className="fill-s-white" />,
@@ -29,16 +30,9 @@ export const TableTag = ({type, text}: TableTagProps) => {
         : (type === 'internet' ? "text-s-blue border border-s-blue"
         : (type === 'call' ? "text-s-green border border-s-green"
         : (type === 'message' ? "text-s-violet border border-s-violet"
-        : (type === 'more' && "border border-s-dark-grey")))))}`}>
+        : (type === 'more' && "border border-s-dark-grey")))))} ${styles}`}>
             {Icon && <span className={`${type !== 'more' && 'mr-1.5'}`}>{Icon}</span>}
-            {type === 'active' || type == 'archive' ? (
-                <span>{text}</span>
-            ): (
-                <span>{text} {type === 'internet' ? 'ГБ'
-                        : (type === 'call' ? 'МИНУТ'
-                        : (type === 'message' && 'СМС')
-                        )}</span>
-            )}
+            <span>{text}</span>
         </div>
     )
 }

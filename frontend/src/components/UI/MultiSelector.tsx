@@ -3,14 +3,16 @@ import { SelectElement } from "./SelectElement";
 import { Checkbox } from "./Checkbox";
 import ArrowSvg from "../../img/selectors_svg/keyboard_arrow_down.svg?react"
 import CloseSvg from "../../img/selectors_svg/close.svg?react"
+import { getValueByPath } from "../../utils/getValueByPath";
 
 type MultiSelectorProps<T> = {
     placeholder: string;
     selectList: T[];
     setTakeValue: React.Dispatch<React.SetStateAction<T[]>>;
     value?: T[];
-    labelKey: keyof T;
+    labelKey: string;
     type?: string;
+    styles?: string;
 };
 
 export const MultiSelector = <T extends object>({
@@ -19,7 +21,8 @@ export const MultiSelector = <T extends object>({
     setTakeValue,
     value,
     labelKey,
-    type
+    type,
+    styles
 }: MultiSelectorProps<T>) => {
     const [selectedData, setSelectedData] = useState<T[]>(value || []);
     const [showDropdown, setShowDropdown] = useState(false);
@@ -33,7 +36,9 @@ export const MultiSelector = <T extends object>({
     const handleSearch = (search: string) => {
         if (search !== "") {
             const filteredData = selectList.filter((item) =>
-                String(item[labelKey]).toLowerCase().startsWith(search.toLowerCase())
+                String(getValueByPath(item, labelKey as string))
+                    .toLowerCase()
+                    .startsWith(search.toLowerCase())
             );
             setList(filteredData);
         } else {
@@ -49,12 +54,12 @@ export const MultiSelector = <T extends object>({
 
     const toggleSelect = (data: T) => {
         const isSelected = selectedData.some(
-            (item) => item[labelKey] === data[labelKey]
+            (item) => getValueByPath(item, labelKey as string) === getValueByPath(data, labelKey as string)
         );
         const updatedSelectedData = isSelected
-            ? selectedData.filter((item) => item[labelKey] !== data[labelKey])
+            ? selectedData.filter((item) => getValueByPath(item, labelKey as string) !== getValueByPath(data, labelKey as string))
             : [...selectedData, data];
-        
+    
         setSelectedData(updatedSelectedData);
         setTakeValue(updatedSelectedData);
     };
@@ -76,7 +81,7 @@ export const MultiSelector = <T extends object>({
     }, []);
     
     return (
-        <div className="relative group w-full" ref={dropdownRef}>
+        <div className={`relative group w-full ${styles}`} ref={dropdownRef}>
             <input
                 onChange={handleChange}
                 onFocus={() => setShowDropdown(true)}
@@ -132,8 +137,8 @@ export const MultiSelector = <T extends object>({
                     ${type ? 'border-s-white' : 'border-s-dark-grey bg-white'}`}>
                         {list?.slice(0, 10).map((data, index) => {
                             const isChecked = selectedData.some(
-                                (item) => item[labelKey] === data[labelKey]
-                            )
+                                (item) => getValueByPath(item, labelKey as string) === getValueByPath(data, labelKey as string)
+                            );
                             return (
                                 <li
                                     onClick={() => toggleSelect(data)}
@@ -147,7 +152,7 @@ export const MultiSelector = <T extends object>({
                                     <Checkbox filterChecked={isChecked} />    
                                     <p className={`font-extralight text-[18px] ml-4
                                     ${type && 'text-s-white'}`}> 
-                                        {String(data[labelKey])}
+                                        {String(getValueByPath(data, labelKey as string))}
                                     </p>
                                 </li>
                             )

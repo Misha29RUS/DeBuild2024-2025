@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import ArrowSvg from "../../img/selectors_svg/keyboard_arrow_down.svg?react"
 import CloseSvg from "../../img/selectors_svg/close.svg?react"
+import { getValueByPath } from "../../utils/getValueByPath";
 
 type SelectorProps<T> = {
     placeholder: string;
@@ -9,6 +10,7 @@ type SelectorProps<T> = {
     value?: T;
     labelKey: keyof T;
     type?: string;
+    styles?: string;
 };
 
 export const Selector = <T extends object>({
@@ -17,7 +19,8 @@ export const Selector = <T extends object>({
     setTakeValue,
     value,
     labelKey,
-    type
+    type,
+    styles
 }: SelectorProps<T>) => {
     const [selectedData, setSelectedData] = useState<T | string | undefined>(value);
     const [showDropdown, setShowDropdown] = useState(false);
@@ -26,8 +29,10 @@ export const Selector = <T extends object>({
     // Поиск по элементам в инпуте
     const handleSearch = (search: string) => {
         if (search !== "") {
-            const filteredData = selectList?.filter((item: T) =>
-                String(item[labelKey]).toLowerCase().startsWith(search.toLowerCase())
+            const filteredData = selectList.filter((item) =>
+                String(getValueByPath(item, labelKey as string))
+                    .toLowerCase()
+                    .startsWith(search.toLowerCase())
             );
             setList(filteredData);
         } else {
@@ -38,7 +43,7 @@ export const Selector = <T extends object>({
     // Ввод в инпут
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedData(e.target.value);
-        setTakeValue(e.target.value as unknown as T);
+        // setTakeValue(e.target.value as unknown as T);
         handleSearch(e.target.value);
     };
 
@@ -58,12 +63,12 @@ export const Selector = <T extends object>({
     }, []);
 
     return (
-        <div className="relative group w-full" ref={dropdownRef}>
+        <div className={`relative group w-full ${styles}`} ref={dropdownRef}>
             <input
                 onChange={handleChange}
                 onFocus={() => setShowDropdown(true)}
                 value={typeof selectedData === 'object' && selectedData !== null
-                    ? String((selectedData as T)[labelKey]) 
+                    ? String(getValueByPath(selectedData, labelKey as string))
                     : selectedData || ''}
                 className={`py-3 px-4 pr-[60px]  outline-none border font-extralight text-[18px] w-[inherit] 
                 ${showDropdown ?
@@ -98,7 +103,7 @@ export const Selector = <T extends object>({
             {showDropdown && (
                 <ul className={`absolute left-0 right-0 max-h-[200px]
                 overflow-y-auto border rounded-b-lg z-10
-                ${type ? 'border-s-white' : 'border-s-dark-grey'}`}>
+                ${type ? 'border-s-white' : 'border-s-dark-grey bg-white'}`}>
                     {list?.slice(0, 10).map((data, index) => (
                         <li
                             onClick={() => {
@@ -114,7 +119,7 @@ export const Selector = <T extends object>({
                             : (type === 'more' && 'bg-s-dark-grey'))}`}>
                             <p className={`font-extralight text-[18px]
                             ${type && 'text-s-white'}`}>
-                                {String(data[labelKey])}
+                                {String(getValueByPath(data, labelKey as string))}
                             </p>
                         </li>
                     ))}

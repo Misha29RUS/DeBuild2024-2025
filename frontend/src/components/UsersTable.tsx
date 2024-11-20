@@ -1,24 +1,12 @@
+import { useState } from "react"
 import { TableTag } from "./UI/TableTag"
+import { AbonentSidebar } from "./AbonentSidebar"
+import { UserDetails } from "../mock/mock"
 
-interface IUser {
-    tel: string;
-    surname: string;
-    name: string;
-    patronymic: string;
-    tariff: {
-        type: string;
-        text: string;
-    };
-    services: ({
-        type: string;
-        text: number;
-    } | {
-        type: string;
-        text?: undefined;
-    })[];
-}
+export const UsersTable = ({ users }: {users: UserDetails[]}) => {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+    const [userId, setUserId] = useState<number | null>(null)
 
-export const UsersTable = ({ users }: {users: IUser[]}) => {
     return (
         <>
             <table className="w-full text-s-black">
@@ -46,32 +34,43 @@ export const UsersTable = ({ users }: {users: IUser[]}) => {
                 </thead>
                 {users.length > 0 && (
                     <tbody>
-                        {users.map((user, index: number) => (
-                            <tr className="border-b border-b-s-light-grey" 
-                            key={index}>
+                        {users.map((user) => (
+                            <tr className={`border-b border-b-s-light-grey
+                            hover:bg-s-light-grey cursor-pointer
+                            ${userId === user.id && 'bg-s-light-grey'}`} 
+                            key={user.id}
+                            onClick={() => {
+                                setUserId(user.id)
+                                setIsSidebarOpen(true)
+                            }}>
                                 <td className="font-extralight py-[15px] pl-5">
-                                    {user.tel}
+                                    {user.phoneNumber}
                                 </td>
                                 <td className="font-extralight py-[15px] pl-5">
-                                    {user.surname}
+                                    {user.lastName}
                                 </td>
                                 <td className="font-extralight py-[15px] pl-5">
-                                    {user.name}
+                                    {user.firstName}
                                 </td>
                                 <td className="font-extralight py-[15px] pl-5">
-                                    {user.patronymic}
+                                    {user.middleName}
                                 </td>
                                 <td className="py-[15px] pl-5 flex">
-                                    <TableTag type={user.tariff.type} text={user.tariff.text} />
+                                    <TableTag type={user.tariff.type} text={user.tariff.details.name_tariff} />
                                 </td>
                                 <td className="py-[15px] pl-5">
                                     {user.services.length > 0 && (
                                         <ul className="flex gap-2.5">
-                                            {user.services.map((service, index) => (
+                                            {user.services.slice(0, 3).map((service, index) => (
                                                 <li key={index}>
-                                                    <TableTag text={service.text} type={service.type} />
+                                                    <TableTag text={service.details.name_tariff} type={service.type} />
                                                 </li>
                                             ))}
+                                            {user.services.length > 3 && (
+                                                <li>
+                                                    <TableTag type="more" />
+                                                </li>
+                                            )}
                                         </ul>
                                     )}
                                 </td>
@@ -85,6 +84,11 @@ export const UsersTable = ({ users }: {users: IUser[]}) => {
                     Абоненты не найдены
                 </div>
             )}
+            {isSidebarOpen && <AbonentSidebar userID={userId!}
+            onClose={() => {
+                setIsSidebarOpen(!isSidebarOpen)
+                setUserId(null)
+            }} />}
         </> 
     )
 }

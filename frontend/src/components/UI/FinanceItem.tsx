@@ -6,10 +6,12 @@ type FinanceOperation = {
 
 type FinanceItemProps = {
     operation: FinanceOperation
+    styles?: string
 }
 
 export const FinanceItem = ({
-    operation
+    operation,
+    styles
 }: FinanceItemProps) => {
     const date = operation.operation_date
 
@@ -27,8 +29,8 @@ export const FinanceItem = ({
     const formatted_date = `${formattedDate}, ${formattedTime}`;
 
     return (
-        <div className="flex items-center text-[18px] py-1.5
-        border-b border-b-s-light-grey w-full">
+        <div className={`flex items-center text-[18px] py-1.5
+        border-b border-b-s-light-grey w-full ${styles}`}>
             <div className={`mr-[30px] w-[23%]
                 flex items-center
                 ${operation.operation_type === 'top_up_balance'
