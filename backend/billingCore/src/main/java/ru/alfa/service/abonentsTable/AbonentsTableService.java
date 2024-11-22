@@ -53,7 +53,7 @@ public class AbonentsTableService {
                 and(AbonentsTableSpecification.hasMobileServicesIds(requestFiltersForAbonentsTableDto.mobileServicesIds()));
 
         return new ResponseAbonentsListSizeDto(
-          phoneNumberRepository.count(), phoneNumberRepository.count(phoneNumberSpecification)
+                phoneNumberRepository.count(), phoneNumberRepository.count(phoneNumberSpecification)
         );
     }
 }

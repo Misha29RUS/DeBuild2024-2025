@@ -7,24 +7,24 @@ import ru.alfa.data.entity.tariff.enums.TariffType;
 
 public class TariffTableSpecification {
 
-    public static Specification<Tariff> hasName(String name){
-        return(root, query, criteriaBuilder) -> {
+    public static Specification<Tariff> hasName(String name) {
+        return (root, query, criteriaBuilder) -> {
             if (name == null) return null;
             return criteriaBuilder.equal(root.get("name"), name);
         };
     }
 
-    public static Specification<Tariff> hasType(TariffType type){
-        return(root, query, criteriaBuilder) -> {
+    public static Specification<Tariff> hasType(TariffType type) {
+        return (root, query, criteriaBuilder) -> {
             if (type == null) return null;
-            return criteriaBuilder.equal(root.get("type"),type);
+            return criteriaBuilder.equal(root.get("type"), type);
         };
     }
 
-    public static Specification<Tariff> hasStatus(TariffStatus status){
+    public static Specification<Tariff> hasStatus(TariffStatus status) {
         return (root, query, criteriaBuilder) -> {
             if (status == null) return null;
-            return criteriaBuilder.equal(root.get("status"),status);
+            return criteriaBuilder.equal(root.get("status"), status);
         };
     }
 }
