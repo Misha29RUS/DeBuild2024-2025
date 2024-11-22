@@ -20,7 +20,7 @@ export const TariffCard = ({
         : (type === "archive" && "bg-s-black")} ${styles}`}>
             <div className="pb-5 mb-5 border-b border-b-s-white
             flex">
-                <h3 className="font-light text-[26px] mr-auto">
+                <h3 className="font-light text-[26px] mr-auto truncate">
                     {cardInfo.details.name_tariff}
                 </h3>
                 <div className="text-[18px]">

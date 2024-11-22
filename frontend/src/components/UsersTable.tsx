@@ -9,25 +9,25 @@ export const UsersTable = ({ users }: {users: UserDetails[]}) => {
 
     return (
         <>
-            <table className="w-full text-s-black">
+            <table className="w-full text-s-black table-fixed">
                 <thead className="bg-s-light-grey">
                     <tr>
-                        <th className="font-medium py-2.5 pl-5 text-left">
+                        <th className="font-medium py-2.5 pl-5 text-left w-[11%]">
                             Телефон
                         </th>
-                        <th className="font-medium py-2.5 pl-5 text-left">
+                        <th className="font-medium py-2.5 pl-5 text-left w-[14%]">
                             Фамилия
                         </th>
-                        <th className="font-medium py-2.5 pl-5 text-left">
+                        <th className="font-medium py-2.5 pl-5 text-left w-[14%]">
                             Имя
                         </th>
-                        <th className="font-medium py-2.5 pl-5 text-left">
+                        <th className="font-medium py-2.5 pl-5 text-left w-[14%]">
                             Отчество
                         </th>
-                        <th className="font-medium py-2.5 pl-5 text-left">
+                        <th className="font-medium py-2.5 pl-5 text-left w-[20%]">
                             Тариф
                         </th>
-                        <th className="font-medium py-2.5 pl-5 text-left">
+                        <th className="font-medium py-2.5 pl-5 text-left w-[27%]">
                             Услуги
                         </th>
                     </tr>
@@ -43,16 +43,16 @@ export const UsersTable = ({ users }: {users: UserDetails[]}) => {
                                 setUserId(user.id)
                                 setIsSidebarOpen(true)
                             }}>
-                                <td className="font-extralight py-[15px] pl-5">
+                                <td className="font-extralight py-[15px] pl-5 truncate">
                                     {user.phoneNumber}
                                 </td>
-                                <td className="font-extralight py-[15px] pl-5">
+                                <td className="font-extralight py-[15px] pl-5 truncate">
                                     {user.lastName}
                                 </td>
-                                <td className="font-extralight py-[15px] pl-5">
+                                <td className="font-extralight py-[15px] pl-5 truncate">
                                     {user.firstName}
                                 </td>
-                                <td className="font-extralight py-[15px] pl-5">
+                                <td className="font-extralight py-[15px] pl-5 truncate">
                                     {user.middleName}
                                 </td>
                                 <td className="py-[15px] pl-5 flex">
@@ -62,7 +62,7 @@ export const UsersTable = ({ users }: {users: UserDetails[]}) => {
                                     {user.services.length > 0 && (
                                         <ul className="flex gap-2.5">
                                             {user.services.slice(0, 3).map((service, index) => (
-                                                <li key={index}>
+                                                <li key={index} className="truncate">
                                                     <TableTag text={service.details.name_tariff} type={service.type} />
                                                 </li>
                                             ))}

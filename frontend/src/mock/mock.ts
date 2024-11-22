@@ -20,6 +20,11 @@ export interface ServiceDetails {
   count_message?: number;
 }
 
+export interface TariffFormat {
+  format: string;
+  formatName: string;
+}
+
 export interface Tariff {
   type: "active" | "archive";
   details: TariffDetails;
@@ -851,3 +856,15 @@ export const services: Service[] = [
     details: { name_tariff: "250 минут", count_minute: 250 },
   },
 ];
+
+// Массив с типами тарифов
+export const typesTariff: TariffFormat[] = [
+  {
+      format: 'custom',
+      formatName: 'Настраиваемый'
+  },
+  {
+      format: 'fixed',
+      formatName: 'Фиксированный'
+  },
+]

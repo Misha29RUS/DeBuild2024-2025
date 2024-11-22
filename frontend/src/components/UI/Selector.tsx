@@ -7,7 +7,7 @@ type SelectorProps<T> = {
     placeholder: string;
     selectList: T[];
     setTakeValue: React.Dispatch<React.SetStateAction<string | T | null>>;
-    value?: T;
+    value: T | string | null;
     labelKey: keyof T;
     type?: string;
     styles?: string;
@@ -22,9 +22,12 @@ export const Selector = <T extends object>({
     type,
     styles
 }: SelectorProps<T>) => {
-    const [selectedData, setSelectedData] = useState<T | string | undefined>(value);
+    const [selectedData, setSelectedData] = useState<T | string | null>(value);
     const [showDropdown, setShowDropdown] = useState(false);
     const [list, setList] = useState(selectList);
+    useEffect(() => {
+        setSelectedData(value!)
+    }, [value])
 
     // Поиск по элементам в инпуте
     const handleSearch = (search: string) => {
@@ -70,7 +73,7 @@ export const Selector = <T extends object>({
                 value={typeof selectedData === 'object' && selectedData !== null
                     ? String(getValueByPath(selectedData, labelKey as string))
                     : selectedData || ''}
-                className={`py-3 px-4 pr-[60px]  outline-none border font-extralight text-[18px] w-[inherit] 
+                className={`py-3 px-4 pr-[60px] w-full outline-none border font-extralight text-[18px] 
                 ${showDropdown ?
                 `rounded-t-lg ${type ? 'border-s-white' : 'border-s-dark-grey'} `
                 : `rounded-lg ${type ? 'border-s-white' : 'border-s-light-grey'}`}
@@ -102,7 +105,7 @@ export const Selector = <T extends object>({
 
             {showDropdown && (
                 <ul className={`absolute left-0 right-0 max-h-[200px]
-                overflow-y-auto border rounded-b-lg z-10
+                overflow-y-auto border rounded-b-lg z-10 w-full
                 ${type ? 'border-s-white' : 'border-s-dark-grey bg-white'}`}>
                     {list?.slice(0, 10).map((data, index) => (
                         <li

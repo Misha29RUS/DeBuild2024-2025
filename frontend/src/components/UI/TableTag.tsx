@@ -32,7 +32,7 @@ export const TableTag = ({type, text, styles}: TableTagProps) => {
         : (type === 'message' ? "text-s-violet border border-s-violet"
         : (type === 'more' && "border border-s-dark-grey")))))} ${styles}`}>
             {Icon && <span className={`${type !== 'more' && 'mr-1.5'}`}>{Icon}</span>}
-            <span>{text}</span>
+            <span className="truncate">{text}</span>
         </div>
     )
 }

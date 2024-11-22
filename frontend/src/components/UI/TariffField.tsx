@@ -1,15 +1,16 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import CloseSvg from "../../img/input_svg/close.svg?react"
 
 interface TariffFieldProps {
-    min?: number; // минимальное значение (левый край)
-    max?: number; // максимальное значение (правый край)
+    min: number | 'min'; // минимальное значение (левый край)
+    max: number | 'max'; // максимальное значение (правый край)
     plusValue: boolean;
     setPlusValues?: React.Dispatch<React.SetStateAction<{ id: string; value: number | null }[]>>;
     indexPlusValue?: number;
     placeholder?: string;
     onChange: (value: number) => void;
     styles?: string;
+    autoFocus?: boolean;
 }
 
 export const TariffField: React.FC<TariffFieldProps> = ({ 
@@ -20,9 +21,19 @@ export const TariffField: React.FC<TariffFieldProps> = ({
     indexPlusValue,
     placeholder,
     onChange,
-    styles 
+    styles,
+    autoFocus 
 }) => {
     const [value, setValue] = useState<string>('');
+    const [savedValue, setSavedValue] = useState<number | null>(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    // Устанавливаем фокус, если autoFocus = true
+    useEffect(() => {
+        if (autoFocus && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [autoFocus]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value;
@@ -33,25 +44,42 @@ export const TariffField: React.FC<TariffFieldProps> = ({
     };
 
     const handleBlur = () => {
-        if (value === '') return; // Если поле пустое, ничего не делаем
+        if (value === '') {
+            // Если поле пустое, возвращаем сохраненное значение
+            if (savedValue !== null) {
+                setValue(String(savedValue));
+                onChange(savedValue);
+            }
+            if (plusValue && setPlusValues) {
+                setPlusValues((prevValues) => prevValues.filter((_, i) => i !== indexPlusValue));
+            }
+            return;
+        }
     
         const numericValue = parseInt(value, 10);
+
+        // Преобразование 'min' и 'max' в числа
+        const numericMin = typeof min === 'number' ? min : 0; // Пример: если 'min', то 0
+        const numericMax = typeof max === 'number' ? max : 999; // Пример: если 'max', то 999
     
-        // Проверяем диапазон
-        if (numericValue < (min ? min : 0)) {
-          setValue(String(min)); // Приводим к минимальному значению
-          onChange?.((min ? min : 0));
-        } else if (numericValue > (max ? max : 999)) {
-          setValue(String(max)); // Приводим к максимальному значению
-          onChange?.((max ? max : 999));
+        if (numericValue < numericMin) {
+            setValue(String(numericMin));
+            onChange?.(numericMin);
+            setSavedValue(numericMin);
+        } else if (numericValue > numericMax) {
+            setValue(String(numericMax));
+            onChange?.(numericMax);
+            setSavedValue(numericMax);
         } else {
-          onChange?.(numericValue); // Передаём корректное значение
+            onChange?.(numericValue);
+            setSavedValue(numericValue);
         }
     };
 
     return (
         <div className={`relative w-[68px] h-[46px] ${styles}`}>
             <input
+                ref={inputRef}
                 className={`border w-[inherit] border-s-light-grey rounded-lg text-s-black
                 px-3 py-3 font-extralight text-[18px] placeholder:text-s-light-grey
                 hover:border-s-dark-grey hover:placeholder:text-s-dark-grey
