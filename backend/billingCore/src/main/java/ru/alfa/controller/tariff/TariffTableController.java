@@ -1,5 +1,6 @@
 package ru.alfa.controller.tariff;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +23,10 @@ public class TariffTableController {
 
     private final TariffTableService tariffTableService;
 
+    @Operation(
+            summary = "Получить отфильтрованные тарифы",
+            description = "Возвращает тарифы, которые соответствуют заданным фильтрам."
+    )
     @PostMapping
     public ResponseEntity<Page<ResponseTariffDto>> getTariffWithFilters(
             @Parameter(name = "page", description = "Номер страницы", example = "0")
