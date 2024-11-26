@@ -18,9 +18,19 @@ export interface ServiceDetails {
   count_minute?: number;
   count_internet?: number;
   count_message?: number;
+  service_format: "onetime" | "regular";
+  price?: number;
+  description: string;
+  created_at: Date;
+  edited_at: Date;
 }
 
 export interface TariffFormat {
+  format: string;
+  formatName: string;
+}
+
+export interface ServiceFormat {
   format: string;
   formatName: string;
 }
@@ -86,19 +96,51 @@ export const users: UserDetails[] = [
     services: [
       {
         type: "internet",
-        details: { name_tariff: "Интернет 10Гб", count_internet: 10 },
+        details: { 
+          name_tariff: "Интернет 10Гб",
+          count_internet: 10,
+          created_at: new Date(2024, 8, 13),
+          edited_at: new Date(2024, 8, 13),
+          description: "blablaBLA",
+          service_format: "onetime",
+          price: 40
+        },
       },
       {
         type: "call",
-        details: { name_tariff: "150 минут", count_minute: 150 },
+        details: { 
+          name_tariff: "150 минут",
+          count_minute: 150,
+          created_at: new Date(2024, 8, 13),
+          edited_at: new Date(2024, 8, 13),
+          description: "blablaBLA",
+          service_format: "regular",
+          price: 50
+        },
       },
       {
         type: "message",
-        details: { name_tariff: "10 СМС", count_message: 10 },
+        details: { 
+          name_tariff: "10 СМС",
+          count_message: 10,
+          created_at: new Date(2024, 8, 13),
+          edited_at: new Date(2024, 8, 13),
+          description: "blablaBLA",
+          service_format: "onetime",
+          price: 60
+        },
       },
       {
         type: "message",
-        details: { name_tariff: "20 СМС", count_message: 20 },
+        details: { 
+          name_tariff: "20 СМС",
+          count_message: 20,
+          created_at: new Date(2024, 8, 13),
+          edited_at: new Date(2024, 8, 13),
+          description: "blablaBLA",
+          service_format: "regular",
+          price: 40
+        },
       },
     ],
     balance: 150,
@@ -204,15 +246,39 @@ export const users: UserDetails[] = [
     services: [
       {
         type: "internet",
-        details: { name_tariff: "Интернет 15Гб", count_internet: 15 },
+        details: { 
+          name_tariff: "Интернет 15Гб",
+          count_internet: 15,
+          created_at: new Date(2024, 8, 13),
+          edited_at: new Date(2024, 8, 13),
+          description: "blablaBLA",
+          service_format: "onetime",
+          price: 50
+        },
       },
       {
         type: "call",
-        details: { name_tariff: "300 минут", count_minute: 300 },
+        details: { 
+          name_tariff: "300 минут",
+          count_minute: 300,
+          created_at: new Date(2024, 8, 13),
+          edited_at: new Date(2024, 8, 13),
+          description: "blablaBLA",
+          service_format: "regular",
+          price: 60
+        },
       },
       {
         type: "message",
-        details: { name_tariff: "100 СМС", count_message: 100 },
+        details: { 
+          name_tariff: "100 СМС", 
+          count_message: 100,
+          created_at: new Date(2024, 8, 13),
+          edited_at: new Date(2024, 8, 13),
+          description: "blablaBLA",
+          service_format: "onetime",
+          price: 40 
+        },
       },
     ],
     balance: 0,
@@ -293,7 +359,15 @@ export const users: UserDetails[] = [
     services: [
       {
         type: "call",
-        details: { name_tariff: "200 минут", count_minute: 200 },
+        details: { 
+          name_tariff: "200 минут", 
+          count_minute: 200,
+          created_at: new Date(2024, 8, 13),
+          edited_at: new Date(2024, 8, 13),
+          description: "blablaBLA",
+          service_format: "regular",
+          price: 50
+        },
       },
     ],
     balance: 500,
@@ -380,11 +454,27 @@ export const users: UserDetails[] = [
     services: [
       {
         type: "internet",
-        details: { name_tariff: "Интернет 15Гб", count_internet: 15 },
+        details: { 
+          name_tariff: "Интернет 15Гб",
+          count_internet: 15,
+          created_at: new Date(2024, 8, 13),
+          edited_at: new Date(2024, 8, 13),
+          description: "blablaBLA",
+          service_format: "onetime",
+          price: 50
+        },
       },
       {
         type: "call",
-        details: { name_tariff: "300 минут", count_minute: 300 },
+        details: { 
+          name_tariff: "300 минут",
+          count_minute: 300,
+          created_at: new Date(2024, 8, 13),
+          edited_at: new Date(2024, 8, 13),
+          description: "blablaBLA",
+          service_format: "regular",
+          price: 60
+        },
       },
     ],
     balance: 825,
@@ -471,7 +561,15 @@ export const users: UserDetails[] = [
     services: [
       {
         type: "message",
-        details: { name_tariff: "100 СМС", count_message: 100 },
+        details: { 
+          name_tariff: "100 СМС", 
+          count_message: 100,
+          created_at: new Date(2024, 8, 13),
+          edited_at: new Date(2024, 8, 13),
+          description: "blablaBLA",
+          service_format: "onetime",
+          price: 40 
+        },
       },
     ],
     balance: 1000,
@@ -517,7 +615,15 @@ export const users: UserDetails[] = [
     services: [
       {
         type: "internet",
-        details: { name_tariff: "Интернет 60Гб", count_internet: 60 },
+        details: { 
+          name_tariff: "Интернет 60Гб", 
+          count_internet: 60,
+          created_at: new Date(2024, 8, 13),
+          edited_at: new Date(2024, 8, 13),
+          description: "blablaBLA",
+          service_format: "onetime",
+          price: 60 
+        },
       },
     ],
     balance: 1000,
@@ -558,7 +664,15 @@ export const users: UserDetails[] = [
     services: [
       {
         type: "call",
-        details: { name_tariff: "250 минут", count_minute: 250 },
+        details: { 
+          name_tariff: "250 минут", 
+          count_minute: 250,
+          created_at: new Date(2024, 8, 13),
+          edited_at: new Date(2024, 8, 13),
+          description: "blablaBLA",
+          service_format: "regular",
+          price: 40 
+        },
       },
     ],
     balance: 50,
@@ -817,43 +931,123 @@ export const tariffs: Tariff[] = [
 export const services: Service[] = [
   {
     type: "internet",
-    details: { name_tariff: "Интернет 10Гб", count_internet: 10 },
+    details: { 
+      name_tariff: "Интернет 10Гб",
+      count_internet: 10,
+      created_at: new Date(2024, 8, 13),
+      edited_at: new Date(2024, 8, 13),
+      description: "blablaBLA",
+      service_format: "onetime",
+      price: 40
+    },
   },
   {
     type: "call",
-    details: { name_tariff: "150 минут", count_minute: 150 },
+    details: { 
+      name_tariff: "150 минут",
+      count_minute: 150,
+      created_at: new Date(2024, 8, 13),
+      edited_at: new Date(2024, 8, 13),
+      description: "blablaBLA",
+      service_format: "regular",
+      price: 50
+    },
   },
   {
     type: "message",
-    details: { name_tariff: "10 СМС", count_message: 10 },
+    details: { 
+      name_tariff: "10 СМС",
+      count_message: 10,
+      created_at: new Date(2024, 8, 13),
+      edited_at: new Date(2024, 8, 13),
+      description: "blablaBLA",
+      service_format: "onetime",
+      price: 60
+    },
   },
   {
     type: "message",
-    details: { name_tariff: "20 СМС", count_message: 20 },
+    details: { 
+      name_tariff: "20 СМС",
+      count_message: 20,
+      created_at: new Date(2024, 8, 13),
+      edited_at: new Date(2024, 8, 13),
+      description: "blablaBLA",
+      service_format: "regular",
+      price: 40
+    },
   },
   {
     type: "internet",
-    details: { name_tariff: "Интернет 15Гб", count_internet: 15 },
+    details: { 
+      name_tariff: "Интернет 15Гб",
+      count_internet: 15,
+      created_at: new Date(2024, 8, 13),
+      edited_at: new Date(2024, 8, 13),
+      description: "blablaBLA",
+      service_format: "onetime",
+      price: 50
+    },
   },
   {
     type: "call",
-    details: { name_tariff: "300 минут", count_minute: 300 },
+    details: { 
+      name_tariff: "300 минут",
+      count_minute: 300,
+      created_at: new Date(2024, 8, 13),
+      edited_at: new Date(2024, 8, 13),
+      description: "blablaBLA",
+      service_format: "regular",
+      price: 60
+    },
   },
   {
     type: "message",
-    details: { name_tariff: "100 СМС", count_message: 100 },
+    details: { 
+      name_tariff: "100 СМС", 
+      count_message: 100,
+      created_at: new Date(2024, 8, 13),
+      edited_at: new Date(2024, 8, 13),
+      description: "blablaBLA",
+      service_format: "onetime",
+      price: 40 
+    },
   },
   {
     type: "call",
-    details: { name_tariff: "200 минут", count_minute: 200 },
+    details: { 
+      name_tariff: "200 минут", 
+      count_minute: 200,
+      created_at: new Date(2024, 8, 13),
+      edited_at: new Date(2024, 8, 13),
+      description: "blablaBLA",
+      service_format: "regular",
+      price: 50
+    },
   },
   {
     type: "internet",
-    details: { name_tariff: "Интернет 60Гб", count_internet: 60 },
+    details: { 
+      name_tariff: "Интернет 60Гб", 
+      count_internet: 60,
+      created_at: new Date(2024, 8, 13),
+      edited_at: new Date(2024, 8, 13),
+      description: "blablaBLA",
+      service_format: "onetime",
+      price: 60 
+    },
   },
   {
     type: "call",
-    details: { name_tariff: "250 минут", count_minute: 250 },
+    details: { 
+      name_tariff: "250 минут", 
+      count_minute: 250,
+      created_at: new Date(2024, 8, 13),
+      edited_at: new Date(2024, 8, 13),
+      description: "blablaBLA",
+      service_format: "regular",
+      price: 40 
+    },
   },
 ];
 
@@ -866,5 +1060,17 @@ export const typesTariff: TariffFormat[] = [
   {
       format: 'fixed',
       formatName: 'Фиксированный'
+  },
+]
+
+// Массив с типами услуг
+export const typesServices: ServiceFormat[] = [
+  {
+      format: 'onetime',
+      formatName: 'Разовая'
+  },
+  {
+      format: 'regular',
+      formatName: 'Регулярная'
   },
 ]

@@ -13,6 +13,12 @@ interface TariffValuesManagerProps {
     onUpdateValues: (values: (number | "min" | "max")[]) => void;
 }
 
+interface PlusValue {
+    id: string;
+    value: number | null;
+    isDuplicate: boolean;
+}
+
 export const TariffValuesManager: React.FC<TariffValuesManagerProps> = ({
     min,
     max,
@@ -21,14 +27,54 @@ export const TariffValuesManager: React.FC<TariffValuesManagerProps> = ({
     defaultValues,
     onUpdateValues,
 }) => {
-    const [plusValues, setPlusValues] = useState<{ id: string; value: number | null }[]>([]);
+    const [plusValues, setPlusValues] = useState<PlusValue[]>([]);
+
+    // Функция для обновления флагов isDuplicate
+    const updateDuplicates = (defaultValues: (number | "min" | "max")[], plusValues: PlusValue[]) => {
+        // Извлекаем только числовые значения из defaultValues
+        const numericDefaultValues = defaultValues.filter((v): v is number => v !== "min" && v !== "max");
+
+        // Все уникальные значения (defaultValues + plusValues)
+        const allValues = [
+            ...numericDefaultValues,
+            ...plusValues.map((item) => item.value).filter((value): value is number => value !== null),
+        ];
+
+        // Обновляем флаги isDuplicate для plusValues
+        return plusValues.map((item) => ({
+            ...item,
+            isDuplicate: item.value !== null && allValues.filter((v) => v === item.value).length > 1,
+        }));
+    };
 
     // Обновляем общий массив значений
     useEffect(() => {
-        const allValues = [...defaultValues, ...plusValues.map(item => item.value).filter((value): value is number => value !== null)];
+        const allValues = [
+            ...defaultValues,
+            ...plusValues.map((item) => item.value).filter((value): value is number => value !== null),
+        ];
         onUpdateValues(allValues);
     }, [defaultValues, plusValues]);
-    console.log(plusValues)
+
+    // Пересчитываем дубликаты при изменении defaultValues или plusValues
+    useEffect(() => {
+        setPlusValues((prevPlusValues) => updateDuplicates(defaultValues, prevPlusValues));
+    }, [defaultValues, plusValues]);
+
+    const handleAddPlusValue = () => {
+        setPlusValues((prevValues) => [
+            ...prevValues,
+            { id: uuidv4(), value: null, isDuplicate: false },
+        ]);
+    };
+
+    const handleUpdatePlusValue = (index: number, newValue: number | null) => {
+        setPlusValues((prevValues) => {
+            const updatedValues = [...prevValues];
+            updatedValues[index] = { ...updatedValues[index], value: newValue };
+            return updateDuplicates(defaultValues, updatedValues.sort((a, b) => (a.value ?? 0) - (b.value ?? 0)));
+        });
+    };
 
     return (
         <div className="mt-1.5 flex items-center gap-2.5">
@@ -37,7 +83,8 @@ export const TariffValuesManager: React.FC<TariffValuesManagerProps> = ({
                 max={max === 'max' ? 999 : (plusValues.length === 0 ? max : plusValues[0].value!)} 
                 placeholder="min" 
                 plusValue={false} 
-                onChange={setMin} 
+                onChange={setMin}
+                defaultValues={defaultValues} 
             />
 
             {plusValues.map((item, index) => (
@@ -48,13 +95,8 @@ export const TariffValuesManager: React.FC<TariffValuesManagerProps> = ({
                     plusValue={true}
                     indexPlusValue={index}
                     setPlusValues={setPlusValues}
-                    onChange={(value: number) =>
-                        setPlusValues(prevValues => {
-                            const updatedValues = [...prevValues];
-                            updatedValues[index] = { ...updatedValues[index], value };
-                            return updatedValues.sort((a, b) => (a.value ?? 0) - (b.value ?? 0));
-                        })
-                    }
+                    isDuplicate={item.isDuplicate}
+                    onChange={(value: number) => handleUpdatePlusValue(index, value)}
                     autoFocus={true}
                 />
             ))}
@@ -64,18 +106,15 @@ export const TariffValuesManager: React.FC<TariffValuesManagerProps> = ({
                 max={999} 
                 placeholder="max" 
                 plusValue={false} 
-                onChange={setMax} 
+                onChange={setMax}
+                defaultValues={defaultValues} 
             />
-            {(plusValues.length < 3 && (defaultValues[0] !== 'min' && defaultValues[1] !== 'max')) && (
+            {(plusValues.length < 3) && (
                 <Button
+                    disabled={(defaultValues[0] === 'min') || (defaultValues[1] === 'max')}
                     type="grey"
                     onlyIcon={<AddSvg />}
-                    onClick={() =>
-                        setPlusValues(prevValues => [
-                            ...prevValues,
-                            { id: uuidv4(), value: null },
-                        ])
-                    }
+                    onClick={handleAddPlusValue}
                 />
             )}
         </div>
