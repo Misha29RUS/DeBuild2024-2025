@@ -38,6 +38,8 @@ drop type resource_type;
 
 drop table phone_number_tariff;
 
+drop table tariff_resources;
+
 drop table tariff;
 
 drop type tariff_type;
