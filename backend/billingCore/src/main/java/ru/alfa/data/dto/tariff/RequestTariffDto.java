@@ -11,7 +11,15 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * DTO for {@link ru.alfa.data.entity.tariff.Tariff}
+ * DTO для передачи данных о тарифе.
+ *
+ * @param type тип тарифа, определяемый {@link TariffType}; не может быть пустым.
+ * @param status статус тарифа, определяемый {@link TariffStatus}; не может быть пустым.
+ * @param name название тарифа; не может быть пустым.
+ * @param description описание тарифа; не может быть пустым.
+ * @param cost стоимость тарифа; должна быть неотрицательной и не может быть пустой.
+ * @param tariffResourceDto информация о ресурсах тарифа, определяемая
+ *                          {@link RequestTariffResourceDto}; не может быть пустой.
  */
 public record RequestTariffDto(@NotNull(message = "Тип тарифа не может быть пустым") TariffType type,
                                @NotNull(message = "Статус тарифа не может быть пустым") TariffStatus status,

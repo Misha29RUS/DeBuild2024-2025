@@ -4,7 +4,15 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
- * DTO for {@link ru.alfa.data.entity.user.UserPassport}
+ * DTO для представления информации о паспорте пользователя.
+ *
+ * @param id уникальный идентификатор записи паспорта.
+ * @param passportSeries серия паспорта.
+ * @param passportNumber номер паспорта.
+ * @param dateOfBirth дата рождения пользователя.
+ * @param issuedByWhom организация, выдавшая паспорт.
+ * @param departmentCode код подразделения, выдавшего паспорт.
+ * @param dateOfIssue дата выдачи паспорта.
  */
 public record ResponseUserPassportDto(Long id, String passportSeries, String passportNumber, LocalDate dateOfBirth,
                                       String issuedByWhom, String departmentCode,

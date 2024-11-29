@@ -11,7 +11,15 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * DTO for {@link MobileService}
+ * DTO для передачи данных о мобильной услуге.
+ *
+ * @param oneTimeService флаг, указывающий, является ли услуга одноразовой.
+ * @param status статус услуги, определяемый {@link ServiceStatus}.
+ * @param type тип услуги, определяемый {@link ResourceType}.
+ * @param name название услуги.
+ * @param description описание услуги.
+ * @param cost стоимость услуги; должна быть неотрицательной.
+ * @param countResources количество ресурсов; должно быть неотрицательным.
  */
 public record RequestMobileServiceDto(
         @NotNull(message = "Поле oneTimeService не может быть пустым") Boolean oneTimeService,
