@@ -15,5 +15,16 @@ spring:
       show-sql: true
       open-in-view: false
 
+    mail:
+      host: ${EMAIL_HOST}
+      port: ${EMAIL_PORT}
+      username: ${EMAIL}
+      password: ${EMAIL_PASS}
+      properties:
+        mail.smtp.auth: true
+        mail.smtp.starttls.enable: true
+        mail.smtp.starttls.required: true
+      default-encoding: UTF-8
+
 server:
   port: 8080
