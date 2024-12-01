@@ -7,7 +7,13 @@ import java.math.BigDecimal;
 import java.util.Set;
 
 /**
- * DTO for {@link ru.alfa.data.entity.phoneNumber.PhoneNumber}
+ * DTO для представления информации о телефонном номере
+ * с учетом мобильных услуг.
+ *
+ * @param id уникальный идентификатор записи.
+ * @param phoneNumber номер телефона.
+ * @param balance текущий баланс телефонного номера.
+ * @param phoneNumberMobileServices набор мобильных услуг, связанных с телефонным номером.
  */
 public record ResponsePhoneNumberWithServicesInfoDto(Long id, String phoneNumber, BigDecimal balance,
                                                      Set<ResponsePhoneNumberMobileServiceDto> phoneNumberMobileServices)
