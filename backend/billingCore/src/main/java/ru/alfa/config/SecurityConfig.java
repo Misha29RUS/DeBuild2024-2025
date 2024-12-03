@@ -11,9 +11,19 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+/**
+ * Конфигурация безопасности приложения
+ */
 @Configuration
 public class SecurityConfig {
 
+    /**
+     * Настраивает цепочку фильтров безопасности для HTTP-запросов.
+     *
+     * @param http объект HttpSecurity для настройки безопасности.
+     * @return настроенная цепочка фильтров безопасности.
+     * @throws Exception если произошла ошибка при настройке безопасности.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -24,6 +34,11 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Настраивает источник конфигурации CORS для управления политикой CORS.
+     *
+     * @return источник конфигурации CORS.
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

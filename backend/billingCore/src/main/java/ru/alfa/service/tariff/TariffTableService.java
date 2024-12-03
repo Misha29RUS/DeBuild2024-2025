@@ -13,14 +13,32 @@ import ru.alfa.data.entity.tariff.Tariff;
 import ru.alfa.data.mapper.tariff.TariffMapper;
 import ru.alfa.data.repository.tariff.TariffRepository;
 
+/**
+ * Сервис для вывода тарифов в виде таблицы.
+ * Этот класс предоставляет методы для получения тарифов с применением фильтров и пагинации.
+ */
 @Service
 @RequiredArgsConstructor
 public class TariffTableService {
 
+    /**
+     * Репозиторий для работы с тарифами.
+     */
     private final TariffRepository tariffRepository;
 
+    /**
+     * Маппер для преобразования между сущностями тарифов и DTO.
+     */
     private final TariffMapper tariffMapper;
 
+    /**
+     * Получает страницу тарифов с применением фильтров.
+     *
+     * @param page                             Номер страницы (0 - первая страница).
+     * @param size                             Количество элементов на странице.
+     * @param requestFiltersForTariffsTableDto DTO с фильтрами для поиска тарифов.
+     * @return Страница DTO тарифов, соответствующих заданным фильтрам.
+     */
     @Transactional
     public Page<ResponseTariffDto> getTariffsWithFilters(
             Integer page, Integer size,

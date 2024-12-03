@@ -15,6 +15,9 @@ import ru.alfa.service.tariff.TariffService;
 
 import java.util.List;
 
+/**
+ * Контроллер для работы с тарифами
+ */
 @Tag(name = "Контроллер для работы с тарифами")
 @RestController
 @RequestMapping("/api/tariff")
@@ -22,8 +25,16 @@ import java.util.List;
 @Validated
 public class TariffController {
 
+    /**
+     * Сервис для работы с тарифами
+     */
     private final TariffService tariffService;
 
+    /**
+     * Получает список всех доступных тарифов.
+     *
+     * @return Список DTO всех доступных тарифов.
+     */
     @Operation(
             summary = "Получить все тарифы",
             description = "Возвращает список всех доступных тарифов."
@@ -34,6 +45,12 @@ public class TariffController {
         return ResponseEntity.ok(tariffs);
     }
 
+    /**
+     * Получает информацию о тарифе по указанному идентификатору.
+     *
+     * @param id Идентификатор тарифа, для которого требуется получить информацию.
+     * @return DTO с информацией о тарифе.
+     */
     @Operation(
             summary = "Получить тариф по ID",
             description = "Возвращает информацию о тарифе по указанному идентификатору."
@@ -46,6 +63,12 @@ public class TariffController {
         return ResponseEntity.ok(responseTariffDto);
     }
 
+    /**
+     * Создает новый тариф на основе предоставленных данных.
+     *
+     * @param requestTariffDto DTO с данными для создания нового тарифа.
+     * @return DTO созданного тарифа.
+     */
     @Operation(
             summary = "Создать новый тариф",
             description = "Создает новый тариф на основе предоставленных данных."
@@ -56,6 +79,13 @@ public class TariffController {
         return ResponseEntity.ok(createdTariff);
     }
 
+    /**
+     * Обновляет информацию о тарифе по указанному идентификатору.
+     *
+     * @param id               Идентификатор тарифа, который необходимо обновить.
+     * @param requestTariffDto DTO с новыми данными для обновления тарифа.
+     * @return DTO обновленного тарифа.
+     */
     @Operation(
             summary = "Обновить тариф",
             description = "Обновляет информацию о тарифе по указанному идентификатору."
@@ -69,6 +99,12 @@ public class TariffController {
         return ResponseEntity.ok(updatedTariff);
     }
 
+    /**
+     * Удаляет тариф по указанному идентификатору.
+     *
+     * @param id Идентификатор тарифа, который необходимо удалить.
+     * @return Ответ без содержимого (204 No Content).
+     */
     @Operation(
             summary = "Удалить тариф",
             description = "Удаляет тариф по указанному идентификатору."

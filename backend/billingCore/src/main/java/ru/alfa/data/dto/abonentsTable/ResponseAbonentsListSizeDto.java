@@ -5,7 +5,7 @@ package ru.alfa.data.dto.abonentsTable;
  * после применения фильтров и общего количества абонентов.
  *
  * @param countAbonentsAfterFilters количество абонентов после применения фильтров.
- * @param countAllAbonents общее количество абонентов в системе.
+ * @param countAllAbonents          общее количество абонентов в системе.
  */
 public record ResponseAbonentsListSizeDto(Long countAbonentsAfterFilters, Long countAllAbonents) {
 }

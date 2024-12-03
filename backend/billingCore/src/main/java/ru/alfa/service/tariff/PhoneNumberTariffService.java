@@ -23,20 +23,50 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * Сервис для управления тарифами телефонных номеров.
+ * Этот класс предоставляет методы для обновления тарифов, связанных с телефонными номерами,
+ * а также ведет историю транзакций.
+ */
 @Service
 @RequiredArgsConstructor
 public class PhoneNumberTariffService {
 
+    /**
+     * Репозиторий для работы с тарифами.
+     */
     private final TariffRepository tariffRepository;
 
+    /**
+     * Репозиторий для работы с телефонными номерами.
+     */
     private final PhoneNumberRepository phoneNumberRepository;
 
+    /**
+     * Маппер для преобразования между сущностями тарифов телефонных номеров и DTO.
+     */
     private final PhoneNumberTariffMapper phoneNumberTariffMapper;
 
+    /**
+     * Репозиторий для работы с историей транзакций.
+     */
     private final HistoryOfTransactionRepository historyOfTransactionRepository;
 
+    /**
+     * Репозиторий для работы с тарифами телефонных номеров.
+     */
     private final PhoneNumberTariffRepository phoneNumberTariffRepository;
 
+    /**
+     * Обновляет тариф для указанного телефонного номера.
+     *
+     * @param phoneNumberId Идентификатор телефонного номера, для которого обновляется тариф.
+     * @param tariffId      Идентификатор нового тарифа, который будет применен к номеру.
+     * @return DTO без тарифа, связанного с обновленным тарифом телефонного номера.
+     * @throws EntityNotFoundException       Если указанный телефонный номер или тариф не найден.
+     * @throws TariffIsNotAvailableException Если тариф является настраиваемым и не может быть применен.
+     * @throws InsufficientFundsException    Если недостаточно средств на счету телефонного номера для оплаты тарифа.
+     */
     @Transactional
     public ResponseWithoutTariffPhoneNumberTariffDto updateTariffForPhoneNumber(Long phoneNumberId, Long tariffId) {
         PhoneNumber phoneNumber = phoneNumberRepository.findById(phoneNumberId).orElseThrow(() ->
@@ -65,6 +95,13 @@ public class PhoneNumberTariffService {
 
     }
 
+    /**
+     * Создает смежный объект тарифов - телефонный номер на основе указанного телефонного номера и тарифа.
+     *
+     * @param phoneNumber Телефонный номер, к которому применяется тариф.
+     * @param tariff      Тариф, который будет применен к номеру.
+     * @return Созданный объект тарифов телефонных номеров.
+     */
     private PhoneNumberTariff createPhoneNumberTariff(PhoneNumber phoneNumber, Tariff tariff) {
         PhoneNumberTariff phoneNumberTariff = new PhoneNumberTariff();
         phoneNumberTariff.setId(phoneNumber.getId());
@@ -82,6 +119,13 @@ public class PhoneNumberTariffService {
         return phoneNumberTariff;
     }
 
+    /**
+     * Создает запись о транзакции на основе указанного телефонного номера и тарифа.
+     *
+     * @param phoneNumber Телефонный номер, по которому осуществляется транзакция.
+     * @param tariff      Тариф, который оплачивается в рамках транзакции.
+     * @return Созданная запись о транзакции.
+     */
     private HistoryOfTransaction createTransaction(PhoneNumber phoneNumber, Tariff tariff) {
         HistoryOfTransaction historyOfTransaction = new HistoryOfTransaction();
         historyOfTransaction.setPhoneNumber(phoneNumber);
