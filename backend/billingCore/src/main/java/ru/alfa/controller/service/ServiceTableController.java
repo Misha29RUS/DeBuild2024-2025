@@ -13,6 +13,9 @@ import ru.alfa.data.dto.service.RequestFiltersForServiceTableDto;
 import ru.alfa.data.dto.service.ResponseMobileServiceDto;
 import ru.alfa.service.service.ServiceTableService;
 
+/**
+ * Контроллер для вывода таблицы сервисов с фильтрами
+ */
 @Tag(name = "Контроллер вывода таблицы сервисы с фильтрами")
 @RestController
 @RequestMapping("/api/services")
@@ -20,8 +23,19 @@ import ru.alfa.service.service.ServiceTableService;
 @Validated
 public class ServiceTableController {
 
+    /**
+     * Сервис для работы с таблицей мобильных услуг
+     */
     private final ServiceTableService serviceTableService;
 
+    /**
+     * Получает список мобильных услуг с применением фильтров и пагинации.
+     *
+     * @param page                             Номер страницы (0 - первая страница).
+     * @param size                             Размер страницы (количество элементов на странице).
+     * @param requestFiltersForServiceTableDto DTO с фильтрами для поиска мобильных услуг.
+     * @return Страница DTO мобильных услуг, соответствующих заданным фильтрам.
+     */
     @PostMapping
     public ResponseEntity<Page<ResponseMobileServiceDto>> getServiceWithFilters(
             @Parameter(name = "page", description = "Номер страницы", example = "0")

@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.alfa.data.dto.tariff.ResponseWithoutTariffPhoneNumberTariffDto;
 import ru.alfa.service.tariff.PhoneNumberTariffService;
 
+/**
+ * Контроллер для управления тарифом для номера телефона
+ */
 @Tag(name = "Контроллер для управления тарифом для номера телефона")
 @RestController
 @RequestMapping("/api/phoneNumber")
@@ -22,8 +25,18 @@ import ru.alfa.service.tariff.PhoneNumberTariffService;
 @Validated
 public class PhoneNumberTariffController {
 
+    /**
+     * Сервис для управления тарифом для номера телефона
+     */
     private final PhoneNumberTariffService service;
 
+    /**
+     * Смена тарифа для указанного номера телефона.
+     *
+     * @param phoneNumberId Идентификатор номера телефона, для которого требуется сменить тариф.
+     * @param tariffId      Идентификатор тарифа, который необходимо применить к номеру телефона.
+     * @return DTO с информацией о новом тарифе для номера телефона.
+     */
     @Operation(
             summary = "Смена тарифа для номера телефона",
             description = "Смена тарифа для номера телефона," +
@@ -39,5 +52,4 @@ public class PhoneNumberTariffController {
 
         return ResponseEntity.ok(service.updateTariffForPhoneNumber(phoneNumberId, tariffId));
     }
-
 }

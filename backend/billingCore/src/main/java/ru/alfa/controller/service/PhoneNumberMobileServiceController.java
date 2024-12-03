@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.alfa.data.dto.service.ResponsePhoneNumberMobileServiceWithIdDto;
 import ru.alfa.service.service.PhoneNumberMobileServiceService;
 
+/**
+ * Контроллер для управления услугами для номера телефона
+ */
 @Tag(name = "Контроллер для управления услугами для номера телефона")
 @RestController
 @RequestMapping("/api/phoneNumber")
@@ -20,8 +23,18 @@ import ru.alfa.service.service.PhoneNumberMobileServiceService;
 @Validated
 public class PhoneNumberMobileServiceController {
 
+    /**
+     * Сервис для управления услугами для номера телефона
+     */
     private final PhoneNumberMobileServiceService service;
 
+    /**
+     * Активирует услугу для указанного номера телефона.
+     *
+     * @param phoneNumberId Идентификатор номера телефона, для которого требуется активировать услугу.
+     * @param serviceId     Идентификатор услуги, которую необходимо активировать.
+     * @return DTO с информацией о подключенной услуге для номера телефона.
+     */
     @Operation(
             summary = "Активация услуги для номера телефона",
             description = "Подключение услуги для номера телефона," +
@@ -37,6 +50,13 @@ public class PhoneNumberMobileServiceController {
         return ResponseEntity.ok(service.activateServiceForPhoneNumber(phoneNumberId, serviceId));
     }
 
+    /**
+     * Деактивирует услугу для указанного номера телефона.
+     *
+     * @param phoneNumberId Идентификатор номера телефона, для которого требуется отключить услугу.
+     * @param serviceId     Идентификатор услуги, которую необходимо отключить.
+     * @return Ответ без содержимого (204 No Content).
+     */
     @Operation(
             summary = "Деактивация услуги для номера телефона",
             description = "Отключение услуги для номера телефона," +

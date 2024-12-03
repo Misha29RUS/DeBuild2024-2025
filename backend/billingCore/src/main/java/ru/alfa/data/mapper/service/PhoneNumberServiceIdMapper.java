@@ -17,7 +17,7 @@ public interface PhoneNumberServiceIdMapper {
      * @param phoneNumberServiceId объект типа {@link PhoneNumberServiceId},
      *                             который необходимо преобразовать.
      * @return объект типа {@link ResponsePhoneNumberServiceIdDto},
-     *         полученный в результате преобразования.
+     * полученный в результате преобразования.
      */
     ResponsePhoneNumberServiceIdDto toDto(PhoneNumberServiceId phoneNumberServiceId);
 

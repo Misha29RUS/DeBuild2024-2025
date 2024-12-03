@@ -28,9 +28,9 @@ public class JsonConverter implements AttributeConverter<List<Integer>, String> 
      *
      * @param attribute список целых чисел, который необходимо преобразовать.
      * @return строка JSON, представляющая список целых чисел;
-     *         возвращает null, если входной список равен null.
+     * возвращает null, если входной список равен null.
      * @throws IllegalArgumentException если происходит ошибка при преобразовании
-     *                                   списка в JSON.
+     *                                  списка в JSON.
      */
     @Override
     public String convertToDatabaseColumn(List<Integer> attribute) {
@@ -47,9 +47,9 @@ public class JsonConverter implements AttributeConverter<List<Integer>, String> 
      * @param dbData строка JSON, представляющая список целых чисел;
      *               может быть null.
      * @return список целых чисел, полученный из строки JSON;
-     *         возвращает null, если входная строка равна null.
+     * возвращает null, если входная строка равна null.
      * @throws IllegalArgumentException если происходит ошибка при чтении
-     *                                   JSON из базы данных.
+     *                                  JSON из базы данных.
      */
     @Override
     public List<Integer> convertToEntityAttribute(String dbData) {

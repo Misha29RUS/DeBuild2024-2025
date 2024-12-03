@@ -18,6 +18,7 @@ public interface AbonentsTableMapper {
 
     /**
      * Преобразует объект {@link PhoneNumber} в {@link ResponseAbonetsTableDto}.
+     *
      * @param phoneNumber объект типа {@link PhoneNumber}, который необходимо преобразовать.
      * @return объект типа {@link ResponseAbonetsTableDto}, полученный в результате преобразования
      */

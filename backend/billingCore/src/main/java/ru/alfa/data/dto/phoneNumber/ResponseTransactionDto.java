@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
 /**
  * DTO для представления информации о транзакции.
  *
- * @param id уникальный идентификатор транзакции.
- * @param nameOfTransaction название транзакции.
+ * @param id                  уникальный идентификатор транзакции.
+ * @param nameOfTransaction   название транзакции.
  * @param amountOfTransaction сумма транзакции.
- * @param dateOfTransaction дата и время совершения транзакции.
- * @param typeOfTransaction тип транзакции, определяемый {@link HistoryType}.
+ * @param dateOfTransaction   дата и время совершения транзакции.
+ * @param typeOfTransaction   тип транзакции, определяемый {@link HistoryType}.
  */
 public record ResponseTransactionDto(Long id, String nameOfTransaction, BigDecimal amountOfTransaction,
                                      LocalDateTime dateOfTransaction,

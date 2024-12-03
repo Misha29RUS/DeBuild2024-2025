@@ -9,12 +9,12 @@ import java.math.BigDecimal;
 /**
  * DTO для представления информации о тарифе.
  *
- * @param id уникальный идентификатор тарифа.
- * @param type тип тарифа, определяемый {@link TariffType}.
- * @param status статус тарифа, определяемый {@link TariffStatus}.
- * @param name название тарифа.
- * @param description описание тарифа.
- * @param cost стоимость тарифа.
+ * @param id                уникальный идентификатор тарифа.
+ * @param type              тип тарифа, определяемый {@link TariffType}.
+ * @param status            статус тарифа, определяемый {@link TariffStatus}.
+ * @param name              название тарифа.
+ * @param description       описание тарифа.
+ * @param cost              стоимость тарифа.
  * @param tariffResourceDto информация о ресурсах тарифа, определяемая
  *                          {@link ResponseTariffResourceDto}.
  */

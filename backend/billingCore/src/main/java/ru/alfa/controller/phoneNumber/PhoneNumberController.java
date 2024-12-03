@@ -19,6 +19,9 @@ import ru.alfa.data.dto.phoneNumber.ResponsePhoneNumberWithTariffInfoDto;
 import ru.alfa.data.dto.phoneNumber.ResponsePhoneNumberWithUserInfoDto;
 import ru.alfa.service.phoneNumber.PhoneNumberService;
 
+/**
+ * Контроллер для работы с номерами телефонов
+ */
 @Tag(name = "Контроллер для работы с номерами телефонов")
 @RestController
 @RequestMapping("/api/phoneNumber")
@@ -26,8 +29,17 @@ import ru.alfa.service.phoneNumber.PhoneNumberService;
 @Validated
 public class PhoneNumberController {
 
+    /**
+     * Сервис для работы с номерами телефонов
+     */
     private final PhoneNumberService phoneNumberService;
 
+    /**
+     * Получает баланс номера телефона и историю операций.
+     *
+     * @param id Идентификатор номера телефона, для которого требуется получить баланс.
+     * @return DTO с информацией о балансе и истории операций для указанного номера телефона.
+     */
     @Operation(
             summary = "Получить баланс номера телефона и историю операций",
             description = "Возвращает информацию о балансе для указанного номера телефона."
@@ -39,6 +51,12 @@ public class PhoneNumberController {
         return ResponseEntity.ok(phoneNumberService.getBalanceHistory(id));
     }
 
+    /**
+     * Получает информацию о пользователе по номеру телефона.
+     *
+     * @param id Идентификатор номера телефона, для которого требуется получить информацию о пользователе.
+     * @return DTO с информацией о пользователе, связанном с указанным номером телефона.
+     */
     @Operation(
             summary = "Получить информацию о пользователе по номеру телефона",
             description = "Возвращает информацию о пользователе, связанном с указанным номером телефона."
@@ -50,6 +68,12 @@ public class PhoneNumberController {
         return ResponseEntity.ok(phoneNumberService.getPhoneNumberAndUserInfo(id));
     }
 
+    /**
+     * Получает информацию о тарифе по номеру телефона.
+     *
+     * @param id Идентификатор номера телефона, для которого требуется получить информацию о тарифе.
+     * @return DTO с информацией о тарифе, связанном с указанным номером телефона.
+     */
     @Operation(
             summary = "Получить информацию о тарифе по номеру телефона",
             description = "Возвращает информацию о тарифе, связанном с указанным номером телефона."
@@ -61,6 +85,12 @@ public class PhoneNumberController {
         return ResponseEntity.ok(phoneNumberService.getPhoneNumberAndTariffInfo(id));
     }
 
+    /**
+     * Получает информацию об услугах по номеру телефона.
+     *
+     * @param id Идентификатор номера телефона, для которого требуется получить информацию об услугах.
+     * @return DTO с информацией об услугах, связанных с указанным номером телефона.
+     */
     @Operation(
             summary = "Получить информацию о услугах по номеру телефона",
             description = "Возвращает информацию о услугах, связанных с указанным номером телефона."
@@ -71,6 +101,4 @@ public class PhoneNumberController {
                     example = "1") @NotNull @Positive @PathVariable("id") Long id) {
         return ResponseEntity.ok(phoneNumberService.getPhoneNumberAndServicesInfo(id));
     }
-
-
 }

@@ -3,7 +3,6 @@ package ru.alfa.data.dto.service;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
-import ru.alfa.data.entity.service.MobileService;
 import ru.alfa.data.entity.service.enums.ResourceType;
 import ru.alfa.data.entity.service.enums.ServiceStatus;
 
@@ -14,11 +13,11 @@ import java.math.BigDecimal;
  * DTO для передачи данных о мобильной услуге.
  *
  * @param oneTimeService флаг, указывающий, является ли услуга одноразовой.
- * @param status статус услуги, определяемый {@link ServiceStatus}.
- * @param type тип услуги, определяемый {@link ResourceType}.
- * @param name название услуги.
- * @param description описание услуги.
- * @param cost стоимость услуги; должна быть неотрицательной.
+ * @param status         статус услуги, определяемый {@link ServiceStatus}.
+ * @param type           тип услуги, определяемый {@link ResourceType}.
+ * @param name           название услуги.
+ * @param description    описание услуги.
+ * @param cost           стоимость услуги; должна быть неотрицательной.
  * @param countResources количество ресурсов; должно быть неотрицательным.
  */
 public record RequestMobileServiceDto(

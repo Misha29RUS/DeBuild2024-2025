@@ -19,7 +19,7 @@ public interface PhoneNumberTariffMapper {
      * @param phoneNumberTariff объект типа {@link PhoneNumberTariff},
      *                          который необходимо преобразовать.
      * @return объект типа {@link ResponseWithTariffPhoneNumberTariffDto},
-     *         полученный в результате преобразования.
+     * полученный в результате преобразования.
      */
     @Mapping(target = "tariff", source = "tariff")
     ResponseWithTariffPhoneNumberTariffDto toResponseDtoWithTariff(PhoneNumberTariff phoneNumberTariff);
@@ -30,7 +30,7 @@ public interface PhoneNumberTariffMapper {
      * @param phoneNumberTariff объект типа {@link PhoneNumberTariff},
      *                          который необходимо преобразовать.
      * @return объект типа {@link ResponseWithoutTariffPhoneNumberTariffDto},
-     *         полученный в результате преобразования.
+     * полученный в результате преобразования.
      */
     ResponseWithoutTariffPhoneNumberTariffDto toResponseDtoWithoutTariff(PhoneNumberTariff phoneNumberTariff);
 
