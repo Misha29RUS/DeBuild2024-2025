@@ -4,10 +4,10 @@ import { Counter } from "../components/UI/Counter"
 import FilterSvg from "../img/filter_alt.svg?react"
 import { services, typesServices, ServiceFormat } from "../mock/mock"
 import { Input } from "../components/UI/Input"
-import { Selector } from "../components/UI/Selector"
 import { Tab } from "../components/UI/Tab"
 import AddSvg from "../img/abonent_sidebar_svg/add.svg?react"
 import { ServiceCard } from "../components/UI/ServiceCard"
+import { SelectorMock } from "../components/UI/SelectorMock"
 
 export const Services = () => {
     const [isFiltersOpen, setIsFiltersIsOpen] = useState(false)
@@ -114,7 +114,7 @@ export const Services = () => {
                         placeholder="Введите название" />
                     </div>
                     <div className="w-[335px]">
-                        <Selector selectList={typesServices}
+                        <SelectorMock selectList={typesServices}
                         labelKey="formatName" value={formatService}
                         setTakeValue={setFormatService}
                         placeholder="Выберите тип" />

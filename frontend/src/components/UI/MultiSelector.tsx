@@ -27,10 +27,17 @@ export const MultiSelector = <T extends object>({
     const [selectedData, setSelectedData] = useState<T[]>(value || []);
     const [showDropdown, setShowDropdown] = useState(false);
     const [list, setList] = useState(selectList);
-    useEffect(() => {
-        setSelectedData(value!)
-    }, [value])
     const [searchText, setSearchText] = useState("");
+
+    // Обновление локального состояния при изменении selectList
+    useEffect(() => {
+        setList(selectList);
+    }, [selectList]);
+
+    // Обновление selectedData при изменении value
+    useEffect(() => {
+        setSelectedData(value || []);
+    }, [value]);
     
     // Поиск по элементам в инпуте
     const handleSearch = (search: string) => {
@@ -54,10 +61,11 @@ export const MultiSelector = <T extends object>({
 
     const toggleSelect = (data: T) => {
         const isSelected = selectedData.some(
-            (item) => getValueByPath(item, labelKey as string) === getValueByPath(data, labelKey as string)
+            (item) => JSON.stringify(item) === JSON.stringify(data)
         );
+    
         const updatedSelectedData = isSelected
-            ? selectedData.filter((item) => getValueByPath(item, labelKey as string) !== getValueByPath(data, labelKey as string))
+            ? selectedData.filter((item) => JSON.stringify(item) !== JSON.stringify(data))
             : [...selectedData, data];
     
         setSelectedData(updatedSelectedData);
@@ -137,7 +145,7 @@ export const MultiSelector = <T extends object>({
                     ${type ? 'border-s-white' : 'border-s-dark-grey bg-white'}`}>
                         {list?.slice(0, 10).map((data, index) => {
                             const isChecked = selectedData.some(
-                                (item) => getValueByPath(item, labelKey as string) === getValueByPath(data, labelKey as string)
+                                (item) => JSON.stringify(item) === JSON.stringify(data)
                             );
                             return (
                                 <li

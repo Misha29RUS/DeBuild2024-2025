@@ -4,10 +4,10 @@ import { Counter } from "../components/UI/Counter"
 import FilterSvg from "../img/filter_alt.svg?react"
 import { tariffs, typesTariff, TariffFormat } from "../mock/mock"
 import { Input } from "../components/UI/Input"
-import { Selector } from "../components/UI/Selector"
 import { Tab } from "../components/UI/Tab"
 import { TariffCard } from "../components/UI/TariffCard"
 import AddSvg from "../img/abonent_sidebar_svg/add.svg?react"
+import { SelectorMock } from "../components/UI/SelectorMock"
 
 export const ActiveTariffs = () => {
     const [isFiltersOpen, setIsFiltersIsOpen] = useState(false)
@@ -101,7 +101,7 @@ export const ActiveTariffs = () => {
                         placeholder="Введите название" />
                     </div>
                     <div className="w-[335px]">
-                        <Selector selectList={typesTariff}
+                        <SelectorMock selectList={typesTariff}
                         labelKey="formatName" value={formatTariff}
                         setTakeValue={setFormatTariff}
                         placeholder="Выберите тип" />
