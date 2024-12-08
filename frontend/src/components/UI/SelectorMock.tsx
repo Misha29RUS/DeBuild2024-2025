@@ -3,42 +3,52 @@ import ArrowSvg from "../../img/selectors_svg/keyboard_arrow_down.svg?react"
 import CloseSvg from "../../img/selectors_svg/close.svg?react"
 import { getValueByPath } from "../../utils/getValueByPath";
 
-type SelectorProps<T> = {
+type SelectorPropsMock<T> = {
     placeholder: string;
     selectList: T[];
-    setTakeValue: React.Dispatch<React.SetStateAction<T>>;
-    value: T;
+    setTakeValue: React.Dispatch<React.SetStateAction<string | T | null>>;
+    value: T | string | null;
     labelKey: keyof T;
-    searchQuery: string;
-    setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+    setSearchQuery?: React.Dispatch<React.SetStateAction<string>>;
     type?: string;
     styles?: string;
 };
 
-export const Selector = <T extends object>({
+export const SelectorMock = <T extends object>({
     placeholder,
     selectList,
     setTakeValue,
     value,
     labelKey,
-    searchQuery,
-    setSearchQuery,
     type,
     styles
-}: SelectorProps<T>) => {
+}: SelectorPropsMock<T>) => {
     const [selectedData, setSelectedData] = useState<T | string | null>(value);
     const [showDropdown, setShowDropdown] = useState(false);
     const [list, setList] = useState(selectList);
     useEffect(() => {
-        setSearchQuery(value.name)
-    }, [])
-    useEffect(() => {
-        setList(selectList)
-    }, [selectList])
+        setSelectedData(value!)
+    }, [value])
+
+    // Поиск по элементам в инпуте
+    const handleSearch = (search: string) => {
+        if (search !== "") {
+            const filteredData = selectList.filter((item) =>
+                String(getValueByPath(item, labelKey as string))
+                    .toLowerCase()
+                    .startsWith(search.toLowerCase())
+            );
+            setList(filteredData);
+        } else {
+            setList(selectList);
+        }
+    };
 
     // Ввод в инпут
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(e.target.value)
+        setSelectedData(e.target.value);
+        // setTakeValue(e.target.value as unknown as T);
+        handleSearch(e.target.value);
     };
 
     // Закрытие выпадающего списка при клике вне элемента
@@ -61,7 +71,9 @@ export const Selector = <T extends object>({
             <input
                 onChange={handleChange}
                 onFocus={() => setShowDropdown(true)}
-                value={searchQuery}
+                value={typeof selectedData === 'object' && selectedData !== null
+                    ? String(getValueByPath(selectedData, labelKey as string))
+                    : selectedData || ''}
                 className={`py-3 px-4 pr-[60px] w-full outline-none border font-extralight text-[18px] 
                 ${showDropdown ?
                 `rounded-t-lg ${type ? 'border-s-white' : 'border-s-dark-grey'} `
@@ -79,7 +91,9 @@ export const Selector = <T extends object>({
                 <CloseSvg className={`absolute top-3.5 right-[38px] cursor-pointer
                 ${type ? 'fill-s-white' : 'fill-s-black'}`}
                 onClick={() => {
-                    setSearchQuery("")
+                    setSelectedData("")
+                    setTakeValue("")
+                    setList(selectList)
                 }} />
             )}
             <ArrowSvg
@@ -97,7 +111,6 @@ export const Selector = <T extends object>({
                     {list?.slice(0, 10).map((data, index) => (
                         <li
                             onClick={() => {
-                                setSearchQuery(data.name)
                                 setSelectedData(data);
                                 setTakeValue(data);
                                 setShowDropdown(false);

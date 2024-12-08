@@ -6,7 +6,8 @@ export const Checkbox = ({filterChecked}: {filterChecked: boolean}) => {
             <label className="relative flex items-center
             rounded-full cursor-pointer"
             htmlFor="custom">
-                <input checked={filterChecked}  
+                <input checked={filterChecked}
+                onChange={() => {}}  
                 placeholder="checkbox" type="checkbox"
                 className="peer relative appearance-none w-6 h-6
                 border rounded border-black

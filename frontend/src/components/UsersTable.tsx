@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { TableTag } from "./UI/TableTag"
 import { AbonentSidebar } from "./AbonentSidebar"
-import { UserDetails } from "../mock/mock"
+import { IUsers } from "../app/services/types"
 
-export const UsersTable = ({ users }: {users: UserDetails[]}) => {
+export const UsersTable = ({ users }: {users: IUsers | undefined}) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
     const [userId, setUserId] = useState<number | null>(null)
 
@@ -32,13 +32,13 @@ export const UsersTable = ({ users }: {users: UserDetails[]}) => {
                         </th>
                     </tr>
                 </thead>
-                {users.length > 0 && (
+                {users && users?.content?.length > 0 && (
                     <tbody>
-                        {users.map((user) => (
+                        {users?.content.map((user, key) => (
                             <tr className={`border-b border-b-s-light-grey
                             hover:bg-s-light-grey cursor-pointer
                             ${userId === user.id && 'bg-s-light-grey'}`} 
-                            key={user.id}
+                            key={key}
                             onClick={() => {
                                 setUserId(user.id)
                                 setIsSidebarOpen(true)
@@ -47,26 +47,26 @@ export const UsersTable = ({ users }: {users: UserDetails[]}) => {
                                     {user.phoneNumber}
                                 </td>
                                 <td className="font-extralight py-[15px] pl-5 truncate">
-                                    {user.lastName}
+                                    {user.user.surname}
                                 </td>
                                 <td className="font-extralight py-[15px] pl-5 truncate">
-                                    {user.firstName}
+                                    {user.user.name}
                                 </td>
                                 <td className="font-extralight py-[15px] pl-5 truncate">
-                                    {user.middleName}
+                                    {user.user.patronymic}
                                 </td>
                                 <td className="py-[15px] pl-5 flex">
-                                    <TableTag type={user.tariff.type} text={user.tariff.details.name_tariff} />
+                                    <TableTag type={user.phoneNumberTariff.tariff.status} text={user.phoneNumberTariff.tariff.name} />
                                 </td>
                                 <td className="py-[15px] pl-5">
-                                    {user.services.length > 0 && (
+                                    {user.phoneNumberMobileServices.length > 0 && (
                                         <ul className="flex gap-2.5">
-                                            {user.services.slice(0, 3).map((service, index) => (
+                                            {user.phoneNumberMobileServices.slice(0, 3).map((service, index) => (
                                                 <li key={index} className="truncate">
-                                                    <TableTag text={service.details.name_tariff} type={service.type} />
+                                                    <TableTag text={service.mobileService.name} type={service.mobileService.type} />
                                                 </li>
                                             ))}
-                                            {user.services.length > 3 && (
+                                            {user.phoneNumberMobileServices.length > 3 && (
                                                 <li>
                                                     <TableTag type="more" />
                                                 </li>
@@ -79,7 +79,7 @@ export const UsersTable = ({ users }: {users: UserDetails[]}) => {
                     </tbody> 
                 )}
             </table>
-            {users.length === 0 && (
+            {users?.content?.length === 0 && (
                 <div className="text-[38px] text-center font-medium text-s-light-grey mt-[100px]">
                     Абоненты не найдены
                 </div>

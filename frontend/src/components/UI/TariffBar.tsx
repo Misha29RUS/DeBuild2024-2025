@@ -17,7 +17,7 @@ export const TariffBar: React.FC<TariffBarProps> = ({ values, min, max, styles }
             {/* Полоса */}
             <div className="relative w-full h-0.5 bg-s-black">
                 {/* Точки */}
-                {values.map((value, index) => (
+                {values?.map((value, index) => (
                 <div
                     key={index}
                     className="absolute -top-0.5 w-1.5 h-1.5 bg-black rounded-full"
@@ -30,7 +30,7 @@ export const TariffBar: React.FC<TariffBarProps> = ({ values, min, max, styles }
                 ))}
             </div>
             {/* Подписи */}
-            {values.map((value, index) => (
+            {values?.map((value, index) => (
                 <div
                 key={index}
                 className="absolute text-[18px] text-s-black"
