@@ -78,9 +78,21 @@ public class ControllerAdvice {
      * @param ex Исключение, содержащее сообщение о недоступности тарифа.
      * @return Сообщение об ошибке.
      */
-    @ExceptionHandler(TariffIsNotAvailableException.class)
+    @ExceptionHandler(EnablingTariffException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handlerTariffIsNotAvailableException(TariffIsNotAvailableException ex) {
+    public String handlerEnablingTariffException(EnablingTariffException ex) {
+        return ex.getMessage();
+    }
+
+    /**
+     * Обрабатывает исключения при создании существующего тарифа/услуги/еще чего-то.
+     *
+     * @param ex Исключение, содержащее сообщение о недоступности тарифа.
+     * @return Сообщение об ошибке.
+     */
+    @ExceptionHandler(CreateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handlerCreateException(CreateException ex) {
         return ex.getMessage();
     }
 }

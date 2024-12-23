@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +44,8 @@ public class TariffTableService {
     public Page<ResponseTariffDto> getTariffsWithFilters(
             Integer page, Integer size,
             RequestFiltersForTariffsTableDto requestFiltersForTariffsTableDto) {
-        Pageable pageable = PageRequest.of(page, size);
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("updatedAt"));
 
         Specification<Tariff> tariffSpecification = Specification.
                 where(TariffTableSpecification.hasName(requestFiltersForTariffsTableDto.name())).

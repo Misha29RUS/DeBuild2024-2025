@@ -6,12 +6,15 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.alfa.data.dto.service.RequestMobileServiceDto;
 import ru.alfa.data.dto.service.ResponseMobileServiceDto;
 import ru.alfa.data.entity.service.MobileService;
+import ru.alfa.data.entity.tariff.Tariff;
 import ru.alfa.data.mapper.service.MobileServiceMapper;
 import ru.alfa.data.repository.service.MobileServiceRepository;
+import ru.alfa.exception.CreateException;
 import ru.alfa.exception.EntityNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Сервис для управления мобильными услугами.
@@ -49,6 +52,10 @@ public class MobileServiceService {
      * @return DTO созданной мобильной услуги.
      */
     public ResponseMobileServiceDto createService(RequestMobileServiceDto requestMobileServiceDto) {
+        Optional<MobileService> existingService = mobileServiceRepository.findByName(requestMobileServiceDto.name());
+        if (existingService.isPresent()){
+            throw new CreateException("Услуга с таким названием уже существует");
+        }
         MobileService mobileService = mobileServiceMapper.toEntity(requestMobileServiceDto);
         mobileService.setCreatedAt(LocalDateTime.now());
         mobileService.setUpdatedAt(LocalDateTime.now());
