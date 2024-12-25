@@ -24,7 +24,8 @@ export const TableTag = ({type, text, styles}: TableTagProps) => {
 
     return (
         <div
-        className={`py-[5px] text-[18px] px-1.5 rounded-[20px] flex items-center whitespace-nowrap
+        className={`text-[18px]  rounded-[20px] flex items-center whitespace-nowrap
+        ${type === 'active' || type === 'archive' ? 'py-[4px] px-[6px]' : 'py-[3px] px-[6px]'}
         ${type === 'active' ? "text-s-white bg-s-red"
         : (type === 'archive' ? "text-s-white bg-s-black"
         : (type === 'internet' ? "text-s-blue border border-s-blue"
