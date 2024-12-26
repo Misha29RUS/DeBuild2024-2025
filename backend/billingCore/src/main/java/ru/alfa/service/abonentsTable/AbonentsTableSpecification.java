@@ -27,7 +27,7 @@ public class AbonentsTableSpecification {
      */
     public static Specification<PhoneNumber> hasPhoneNumber(String phoneNumber) {
         return (root, query, criteriaBuilder) ->
-                phoneNumber == null ? null : criteriaBuilder.equal(root.get("phoneNumber"), phoneNumber);
+                phoneNumber == null ? null : criteriaBuilder.like(root.get("phoneNumber"), phoneNumber + "%");
     }
 
     /**
@@ -41,7 +41,7 @@ public class AbonentsTableSpecification {
         return (root, query, criteriaBuilder) -> {
             if (name == null) return null;
             Join<PhoneNumber, User> userJoin = root.join("user");
-            return criteriaBuilder.equal(userJoin.get("name"), name);
+            return criteriaBuilder.like(userJoin.get("name"), name + "%");
         };
     }
 
@@ -56,7 +56,7 @@ public class AbonentsTableSpecification {
         return (root, query, criteriaBuilder) -> {
             if (surname == null) return null;
             Join<PhoneNumber, User> userJoin = root.join("user");
-            return criteriaBuilder.equal(userJoin.get("surname"), surname);
+            return criteriaBuilder.like(userJoin.get("surname"), surname + "%");
         };
 
     }
@@ -72,7 +72,7 @@ public class AbonentsTableSpecification {
         return (root, query, criteriaBuilder) -> {
             if (patronymic == null) return null;
             Join<PhoneNumber, User> userJoin = root.join("user");
-            return criteriaBuilder.equal(userJoin.get("patronymic"), patronymic);
+            return criteriaBuilder.like(userJoin.get("patronymic"), patronymic + "%");
         };
     }
 

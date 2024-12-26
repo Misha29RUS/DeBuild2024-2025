@@ -8,10 +8,12 @@ import ru.alfa.data.dto.tariff.ResponseTariffDto;
 import ru.alfa.data.entity.tariff.Tariff;
 import ru.alfa.data.mapper.tariff.TariffMapper;
 import ru.alfa.data.repository.tariff.TariffRepository;
+import ru.alfa.exception.CreateException;
 import ru.alfa.exception.EntityNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Сервис для управления тарифами.
@@ -48,6 +50,10 @@ public class TariffService {
      */
     @Transactional
     public ResponseTariffDto createTariff(RequestTariffDto requestTariffDto) {
+        Optional<Tariff> existingTariff = tariffRepository.findByName(requestTariffDto.name());
+        if (existingTariff.isPresent()){
+            throw new CreateException("Тариф с таким названием уже существует");
+        }
         Tariff tariff = tariffMapper.toEntity(requestTariffDto);
         tariff.setCreatedAt(LocalDateTime.now());
         tariff.setUpdatedAt(LocalDateTime.now());

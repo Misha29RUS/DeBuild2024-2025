@@ -22,7 +22,7 @@ public class TariffTableSpecification {
     public static Specification<Tariff> hasName(String name) {
         return (root, query, criteriaBuilder) -> {
             if (name == null) return null;
-            return criteriaBuilder.equal(root.get("name"), name);
+            return criteriaBuilder.like(root.get("name"), name + "%");
         };
     }
 

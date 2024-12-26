@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.alfa.data.dto.abonentsTable.RequestFiltersForAbonentsTableDto;
-import ru.alfa.data.dto.abonentsTable.ResponseAbonentsListSizeDto;
+import ru.alfa.data.dto.abonentsTable.ResponseEntitiesListSizeDto;
 import ru.alfa.data.dto.abonentsTable.ResponseAbonetsTableDto;
 import ru.alfa.service.abonentsTable.AbonentsTableService;
 
@@ -66,11 +66,11 @@ public class AbonentsTableController {
             description = "Возвращает количество всех абонентов и количество абонентов подходящих под фильтры."
     )
     @PostMapping("/count")
-    public ResponseEntity<ResponseAbonentsListSizeDto> getAbonentsListSizeWithFilters(
+    public ResponseEntity<ResponseEntitiesListSizeDto> getAbonentsListSizeWithFilters(
             @RequestBody @Validated RequestFiltersForAbonentsTableDto requestFiltersForAbonentsTableDto) {
-        ResponseAbonentsListSizeDto responseAbonentsListSizeDto =
+        ResponseEntitiesListSizeDto responseEntitiesListSizeDto =
                 abonentsTableService.getAbonentsListSizeWithFilters(requestFiltersForAbonentsTableDto);
 
-        return ResponseEntity.ok(responseAbonentsListSizeDto);
+        return ResponseEntity.ok(responseEntitiesListSizeDto);
     }
 }

@@ -4,11 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.alfa.data.dto.abonentsTable.RequestFiltersForAbonentsTableDto;
-import ru.alfa.data.dto.abonentsTable.ResponseAbonentsListSizeDto;
+import ru.alfa.data.dto.abonentsTable.ResponseEntitiesListSizeDto;
 import ru.alfa.data.dto.abonentsTable.ResponseAbonetsTableDto;
 import ru.alfa.data.entity.phoneNumber.PhoneNumber;
 import ru.alfa.data.mapper.abonentsTable.AbonentsTableMapper;
@@ -46,7 +47,7 @@ public class AbonentsTableService {
             Integer page, Integer size,
             RequestFiltersForAbonentsTableDto requestFiltersForAbonentsTableDto
     ) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
 
         Specification<PhoneNumber> phoneNumberSpecification = Specification.
                 where(AbonentsTableSpecification.hasPhoneNumber(requestFiltersForAbonentsTableDto.phoneNumber())).
@@ -67,7 +68,7 @@ public class AbonentsTableService {
      * @param requestFiltersForAbonentsTableDto DTO с фильтрами для поиска абонентов.
      * @return DTO с общим количеством абонентов и количеством, соответствующим фильтрам.
      */
-    public ResponseAbonentsListSizeDto getAbonentsListSizeWithFilters(
+    public ResponseEntitiesListSizeDto getAbonentsListSizeWithFilters(
             RequestFiltersForAbonentsTableDto requestFiltersForAbonentsTableDto) {
         Specification<PhoneNumber> phoneNumberSpecification = Specification.
                 where(AbonentsTableSpecification.hasPhoneNumber(requestFiltersForAbonentsTableDto.phoneNumber())).
@@ -77,8 +78,7 @@ public class AbonentsTableService {
                 and(AbonentsTableSpecification.hasTariffsIds(requestFiltersForAbonentsTableDto.tariffsIds())).
                 and(AbonentsTableSpecification.hasMobileServicesIds(requestFiltersForAbonentsTableDto.mobileServicesIds()));
 
-        return new ResponseAbonentsListSizeDto(
-                phoneNumberRepository.count(), phoneNumberRepository.count(phoneNumberSpecification)
-        );
+        return new ResponseEntitiesListSizeDto(phoneNumberRepository.count(phoneNumberSpecification),
+                phoneNumberRepository.count());
     }
 }

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -47,9 +48,16 @@ public class PhoneNumberTariffController {
             @Parameter(name = "phoneNumberId", description = "Идентификатор номера телефона", example = "1")
             @NotNull @Positive @RequestParam(value = "phoneNumberId") Long phoneNumberId,
             @Parameter(name = "tariffId", description = "Идентификатор тарифа", example = "1")
-            @NotNull @Positive @RequestParam(value = "tariffId") Long tariffId
-    ) {
+            @NotNull @Positive @RequestParam(value = "tariffId") Long tariffId,
+            @Parameter(name = "minutesStep", description = "Шаг минут", example = "1")
+            @PositiveOrZero @RequestParam(value = "minutesStep", required = false) Integer minutesStep,
+            @Parameter(name = "smsStep", description = "Шаг смс", example = "1")
+            @PositiveOrZero @RequestParam(value = "smsStep", required = false) Integer smsStep,
+            @Parameter(name = "gigabyteStep", description = "Шаг Гигабайт", example = "1")
+            @PositiveOrZero @RequestParam(value = "gigabyteStep", required = false) Integer gigabyteStep
 
-        return ResponseEntity.ok(service.updateTariffForPhoneNumber(phoneNumberId, tariffId));
+    ) {
+        return ResponseEntity.ok(service.updateTariffForPhoneNumber(phoneNumberId, tariffId,
+                minutesStep, smsStep, gigabyteStep));
     }
 }

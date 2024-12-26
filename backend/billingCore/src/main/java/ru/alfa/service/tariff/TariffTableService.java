@@ -4,14 +4,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.alfa.data.dto.abonentsTable.ResponseEntitiesListSizeDto;
+import ru.alfa.data.dto.service.RequestFiltersForServiceTableDto;
 import ru.alfa.data.dto.tariff.RequestFiltersForTariffsTableDto;
 import ru.alfa.data.dto.tariff.ResponseTariffDto;
+import ru.alfa.data.entity.service.MobileService;
 import ru.alfa.data.entity.tariff.Tariff;
 import ru.alfa.data.mapper.tariff.TariffMapper;
 import ru.alfa.data.repository.tariff.TariffRepository;
+import ru.alfa.service.service.MobileServiceTableSpecification;
 
 /**
  * Сервис для вывода тарифов в виде таблицы.
@@ -43,7 +48,8 @@ public class TariffTableService {
     public Page<ResponseTariffDto> getTariffsWithFilters(
             Integer page, Integer size,
             RequestFiltersForTariffsTableDto requestFiltersForTariffsTableDto) {
-        Pageable pageable = PageRequest.of(page, size);
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
 
         Specification<Tariff> tariffSpecification = Specification.
                 where(TariffTableSpecification.hasName(requestFiltersForTariffsTableDto.name())).
@@ -53,5 +59,20 @@ public class TariffTableService {
         Page<Tariff> tariffs = tariffRepository.findAll(tariffSpecification, pageable);
 
         return tariffs.map(tariffMapper::toResponseDto);
+    }
+
+    /**
+     * Получает количество тарифов, соответствующих заданным фильтрам.
+     *
+     * @param requestFiltersForTariffsTableDto DTO с фильтрами для поиска тарифов.
+     * @return DTO с общим количеством тарифов и количеством, соответствующим фильтрам.
+     */
+    public ResponseEntitiesListSizeDto getServicesListSizeWithFilters(RequestFiltersForTariffsTableDto requestFiltersForTariffsTableDto) {
+        Specification<Tariff> tariffSpecification = Specification.
+                where(TariffTableSpecification.hasName(requestFiltersForTariffsTableDto.name())).
+                and(TariffTableSpecification.hasStatus(requestFiltersForTariffsTableDto.status())).
+                and(TariffTableSpecification.hasType(requestFiltersForTariffsTableDto.type()));
+
+        return new ResponseEntitiesListSizeDto(tariffRepository.count(tariffSpecification),tariffRepository.count());
     }
 }
