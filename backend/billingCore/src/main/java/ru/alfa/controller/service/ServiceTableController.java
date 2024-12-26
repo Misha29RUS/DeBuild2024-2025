@@ -1,5 +1,6 @@
 package ru.alfa.controller.service;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.alfa.data.dto.abonentsTable.ResponseEntitiesListSizeDto;
 import ru.alfa.data.dto.service.RequestFiltersForServiceTableDto;
 import ru.alfa.data.dto.service.ResponseMobileServiceDto;
 import ru.alfa.service.service.ServiceTableService;
@@ -48,4 +50,24 @@ public class ServiceTableController {
 
         return ResponseEntity.ok(responseServiceDtoPage);
     }
+
+    /**
+     * Получает количество всех услуг и количество отфильтрованных услуг.
+     *
+     * @param requestFiltersForServiceTableDto DTO с фильтрами для поиска услуг.
+     * @return DTO с количеством всех услуг и количеством отфильтрованных услуг.
+     */
+    @Operation(
+            summary = "Получить количество всех услуг и отфильтрованных",
+            description = "Возвращает количество всех услуг и количество услуг подходящих под фильтры."
+    )
+    @PostMapping("/count")
+    public ResponseEntity<ResponseEntitiesListSizeDto> getServiceListSizeWithFilters(
+            @RequestBody @Validated RequestFiltersForServiceTableDto requestFiltersForServiceTableDto) {
+        ResponseEntitiesListSizeDto responseEntitiesListSizeDto =
+                serviceTableService.getServicesListSizeWithFilters(requestFiltersForServiceTableDto);
+
+        return ResponseEntity.ok(responseEntitiesListSizeDto);
+    }
+
 }

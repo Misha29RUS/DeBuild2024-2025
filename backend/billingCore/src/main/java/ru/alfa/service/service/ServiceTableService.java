@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.alfa.data.dto.abonentsTable.ResponseEntitiesListSizeDto;
 import ru.alfa.data.dto.service.RequestFiltersForServiceTableDto;
 import ru.alfa.data.dto.service.ResponseMobileServiceDto;
 import ru.alfa.data.entity.service.MobileService;
@@ -45,7 +46,7 @@ public class ServiceTableService {
             Integer page, Integer size,
             RequestFiltersForServiceTableDto requestFiltersForServiceTableDto) {
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by("updatedAt"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
 
         Specification<MobileService> mobileServiceSpecification = Specification.
                 where(MobileServiceTableSpecification.hasName(requestFiltersForServiceTableDto.name())).
@@ -56,5 +57,22 @@ public class ServiceTableService {
         Page<MobileService> mobileServices = mobileServiceRepository.findAll(mobileServiceSpecification, pageable);
 
         return mobileServices.map(mobileServiceMapper::toResponseDto);
+    }
+
+    /**
+     * Получает количество услуг, соответствующих заданным фильтрам.
+     *
+     * @param requestFiltersForServiceTableDto DTO с фильтрами для поиска услуг.
+     * @return DTO с общим количеством услуг и количеством, соответствующим фильтрам.
+     */
+    public ResponseEntitiesListSizeDto getServicesListSizeWithFilters(RequestFiltersForServiceTableDto requestFiltersForServiceTableDto) {
+        Specification<MobileService> mobileServiceSpecification = Specification.
+                where(MobileServiceTableSpecification.hasName(requestFiltersForServiceTableDto.name())).
+                and(MobileServiceTableSpecification.hasType(requestFiltersForServiceTableDto.type())).
+                and(MobileServiceTableSpecification.hasTimesService(requestFiltersForServiceTableDto.oneTimeService())).
+                and(MobileServiceTableSpecification.hasStatusActive());
+
+        return new ResponseEntitiesListSizeDto(mobileServiceRepository.count(mobileServiceSpecification),
+                mobileServiceRepository.count());
     }
 }
