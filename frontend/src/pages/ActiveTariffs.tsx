@@ -2,30 +2,57 @@ import { useState } from "react"
 import { Button } from "../components/UI/Button"
 import { Counter } from "../components/UI/Counter"
 import FilterSvg from "../img/filter_alt.svg?react"
-import { tariffs, typesTariff, TariffFormat } from "../mock/mock"
 import { Input } from "../components/UI/Input"
 import { Tab } from "../components/UI/Tab"
 import { TariffCard } from "../components/UI/TariffCard"
 import AddSvg from "../img/abonent_sidebar_svg/add.svg?react"
 import { SelectorMock } from "../components/UI/SelectorMock"
+import { useGetTariffsQuery } from "../app/services/tariffs"
+import {TariffsSidebar} from "../components/TariffsSidebar.tsx";
+import {NewTariffSidebar} from "../components/NewTariffSidebar.tsx";
+
+const typesTariff = [
+    {
+        type: 'CUSTOMIZABLE',
+        typeName: 'Настраиваемый'
+    },
+    {
+        type: 'FIXED',
+        typeName: 'Фиксированный'
+    },
+]
+
+type typesTariff = {
+    type: string;
+    typeName: string
+}
+
+type appliedFiltersType = {
+    name: string
+    type?: typesTariff
+}
 
 export const ActiveTariffs = () => {
-    const [isFiltersOpen, setIsFiltersIsOpen] = useState(false)
-    const [typeTariff, setTypeTariff] = useState('active')
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+    const [isSidebarNewTariff, setIsSidebarNewTariff] = useState(false)
+    const [tariffId, setTariffId] = useState<number | null>(null)
 
-    // Тарифы отфильтрованы по активным и архивным
-    const activeTariffs = tariffs.filter(tariff => tariff.type === "active");
-    const archiveTariffs = tariffs.filter(tariff => tariff.type === "archive");
+    const [statusTariff, setStatusTariff] = useState<'ACTIVE' | 'HIDDEN'>('ACTIVE')
+    const [nameTariff, setNameTariff] = useState<string>('')
+    const [typeTariff, setTypeTariff] = useState<'FIXED' | 'CUSTOMIZABLE'>()
+    const [appliedFilters, setAppliedFilters] = useState<appliedFiltersType>({
+        name: "",
+        type: undefined,
+    })
 
-    // Поля фильтрации
-    const [formatTariff, setFormatTariff] = useState<TariffFormat  | string | null>(null);
-    const [nameTariff, setNameTariff] = useState('');
-    
-    // Примененные фильтры
-    const [appliedFilters, setAppliedFilters] = useState<{ formatTariff: TariffFormat | string | null; nameTariff: string }>({
-        formatTariff: null,
-        nameTariff: ''
+    const { data: tariffsData } = useGetTariffsQuery({
+        status: statusTariff,
+        name: appliedFilters.name,
+        type: appliedFilters.type?.type,
     });
+
+    const [isFiltersOpen, setIsFiltersIsOpen] = useState(false)
+
     const nonFalseValuesCount = Object.values(appliedFilters).filter(value => {
         return Boolean(value); // Считает только "истинные" значения
     }).length;
@@ -33,44 +60,20 @@ export const ActiveTariffs = () => {
     // Применение фильтров
     const applyFilters = () => {
         setAppliedFilters({
-        formatTariff,
-        nameTariff
+            type: typeTariff,
+            name: nameTariff
         });
     };
 
     // Сброс фильтров
     const resetFilters = () => {
-        setFormatTariff(null)
+        setTypeTariff(undefined)
         setNameTariff("")
         setAppliedFilters({
-        formatTariff: null,
-        nameTariff: ''
+            type: undefined,
+            name: ''
         });
     };
-
-    // Фильтрация тарифов на основе примененных фильтров
-    const activeFilteredTariffs = activeTariffs.filter((tariff) => {
-        const { formatTariff, nameTariff } = appliedFilters;
-
-        const typeMatch = 
-        !formatTariff || // Если `formatTariff` пустое, принимаем все
-        (typeof formatTariff !== 'string' && tariff.details.tariff_format === formatTariff.format); // Проверка на совпадение
-        
-        const nameMatch = tariff.details.name_tariff.toLowerCase().includes(nameTariff.toLowerCase());
-        
-        return typeMatch && nameMatch;
-    });
-    const archiveFilteredTariffs = archiveTariffs.filter((tariff) => {
-        const { formatTariff, nameTariff } = appliedFilters;
-
-        const typeMatch = 
-        !formatTariff || // Если `formatTariff` пустое, принимаем все
-        (typeof formatTariff !== 'string' && tariff.details.tariff_format === formatTariff.format);
-        
-        const nameMatch = tariff.details.name_tariff.toLowerCase().includes(nameTariff.toLowerCase());
-        
-        return typeMatch && nameMatch;
-    });
 
     return (
         <div className="grow px-[90px] py-10 overflow-y-auto">
@@ -79,12 +82,12 @@ export const ActiveTariffs = () => {
                     <h2 className="text-[34px] text-s-black mr-3">
                         Тарифы
                     </h2>
-                    <Counter 
-                    desired_entries={typeTariff === 'active'
-                        ? activeFilteredTariffs.length
-                        : archiveFilteredTariffs.length
-                    } 
-                    all_entries={tariffs.length} />
+                    {/*<Counter */}
+                    {/*desired_entries={typeTariff === 'active'*/}
+                    {/*    ? activeFilteredTariffs.length*/}
+                    {/*    : archiveFilteredTariffs.length*/}
+                    {/*} */}
+                    {/*all_entries={tariffs.length} />*/}
                 </div>
                 <Button type="red" text={nonFalseValuesCount} 
                 iconRight={<FilterSvg className="w-[22px] h-[22px]" />}
@@ -102,8 +105,8 @@ export const ActiveTariffs = () => {
                     </div>
                     <div className="w-[335px]">
                         <SelectorMock selectList={typesTariff}
-                        labelKey="formatName" value={formatTariff}
-                        setTakeValue={setFormatTariff}
+                        labelKey="typeName" value={typeTariff}
+                        setTakeValue={setTypeTariff}
                         placeholder="Выберите тип" />
                     </div>
                 </div>
@@ -116,26 +119,43 @@ export const ActiveTariffs = () => {
             </div>
             <div className="mb-10 flex items-center">
                 <div className="mr-auto">
-                    <Tab text="Активные" select={typeTariff === 'active'}
-                    onClick={() => setTypeTariff('active')}
+                    <Tab text="Активные" select={statusTariff === 'ACTIVE'}
+                    onClick={() => setStatusTariff('ACTIVE')}
                     styles="text-[26px] font-medium mr-5" />
-                    <Tab text="Архивные" select={typeTariff === 'archive'}
-                    onClick={() => setTypeTariff('archive')}
+                    <Tab text="Архивные" select={statusTariff === 'HIDDEN'}
+                    onClick={() => setStatusTariff('HIDDEN')}
                     styles="text-[26px] font-medium" />
                 </div>
-                <Button text="Новый тариф" type="red" iconLeft={<AddSvg />} />
+                <Button onClick={() => setIsSidebarNewTariff(true)}
+                    text="Новый тариф" type="red" iconLeft={<AddSvg />} />
             </div>
             <div className="grid grid-cols-3 gap-12">
-                {typeTariff === 'active' ? (
-                    activeFilteredTariffs.map((tariff) => (
-                        <TariffCard cardInfo={tariff} type={tariff.type} />
-                    ))
-                ) : (
-                    archiveFilteredTariffs.map((tariff) => (
-                        <TariffCard cardInfo={tariff} type={tariff.type} />
-                    ))
-                )}
+                {tariffsData?.content.map((tariff, index) => (
+                    <TariffCard
+                        key={index}
+                        onClick={() => {
+                            setTariffId(tariff.id)
+                            setIsSidebarOpen(isSidebarNewTariff === true ? false : true)
+                        }}
+                        cardInfo={tariff}
+                        type={tariff.status}
+                    />
+                ))}
             </div>
+            {isSidebarOpen && <TariffsSidebar tariffID={tariffId!}
+               onClose={() => {
+                   setIsSidebarOpen(!isSidebarOpen)
+                   setTariffId(null)
+               }}
+               isAdmin={true}
+            />
+            }
+            {isSidebarNewTariff && <NewTariffSidebar
+                onClose={() => {
+                    setIsSidebarNewTariff(!isSidebarNewTariff)
+                }}
+            />
+            }
         </div>
     )
 }
