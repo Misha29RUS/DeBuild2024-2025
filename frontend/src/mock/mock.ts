@@ -1054,11 +1054,11 @@ export const services: Service[] = [
 // Массив с типами тарифов
 export const typesTariff: TariffFormat[] = [
   {
-      format: 'custom',
+      format: 'CUSTOMIZABLE',
       formatName: 'Настраиваемый'
   },
   {
-      format: 'fixed',
+      format: 'FIXED',
       formatName: 'Фиксированный'
   },
 ]
