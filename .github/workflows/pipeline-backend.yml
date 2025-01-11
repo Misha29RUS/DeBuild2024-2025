@@ -114,7 +114,7 @@ jobs:
         run: scp -oStrictHostKeyChecking=no compose.yml ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:ci-cd/compose.yml
 
       - name: Copy migrations folder
-        run: scp -oStrictHostKeyChecking=no -r backend/migrations ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:ci-cd/
+        run: scp -oStrictHostKeyChecking=no -r backend/migrations ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:ci-cd/backend/
 
       - name: Set ENV variable and deploy
         run: |
