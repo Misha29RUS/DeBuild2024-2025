@@ -113,6 +113,9 @@ jobs:
       - name: Copy docker-compose
         run: scp -oStrictHostKeyChecking=no compose.yml ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:ci-cd/compose.yml
 
+      - name: Copy docker-compose
+        run: scp -oStrictHostKeyChecking=no /backend/migrations ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:ci-cd/
+
       - name: Set ENV variable and deploy
         run: |
           ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} <<EOF
