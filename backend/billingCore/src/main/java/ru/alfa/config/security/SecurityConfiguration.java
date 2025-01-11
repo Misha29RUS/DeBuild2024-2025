@@ -56,11 +56,14 @@ public class SecurityConfiguration {
     };
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(mvc.pattern("/api/auth/**")).permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
+//                        .requestMatchers(mvc.pattern("/api/auth/**")).permitAll()
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.POST, "api/profile/employee").authenticated()
                         .requestMatchers("/api/employees/**").hasRole("SUPER_ADMIN")
