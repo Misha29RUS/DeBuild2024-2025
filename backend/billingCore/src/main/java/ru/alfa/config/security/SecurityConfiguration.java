@@ -49,7 +49,7 @@ public class SecurityConfiguration {
             "/api/abonents/**",
             "/api/phoneNumber/**",
             "/api/service/**",
-            "/api/phoneNumber/**",
+            "/api/profile/**",
             "/api/services/**",
             "/api/tariff/**",
             "/api/tariffs/**"
