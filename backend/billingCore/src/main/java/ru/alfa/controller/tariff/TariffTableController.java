@@ -10,10 +10,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.alfa.data.dto.abonentsTable.ResponseEntitiesListSizeDto;
+import ru.alfa.data.dto.service.RequestFiltersForServiceTableDto;
 import ru.alfa.data.dto.tariff.RequestFiltersForTariffsTableDto;
 import ru.alfa.data.dto.tariff.ResponseTariffDto;
 import ru.alfa.service.tariff.TariffTableService;
 
+/**
+ * Контроллер для вывода таблицы тарифов с фильтрами
+ */
 @Tag(name = "Контроллер вывода таблицы тарифов с фильтрами")
 @RestController
 @RequestMapping("/api/tariffs")
@@ -21,8 +26,19 @@ import ru.alfa.service.tariff.TariffTableService;
 @Validated
 public class TariffTableController {
 
+    /**
+     * Сервис для работы с таблицей тарифов
+     */
     private final TariffTableService tariffTableService;
 
+    /**
+     * Получает тарифы, соответствующие заданным фильтрам.
+     *
+     * @param page                             Номер страницы (0 - первая страница).
+     * @param size                             Размер страницы (количество элементов на странице).
+     * @param requestFiltersForTariffsTableDto DTO с фильтрами для поиска тарифов.
+     * @return Страница DTO тарифов, соответствующих заданным фильтрам.
+     */
     @Operation(
             summary = "Получить отфильтрованные тарифы",
             description = "Возвращает тарифы, которые соответствуют заданным фильтрам."
@@ -39,4 +55,24 @@ public class TariffTableController {
 
         return ResponseEntity.ok(responseTariffDtoPage);
     }
+
+    /**
+     * Получает количество всех тарифов и количество отфильтрованных тарифов.
+     *
+     * @param requestFiltersForTariffsTableDto DTO с фильтрами для поиска тарифов.
+     * @return DTO с количеством всех тарифов и количеством отфильтрованных тарифов.
+     */
+    @Operation(
+            summary = "Получить количество всех тарифов и отфильтрованных",
+            description = "Возвращает количество всех тарифов и количество тарифов подходящих под фильтры."
+    )
+    @PostMapping("/count")
+    public ResponseEntity<ResponseEntitiesListSizeDto> getServiceListSizeWithFilters(
+            @RequestBody @Validated RequestFiltersForTariffsTableDto requestFiltersForTariffsTableDto) {
+        ResponseEntitiesListSizeDto responseEntitiesListSizeDto =
+                tariffTableService.getServicesListSizeWithFilters(requestFiltersForTariffsTableDto);
+
+        return ResponseEntity.ok(responseEntitiesListSizeDto);
+    }
+
 }

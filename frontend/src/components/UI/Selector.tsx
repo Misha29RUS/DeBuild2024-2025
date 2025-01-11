@@ -6,9 +6,11 @@ import { getValueByPath } from "../../utils/getValueByPath";
 type SelectorProps<T> = {
     placeholder: string;
     selectList: T[];
-    setTakeValue: React.Dispatch<React.SetStateAction<string | T | null>>;
-    value: T | string | null;
+    setTakeValue: React.Dispatch<React.SetStateAction<T>>;
+    value: T;
     labelKey: keyof T;
+    searchQuery: string;
+    setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
     type?: string;
     styles?: string;
 };
@@ -19,6 +21,8 @@ export const Selector = <T extends object>({
     setTakeValue,
     value,
     labelKey,
+    searchQuery,
+    setSearchQuery,
     type,
     styles
 }: SelectorProps<T>) => {
@@ -26,28 +30,15 @@ export const Selector = <T extends object>({
     const [showDropdown, setShowDropdown] = useState(false);
     const [list, setList] = useState(selectList);
     useEffect(() => {
-        setSelectedData(value!)
-    }, [value])
-
-    // Поиск по элементам в инпуте
-    const handleSearch = (search: string) => {
-        if (search !== "") {
-            const filteredData = selectList.filter((item) =>
-                String(getValueByPath(item, labelKey as string))
-                    .toLowerCase()
-                    .startsWith(search.toLowerCase())
-            );
-            setList(filteredData);
-        } else {
-            setList(selectList);
-        }
-    };
+        setSearchQuery(value.name)
+    }, [])
+    useEffect(() => {
+        setList(selectList)
+    }, [selectList])
 
     // Ввод в инпут
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedData(e.target.value);
-        // setTakeValue(e.target.value as unknown as T);
-        handleSearch(e.target.value);
+        setSearchQuery(e.target.value)
     };
 
     // Закрытие выпадающего списка при клике вне элемента
@@ -70,9 +61,7 @@ export const Selector = <T extends object>({
             <input
                 onChange={handleChange}
                 onFocus={() => setShowDropdown(true)}
-                value={typeof selectedData === 'object' && selectedData !== null
-                    ? String(getValueByPath(selectedData, labelKey as string))
-                    : selectedData || ''}
+                value={searchQuery}
                 className={`py-3 px-4 pr-[60px] w-full outline-none border font-extralight text-[18px] 
                 ${showDropdown ?
                 `rounded-t-lg ${type ? 'border-s-white' : 'border-s-dark-grey'} `
@@ -80,8 +69,8 @@ export const Selector = <T extends object>({
                 ${type ? 
                 'border-s-white text-s-white placeholder:text-s-white group-hover:border-s-white group-hover:text-s-white' 
                 : 'placeholder:text-s-light-grey group-hover:border-s-dark-grey group-hover:text-s-dark-grey'}
-                ${type === 'active' ? 'bg-s-red' 
-                : (type === 'archive' ? 'bg-s-black'
+                ${type === 'ACTIVE' ? 'bg-s-red' 
+                : (type === 'HIDDEN' ? 'bg-s-black'
                 : (type === 'more' && 'bg-s-dark-grey'))}`}
                 placeholder={placeholder}
                 id="input"
@@ -90,9 +79,7 @@ export const Selector = <T extends object>({
                 <CloseSvg className={`absolute top-3.5 right-[38px] cursor-pointer
                 ${type ? 'fill-s-white' : 'fill-s-black'}`}
                 onClick={() => {
-                    setSelectedData("")
-                    setTakeValue("")
-                    setList(selectList)
+                    setSearchQuery("")
                 }} />
             )}
             <ArrowSvg
@@ -110,6 +97,7 @@ export const Selector = <T extends object>({
                     {list?.slice(0, 10).map((data, index) => (
                         <li
                             onClick={() => {
+                                setSearchQuery(data.name)
                                 setSelectedData(data);
                                 setTakeValue(data);
                                 setShowDropdown(false);
@@ -117,8 +105,8 @@ export const Selector = <T extends object>({
                             key={index}
                             className={`py-3 px-4 transition-colors cursor-pointer
                             ${!type && 'hover:bg-s-light-grey'}
-                            ${type === 'active' ? 'bg-s-red'
-                            : (type === 'archive' ? 'bg-s-black'
+                            ${type === 'ACTIVE' ? 'bg-s-red'
+                            : (type === 'HIDDEN' ? 'bg-s-black'
                             : (type === 'more' && 'bg-s-dark-grey'))}`}>
                             <p className={`font-extralight text-[18px]
                             ${type && 'text-s-white'}`}>

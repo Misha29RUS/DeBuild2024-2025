@@ -11,10 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.alfa.data.dto.abonentsTable.RequestFiltersForAbonentsTableDto;
-import ru.alfa.data.dto.abonentsTable.ResponseAbonentsListSizeDto;
+import ru.alfa.data.dto.abonentsTable.ResponseEntitiesListSizeDto;
 import ru.alfa.data.dto.abonentsTable.ResponseAbonetsTableDto;
 import ru.alfa.service.abonentsTable.AbonentsTableService;
 
+/**
+ * Контроллер для работы с таблицей абонентов с фильтрами
+ */
 @Tag(name = "Контроллер вывода таблицы абонентов с фильтрами")
 @RestController
 @RequestMapping("/api/abonents")
@@ -22,8 +25,19 @@ import ru.alfa.service.abonentsTable.AbonentsTableService;
 @Validated
 public class AbonentsTableController {
 
+    /**
+     * Сервис для работы с таблицей абонентов
+     */
     private final AbonentsTableService abonentsTableService;
 
+    /**
+     * Получает список абонентов с применением фильтров.
+     *
+     * @param page                              Номер страницы (0 - первая страница).
+     * @param size                              Размер страницы (количество элементов на странице).
+     * @param requestFiltersForAbonentsTableDto DTO с фильтрами для поиска абонентов.
+     * @return Страница DTO абонентов, соответствующих заданным фильтрам.
+     */
     @Operation(
             summary = "Получить список абонентов",
             description = "Возвращает отфильтрованный список абонентов."
@@ -41,16 +55,22 @@ public class AbonentsTableController {
         return ResponseEntity.ok(responseAbonetsTableDtoPage);
     }
 
+    /**
+     * Получает количество всех абонентов и количество отфильтрованных абонентов.
+     *
+     * @param requestFiltersForAbonentsTableDto DTO с фильтрами для поиска абонентов.
+     * @return DTO с количеством всех абонентов и количеством отфильтрованных абонентов.
+     */
     @Operation(
             summary = "Получить количество всех абонентов и отфильтрованных",
             description = "Возвращает количество всех абонентов и количество абонентов подходящих под фильтры."
     )
     @PostMapping("/count")
-    public ResponseEntity<ResponseAbonentsListSizeDto> getAbonentsListSizeWithFilters(
+    public ResponseEntity<ResponseEntitiesListSizeDto> getAbonentsListSizeWithFilters(
             @RequestBody @Validated RequestFiltersForAbonentsTableDto requestFiltersForAbonentsTableDto) {
-        ResponseAbonentsListSizeDto responseAbonentsListSizeDto =
+        ResponseEntitiesListSizeDto responseEntitiesListSizeDto =
                 abonentsTableService.getAbonentsListSizeWithFilters(requestFiltersForAbonentsTableDto);
 
-        return ResponseEntity.ok(responseAbonentsListSizeDto);
+        return ResponseEntity.ok(responseEntitiesListSizeDto);
     }
 }

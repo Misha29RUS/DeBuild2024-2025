@@ -1,8 +1,8 @@
-import { Service } from "../../mock/mock";
+import { IMobileService } from '../../app/services/types';
   
-type ServicefCardProps = {
+type ServiceCardProps = {
     type: string;
-    cardInfo: Service;
+    cardInfo: IMobileService;
     onClick: () => void;
     styles?: string;
 };
@@ -12,38 +12,39 @@ export const ServiceCard = ({
     cardInfo,
     onClick,
     styles
-}: ServicefCardProps) => {
+}: ServiceCardProps) => {
     return (
-        <div className={`p-5 rounded-[20px] text-[18px] text-s-white w-full
-        ${type === "internet" ? "bg-s-blue"
-        : (type === "call" ? "bg-s-green" : "bg-s-violet")} ${styles}`}>
+        <div onClick={onClick}
+        className={`p-5 rounded-[20px] text-[18px] text-s-white w-full hover:cursor-pointer
+        ${type === "GIGABYTES" ? "bg-s-blue"
+        : (type === "MINUTES" ? "bg-s-green" : "bg-s-violet")} ${styles}`}>
             <div className="pb-5 mb-5 border-b border-b-s-white
             flex">
                 <h3 className="font-light text-[26px] truncate">
-                    {cardInfo.details.name_tariff}
+                    {cardInfo.name}
                 </h3>
             </div>
             <div>
                 <div className="mb-2.5">
-                    {cardInfo.type === 'internet' ? (
+                    {cardInfo.type === 'GIGABYTES' ? (
                         <>
                             Гигабайты:{" "}
                             <span className="font-extralight ml-[4px]">
-                                {cardInfo.details.count_internet}
+                                {cardInfo.countResources}
                             </span>
                         </>
-                    ) : (cardInfo.type === 'call' ? (
+                    ) : (cardInfo.type === 'MINUTES' ? (
                         <>
                             Минуты:{" "}
                             <span className="font-extralight ml-[4px]">
-                                {cardInfo.details.count_minute}
+                                {cardInfo.countResources}
                             </span>
                         </>
                     ) : (
                         <>
                             СМС:{" "}
                             <span className="font-extralight ml-[4px]">
-                                {cardInfo.details.count_message}
+                                {cardInfo.countResources}
                             </span>
                         </>
                     ))}
@@ -53,12 +54,11 @@ export const ServiceCard = ({
                     <div className="mr-auto">
                         Тип:{" "}
                         <span className="font-extralight ml-[4px]">
-                            {cardInfo.details.service_format === 'onetime' ? 'Разовый'
-                            : (cardInfo.details.service_format === 'regular' && 'Регулярный')}
+                            {cardInfo.oneTimeService ? 'Разовый' : 'Регулярный'}
                         </span>
                     </div>
                     <div>
-                        {cardInfo.details.price?.toLocaleString('ru-RU')} ₽
+                        {cardInfo.cost?.toLocaleString('ru-RU')} ₽
                     </div> 
                 </div>
             </div>

@@ -57,9 +57,19 @@ export const TariffValuesManager: React.FC<TariffValuesManagerProps> = ({
     }, [defaultValues, plusValues]);
 
     // Пересчитываем дубликаты при изменении defaultValues или plusValues
+    // useEffect(() => {
+    //     setPlusValues((prevPlusValues) => updateDuplicates(defaultValues, prevPlusValues));
+    // }, [defaultValues, plusValues]);
     useEffect(() => {
-        setPlusValues((prevPlusValues) => updateDuplicates(defaultValues, prevPlusValues));
-    }, [defaultValues, plusValues]);
+        setPlusValues((prevPlusValues) => {
+            const updatedPlusValues = updateDuplicates(defaultValues, prevPlusValues);
+            // Проверяем, изменились ли значения
+            if (JSON.stringify(updatedPlusValues) !== JSON.stringify(prevPlusValues)) {
+                return updatedPlusValues;
+            }
+            return prevPlusValues; // Не вызываем обновление, если значения идентичны
+        });
+    }, [defaultValues]);
 
     const handleAddPlusValue = () => {
         setPlusValues((prevValues) => [

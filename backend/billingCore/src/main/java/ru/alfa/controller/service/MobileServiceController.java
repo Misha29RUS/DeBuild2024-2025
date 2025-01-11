@@ -15,6 +15,9 @@ import ru.alfa.service.service.MobileServiceService;
 
 import java.util.List;
 
+/**
+ * Контроллер для работы с мобильными услугами
+ */
 @Tag(name = "Контроллер для работы с мобильными услугами.")
 @RestController
 @RequestMapping("/api/service")
@@ -22,8 +25,16 @@ import java.util.List;
 @Validated
 public class MobileServiceController {
 
+    /**
+     * Сервис для работы с мобильными услугами
+     */
     private final MobileServiceService mobileServiceService;
 
+    /**
+     * Получает все доступные мобильные услуги.
+     *
+     * @return Список DTO всех мобильных услуг.
+     */
     @Operation(
             summary = "Получить все услуги",
             description = "Возвращает список всех доступных мобильных услуг."
@@ -34,6 +45,12 @@ public class MobileServiceController {
         return ResponseEntity.ok(services);
     }
 
+    /**
+     * Получает информацию о мобильной услуге по указанному идентификатору.
+     *
+     * @param id Идентификатор услуги, для которой требуется получить информацию.
+     * @return DTO с информацией о мобильной услуге.
+     */
     @Operation(
             summary = "Получить услугу по ID",
             description = "Возвращает информацию о мобильной услуге по указанному идентификатору."
@@ -47,6 +64,12 @@ public class MobileServiceController {
 
     }
 
+    /**
+     * Создает новую мобильную услугу на основе предоставленных данных.
+     *
+     * @param requestMobileServiceDto DTO с данными для создания новой услуги.
+     * @return DTO созданной мобильной услуги.
+     */
     @Operation(
             summary = "Создать новую услугу",
             description = "Создает новую мобильную услугу на основе предоставленных данных."
@@ -58,6 +81,13 @@ public class MobileServiceController {
         return ResponseEntity.ok(createdService);
     }
 
+    /**
+     * Обновляет информацию о мобильной услуге по указанному идентификатору.
+     *
+     * @param id                      Идентификатор услуги, которую необходимо обновить.
+     * @param requestMobileServiceDto DTO с новыми данными для обновления услуги.
+     * @return DTO обновленной мобильной услуги.
+     */
     @Operation(
             summary = "Обновить услугу",
             description = "Обновляет информацию о мобильной услуге по указанному идентификатору."
@@ -71,6 +101,12 @@ public class MobileServiceController {
         return ResponseEntity.ok(updateService);
     }
 
+    /**
+     * Удаляет мобильную услугу по указанному идентификатору.
+     *
+     * @param id Идентификатор услуги, которую необходимо удалить.
+     * @return Ответ без содержимого (204 No Content).
+     */
     @Operation(
             summary = "Удалить услугу",
             description = "Удаляет мобильную услугу по указанному идентификатору."
