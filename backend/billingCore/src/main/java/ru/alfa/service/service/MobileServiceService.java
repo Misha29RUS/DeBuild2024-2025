@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.alfa.data.dto.service.RequestMobileServiceDto;
 import ru.alfa.data.dto.service.ResponseMobileServiceDto;
 import ru.alfa.data.entity.service.MobileService;
+import ru.alfa.data.entity.service.PhoneNumberMobileService;
+import ru.alfa.data.entity.service.enums.ServiceStatus;
 import ru.alfa.data.entity.tariff.Tariff;
 import ru.alfa.data.mapper.service.MobileServiceMapper;
 import ru.alfa.data.repository.service.MobileServiceRepository;
@@ -15,6 +17,7 @@ import ru.alfa.exception.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Сервис для управления мобильными услугами.
@@ -96,7 +99,12 @@ public class MobileServiceService {
      */
     @Transactional
     public void deleteMobileServiceById(Long id) {
-        mobileServiceRepository.deleteById(id);
+        Optional<MobileService> mobileServiceDb = mobileServiceRepository.findById(id);
+        if (mobileServiceDb.isPresent()){
+            MobileService mobileService = mobileServiceDb.get();
+            mobileService.setStatus(ServiceStatus.DELETED);
+            mobileServiceRepository.save(mobileService);
+        }
     }
 
     /**

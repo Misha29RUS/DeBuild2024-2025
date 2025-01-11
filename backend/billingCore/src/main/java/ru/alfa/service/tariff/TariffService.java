@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.alfa.data.dto.tariff.RequestTariffDto;
 import ru.alfa.data.dto.tariff.ResponseTariffDto;
+import ru.alfa.data.entity.service.enums.ServiceStatus;
 import ru.alfa.data.entity.tariff.Tariff;
+import ru.alfa.data.entity.tariff.enums.TariffStatus;
 import ru.alfa.data.mapper.tariff.TariffMapper;
 import ru.alfa.data.repository.tariff.TariffRepository;
 import ru.alfa.exception.CreateException;
@@ -89,7 +91,12 @@ public class TariffService {
      */
     @Transactional
     public void deleteTariffById(Long id) {
-        tariffRepository.deleteById(id);
+        Optional<Tariff> tariffDb = tariffRepository.findById(id);
+        if (tariffDb.isPresent()){
+            Tariff tariff = tariffDb.get();
+            tariff.setStatus(TariffStatus.DELETED);
+            tariffRepository.save(tariff);
+        }
     }
 
     /**
