@@ -218,11 +218,11 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
             EmployeesCredential employee = employeesCredentialRepository.findByEmail(email).orElseThrow(
                     ResourceNotFoundException::new
             );
-            if (cacheManager.getCache("employee").get(email, String.class) != null) {
-                log.info("the otp is already present in cache memory for employee {}, kindly retry after some time", email);
-                return new ResponseEntity<>(GeneralAPIResponse.builder().
-                        message("Kindly retry after some time").build(), HttpStatus.TOO_MANY_REQUESTS);
-            }
+//            if (cacheManager.getCache("employee").get(email, String.class) != null) {
+//                log.info("the otp is already present in cache memory for employee {}, kindly retry after some time", email);
+//                return new ResponseEntity<>(GeneralAPIResponse.builder().
+//                        message("Kindly retry after some time").build(), HttpStatus.TOO_MANY_REQUESTS);
+//            }
             String otpToBeSend = otpService.getOtpForEmail(email);
             CompletableFuture<Integer> emailResponse = emailService.sendEmailWithRetry(email, otpToBeSend);
             if (emailResponse.get() == -1) {

@@ -35,7 +35,7 @@ public class EmployeesCredential implements UserDetails {
      * Сотрудник
      */
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL , optional = false)
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
