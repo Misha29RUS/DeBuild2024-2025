@@ -1,5 +1,7 @@
 drop cast (varchar as employee_role);
 
+drop cast (varchar as employee_status);
+
 drop cast (varchar as tariff_type);
 
 drop cast (varchar as tariff_status);
@@ -23,6 +25,8 @@ drop table employees_credentials;
 drop table employee;
 
 drop type employee_role;
+
+drop type employee_status;
 
 drop table history_of_transactions;
 

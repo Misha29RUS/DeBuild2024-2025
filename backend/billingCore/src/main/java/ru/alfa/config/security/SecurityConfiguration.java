@@ -62,7 +62,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(mvc.pattern("/api/auth/**")).permitAll()
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
-                        .requestMatchers(HttpMethod.POST, "api/profile/employee").hasAnyRole()
+                        .requestMatchers(HttpMethod.POST, "api/profile/employee").authenticated()
                         .requestMatchers("/api/employees/**").hasRole("SUPER_ADMIN")
                         .requestMatchers(ADMIN_WHITELIST).hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, ADMIN_WHITELIST).hasRole("OPERATOR")
