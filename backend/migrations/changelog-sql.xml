@@ -13,4 +13,8 @@
         <sqlFile path="scripts/filling_test_data_in_the_database.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
+    <changeSet id="init_super_admin" author="larchik">
+        <sqlFile path="scripts/init_super_admin.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
 </databaseChangeLog>
