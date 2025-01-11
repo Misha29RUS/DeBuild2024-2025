@@ -105,6 +105,11 @@ jobs:
       - name: Create deployment folder
         run: ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} "mkdir -p ci-cd"
 
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Copy docker-compose file
         run: scp -oStrictHostKeyChecking=no compose.yml ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:ci-cd/compose.yml
 
