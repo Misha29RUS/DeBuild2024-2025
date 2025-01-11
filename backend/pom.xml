@@ -6,8 +6,19 @@
 
     <groupId>ru.alfa</groupId>
     <artifactId>backend</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.4</version>
+        <relativePath/>
+    </parent>
+
+    <modules>
+        <module>billingCore</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
