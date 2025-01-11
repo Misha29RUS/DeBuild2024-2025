@@ -110,7 +110,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Copy docker-compose file
+      - name: Copy docker-compose
         run: scp -oStrictHostKeyChecking=no compose.yml ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:ci-cd/compose.yml
 
       - name: Set ENV variable and deploy
