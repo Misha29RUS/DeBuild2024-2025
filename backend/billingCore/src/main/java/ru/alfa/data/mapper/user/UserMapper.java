@@ -7,8 +7,8 @@ import ru.alfa.data.dto.user.ResponseUserWithPassportDto;
 import ru.alfa.data.entity.user.User;
 
 /**
- *  Mapper интерфейс для преобразования объектов типа {@link User}
- *  в различные DTO
+ * Mapper интерфейс для преобразования объектов типа {@link User}
+ * в различные DTO
  */
 @Mapper(componentModel = "spring", uses = {UserPassportMapper.class})
 public interface UserMapper {
@@ -19,7 +19,7 @@ public interface UserMapper {
      *
      * @param user объект типа {@link User}, который необходимо преобразовать.
      * @return объект типа {@link ResponseUserWithPassportDto},
-     *         полученный в результате преобразования.
+     * полученный в результате преобразования.
      */
     @Mapping(target = "userPassport", source = "userPassport")
     ResponseUserWithPassportDto toResponseDtoWithPassport(User user);
@@ -29,7 +29,7 @@ public interface UserMapper {
      *
      * @param user объект типа {@link User}, который необходимо преобразовать.
      * @return объект типа {@link ResponseUserDto},
-     *         полученный в результате преобразования.
+     * полученный в результате преобразования.
      */
     ResponseUserDto toDto(User user);
 }

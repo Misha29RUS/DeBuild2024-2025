@@ -1,9 +1,7 @@
 package ru.alfa.data.entity.employee;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import ru.alfa.data.entity.employee.enums.EmployeeRole;
+import lombok.*;
 
 /**
  * Сущность сотрудник
@@ -11,7 +9,10 @@ import ru.alfa.data.entity.employee.enums.EmployeeRole;
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "employee")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Employee {
 
     /**
@@ -43,14 +44,7 @@ public class Employee {
     /**
      * Учетные данные сотрудника
      */
-    @OneToOne(mappedBy = "employee")
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     private EmployeesCredential employeesCredential;
-
-    /**
-     * Роль сотрудника
-     */
-    @Column(name = "role", columnDefinition = "employee_role")
-    @Enumerated(EnumType.STRING)
-    private EmployeeRole role;
 
 }

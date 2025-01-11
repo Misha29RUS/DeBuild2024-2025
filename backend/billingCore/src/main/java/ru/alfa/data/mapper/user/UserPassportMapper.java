@@ -15,7 +15,7 @@ public interface UserPassportMapper {
      *
      * @param userPassport объект типа {@link UserPassport}, который необходимо преобразовать.
      * @return объект типа {@link ResponseUserPassportDto},
-     *         полученный в результате преобразования.
+     * полученный в результате преобразования.
      */
     ResponseUserPassportDto toDto(UserPassport userPassport);
 }

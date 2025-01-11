@@ -36,6 +36,7 @@ public class PhoneNumberServiceId implements Serializable {
 
     /**
      * Сравнение объектов по идентификаторам
+     *
      * @param o объект
      * @return true, если объекты равны
      */
@@ -50,6 +51,7 @@ public class PhoneNumberServiceId implements Serializable {
 
     /**
      * Получение хэш-код для текущего объекта
+     *
      * @return хэш-значение текущего объекта
      */
     @Override

@@ -1,22 +1,22 @@
 package ru.alfa.data.entity.employee.enums;
 
 /**
- *  Перечень ролей сотрудников
+ * Перечень ролей сотрудников
  */
 public enum EmployeeRole {
 
     /**
      * Суперадмин
      */
-    SUPER_ADMIN,
+    ROLE_SUPER_ADMIN,
 
     /**
      * Админ
      */
-    ADMIN,
+    ROLE_ADMIN,
 
     /**
      * Оператор
      */
-    OPERATOR
+    ROLE_OPERATOR
 }
