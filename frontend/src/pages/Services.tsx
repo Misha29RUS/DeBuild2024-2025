@@ -1,9 +1,10 @@
+// @ts-ignore
 import { useState } from "react"
-import { Button } from "../components/UI/Button"
-import { Counter } from "../components/UI/Counter"
+import { Button } from "../components/UI/Button"// @ts-ignore
+import { Counter } from "../components/UI/Counter"// @ts-ignore
 import FilterSvg from "../img/filter_alt.svg?react"
 import { Input } from "../components/UI/Input"
-import { Tab } from "../components/UI/Tab"
+import { Tab } from "../components/UI/Tab"// @ts-ignore
 import AddSvg from "../img/abonent_sidebar_svg/add.svg?react"
 import { ServiceCard } from "../components/UI/ServiceCard"
 import { SelectorMock } from "../components/UI/SelectorMock"
@@ -75,7 +76,7 @@ export const Services = () => {
         });
     };
 
-    return (
+    return (// @ts-ignore
         <div className="grow px-[90px] py-10 overflow-y-auto">
             <div className="flex items-center mb-2.5">
                 <div className="flex items-center mr-auto">
@@ -134,9 +135,9 @@ export const Services = () => {
                     text="Новая услуга" type="red" iconLeft={<AddSvg />} />
             </div>
             <div className="grid grid-cols-3 gap-12">
-                {
+                {// @ts-ignore
                     servicesData?.content.map((service, index) => (
-                        <ServiceCard
+                        <ServiceCard// @ts-ignore
                             key={index}
                             onClick={() => {
                                 setServiceId(service.id)

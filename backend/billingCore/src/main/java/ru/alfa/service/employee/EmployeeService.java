@@ -9,16 +9,21 @@ import ru.alfa.data.entity.employee.Employee;
 import ru.alfa.data.entity.employee.EmployeesCredential;
 import ru.alfa.data.entity.employee.enums.EmployeeStatus;
 import ru.alfa.data.repository.employee.EmployeeRepository;
+import ru.alfa.data.repository.employee.EmployeesCredentialRepository;
+import ru.alfa.exception.CreateException;
 import ru.alfa.exception.EntityNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+
+    private final EmployeesCredentialRepository employeesCredentialRepository;
 
     public List<ResponseEmployeeDto> getAllApprovedEmployees() {
         return employeeRepository.findAll()
@@ -36,6 +41,10 @@ public class EmployeeService {
 
     @Transactional
     public ResponseEmployeeDto createNewApprovedEmployee(RequestEmployeeDto requestEmployeeDto) {
+        Optional<EmployeesCredential> employeeDb = employeesCredentialRepository.findByEmail(requestEmployeeDto.email());
+        if (employeeDb.isPresent()) {
+            throw new CreateException("Сотрудник с таким email уже существует");
+        }
         Employee employee = Employee.builder().
                 name(requestEmployeeDto.firstName()).
                 surname(requestEmployeeDto.lastName()).

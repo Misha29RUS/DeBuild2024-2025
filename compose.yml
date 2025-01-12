@@ -1,0 +1,53 @@
+services:
+  billing-core-api:
+    container_name: billing-core-api
+    image: larchik56/billing-core:1.0.6
+    environment:
+      EMAIL_HOST: ${EMAIL_HOST}
+      EMAIL_USER: ${EMAIL_USER}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+    ports:
+      - 8080:8080
+    networks:
+      - backend
+    depends_on:
+      - liquibase-migrations
+  postgresql:
+    container_name: postgresql-billing-system
+    image: postgres:16
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_DB: billing-system-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+    networks:
+      - backend
+  liquibase-migrations:
+    container_name: billing-system-db-migrations
+    image: liquibase/liquibase:4.25
+    depends_on:
+      - postgresql
+    command:
+      - --changelog-file=master.xml
+      - --search-path=/liquibase/changelog/
+      - --driver=org.postgresql.Driver
+      - --url=jdbc:postgresql://postgresql:5432/billing-system-db
+      - --username=postgres
+      - --password=postgres
+      - update
+    #      - rollback
+    #        - --tag=start
+    volumes:
+      - ./backend/migrations:/liquibase/changelog
+    networks:
+      - backend
+
+volumes:
+  postgresql: { }
+
+networks:
+  backend:
+    driver: bridge

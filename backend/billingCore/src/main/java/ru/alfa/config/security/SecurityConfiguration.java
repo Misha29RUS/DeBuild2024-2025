@@ -13,9 +13,15 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import ru.alfa.data.repository.employee.EmployeesCredentialRepository;
 import ru.alfa.service.security.jwt.JwtAuthenticationFilter;
+
+import java.util.List;
 
 
 @Configuration
@@ -27,10 +33,10 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final EmployeesCredentialRepository employeesCredentialRepository;
 
-    @Bean
-    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-        return new MvcRequestMatcher.Builder(introspector);
-    }
+//    @Bean
+//    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
+//        return new MvcRequestMatcher.Builder(introspector);
+//    }
 
     private static final String[] SWAGGER_WHITELIST = {
             "/v3/api-docs/**",
@@ -56,11 +62,14 @@ public class SecurityConfiguration {
     };
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                //.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(mvc.pattern("/api/auth/**")).permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
+//                        .requestMatchers(mvc.pattern("/api/auth/**")).permitAll()
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.POST, "api/profile/employee").authenticated()
                         .requestMatchers("/api/employees/**").hasRole("SUPER_ADMIN")
@@ -79,22 +88,14 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-    //    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .cors(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
-//
-//        return http.build();
-//    }
-//
 //    @Bean
 //    public CorsConfigurationSource corsConfigurationSource() {
 //        CorsConfiguration configuration = new CorsConfiguration();
 //        configuration.setAllowedOrigins(List.of("*")); // Разрешить все источники
 //        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Разрешить методы
 //        configuration.setAllowedHeaders(List.of("*")); // Разрешить любые заголовки
+//        configuration.setAllowCredentials(true);
+//        configuration.setMaxAge(3600L);
 //
 //        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 //        source.registerCorsConfiguration("/**", configuration);
