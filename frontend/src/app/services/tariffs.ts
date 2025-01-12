@@ -8,6 +8,14 @@ export const tariffsApi = createApi({
         baseUrl: '/api', // Указываем прокси-адрес вместо прямого обращения
         prepareHeaders: (headers) => {
             headers.set('Content-Type', 'application/json');
+            const accessToken = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('accessToken='))
+                ?.split('=')[1];
+
+            if (accessToken) {
+                headers.set('Authorization', `Bearer ${accessToken}`);
+            }
             return headers;
         },
     }),

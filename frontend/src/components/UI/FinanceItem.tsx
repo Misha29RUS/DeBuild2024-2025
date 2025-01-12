@@ -41,7 +41,7 @@ export const FinanceItem = ({
                 <p>
                     {operation.nameOfTransaction}
                 </p>
-                <p className="font-extralight">
+                <p className="font-light">
                     {formatted_date}
                 </p>
             </div>

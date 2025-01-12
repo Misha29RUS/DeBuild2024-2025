@@ -180,24 +180,24 @@ export const ServicesSidebar = ({
                             <ul className="font-normal text-[18px] user-info-ul text-s-black">
                                 <li>
                                     <p className="font-normal">Тип:</p>
-                                    <p className="ml-[6px] font-extralight">
+                                    <p className="ml-[6px] font-light">
                                         {serviceInfo?.oneTimeService ? 'Разовая' : 'Регулярная'}
                                     </p>
                                 </li>
                                 <li>
                                     <p className="font-normal">Описание:</p>
-                                    <p className="ml-[6px] font-extralight">{serviceInfo?.description}</p>
+                                    <p className="ml-[6px] font-light">{serviceInfo?.description}</p>
                                 </li>
                                 <li>
                                     <p className="text-s-black font-normal">Ресурс:</p>
-                                    <p className="ml-[6px] font-extralight">
+                                    <p className="ml-[6px] font-light">
                                         {serviceInfo?.type === 'GIGABYTES' ? 'Гигабайты'
                                             : (serviceInfo?.type === 'MINUTES' ? 'Минуты' : 'СМС')}
                                     </p>
                                 </li>
                                 <li>
                                     <p className="text-s-black font-normal">Количество:</p>
-                                    <p className="ml-[6px] font-extralight">{serviceInfo?.countResources}</p>
+                                    <p className="ml-[6px] font-light">{serviceInfo?.countResources}</p>
                                 </li>
                             </ul>
                         )}

@@ -426,19 +426,19 @@ export const TariffsSidebar = ({
                                 <ul className="font-normal text-[18px] user-info-ul text-s-black">
                                     <li>
                                         <p className="font-normal">Статус:</p>
-                                        <p className="ml-[6px] font-extralight">
+                                        <p className="ml-[6px] font-light">
                                             {tariffInfo?.status === 'ACTIVE' ? 'Активный' : 'Архивный'}
                                         </p>
                                     </li>
                                     <li>
                                         <p className="font-normal">Тип:</p>
-                                        <p className="ml-[6px] font-extralight">
+                                        <p className="ml-[6px] font-light">
                                             {tariffInfo?.type === 'FIXED' ? 'Фиксированный' : 'Настраиваемый'}
                                         </p>
                                     </li>
                                     <li>
                                         <p className="text-s-black font-normal">Описание:</p>
-                                        <p className="ml-[6px] font-extralight">
+                                        <p className="ml-[6px] font-light">
                                             {tariffInfo?.description}
                                         </p>
                                     </li>
@@ -446,19 +446,19 @@ export const TariffsSidebar = ({
                                         <>
                                             <li>
                                                 <p className="font-normal">Цена за гигабайт:</p>
-                                                <p className="ml-[6px] font-extralight">
+                                                <p className="ml-[6px] font-light">
                                                     {tariffInfo?.tariffResourceDto.costOneGigabyte}
                                                 </p>
                                             </li>
                                             <li>
                                                 <p className="font-normal">Цена за минуту:</p>
-                                                <p className="ml-[6px] font-extralight">
+                                                <p className="ml-[6px] font-light">
                                                     {tariffInfo?.tariffResourceDto.costOneMinute}
                                                 </p>
                                             </li>
                                             <li>
                                                 <p className="text-s-black font-normal">Цена за СМС:</p>
-                                                <p className="ml-[6px] font-extralight">
+                                                <p className="ml-[6px] font-light">
                                                     {tariffInfo?.tariffResourceDto.costOneSms}
                                                 </p>
                                             </li>
@@ -477,28 +477,28 @@ export const TariffsSidebar = ({
                                     <div className="text-[18px]">
                                         Гигабайты:
                                     </div>
-                                    <div className="font-extralight text-[18px]">
+                                    <div className="font-light text-[18px]">
                                         {tariffInfo?.tariffResourceDto.countGigabytes}
                                     </div>
-                                    <div className="font-extralight text-[18px]">
+                                    <div className="font-light text-[18px]">
                                         {tariffInfo?.tariffResourceDto.costOneGigabyte}
                                     </div>
                                     <div className="text-[18px]">
                                         Минуты:
                                     </div>
-                                    <div className="font-extralight text-[18px]">
+                                    <div className="font-light text-[18px]">
                                         {tariffInfo?.tariffResourceDto.countMinutes}
                                     </div>
-                                    <div className="font-extralight text-[18px]">
+                                    <div className="font-light text-[18px]">
                                         {tariffInfo?.tariffResourceDto.costOneMinute}
                                     </div>
                                     <div className="text-[18px]">
                                         СМС:
                                     </div>
-                                    <div className="font-extralight text-[18px]">
+                                    <div className="font-light text-[18px]">
                                         {tariffInfo?.tariffResourceDto.countSms}
                                     </div>
-                                    <div className="font-extralight text-[18px]">
+                                    <div className="font-light text-[18px]">
                                         {tariffInfo?.tariffResourceDto.costOneSms}
                                     </div>
                                 </div>

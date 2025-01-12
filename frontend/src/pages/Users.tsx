@@ -73,7 +73,7 @@ const filteredUsers: UserFilters = {
     name: appliedFilters.name,
     surname: appliedFilters.surname,
     patronymic: appliedFilters.patronymic,
-    phoneNumber: appliedFilters.phone,
+    phoneNumber: (appliedFilters.phone).replace(/\D/g, ''), ///
     mobileServicesIds: appliedFilters.selectServices,
     tariffsIds: appliedFilters.selectTariffs,
   }),
@@ -177,8 +177,8 @@ return (
         <h2 className="text-[34px] text-s-black mr-3">
           Таблица абонентов
         </h2>
-        <Counter desired_entries={countUsersData?.countAllAbonents ?? 0} 
-        all_entries={countUsersData?.countAbonentsAfterFilters ?? 0} />
+        <Counter desired_entries={countUsersData?.countEntityAfterFilters?? 0}
+        all_entries={countUsersData?.countAllEntities ?? 0} />
       </div>
       <Button type="red" text={nonFalseValuesCount} 
       iconRight={<FilterSvg className="w-[22px] h-[22px]" />}

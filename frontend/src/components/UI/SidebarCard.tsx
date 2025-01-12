@@ -102,7 +102,7 @@ export const SidebarCard = ({
         <>
           <div className={`${type === "MINUTES" || type === "SMS" ? "hidden" : "block"}`}>
             Гигабайты:{" "}
-            <span className="font-extralight ml-[4px]">
+            <span className="font-light ml-[4px]">
               {cardInfo?.type === 'CUSTOMIZABLE' ? (cardInfo as ITariff)?.tariffResourceDto?.stepsGigabytes?.map((interval: number, index: number) => (
                 <>{(cardInfo as ITariff)?.tariffResourceDto?.stepsGigabytes?.length === index + 1 
                   ? `${interval} ` : `${interval}, `} 
@@ -114,7 +114,7 @@ export const SidebarCard = ({
           </div>
           <div className={`${type === "GIGABYTES" || type === "SMS" ? "hidden" : "block"}`}>
             Минуты:{" "}
-            <span className="font-extralight ml-[4px]">
+            <span className="font-light ml-[4px]">
               {cardInfo?.type === 'CUSTOMIZABLE' ? (cardInfo as ITariff)?.tariffResourceDto?.stepsMinutes?.map((interval: number, index: number) => (
                 <>{(cardInfo as ITariff)?.tariffResourceDto?.stepsMinutes?.length === index + 1 
                   ? `${interval} ` : `${interval}, `} 
@@ -126,7 +126,7 @@ export const SidebarCard = ({
           </div>
           <div className={`${type === "MINUTES" || type === "GIGABYTES" ? "hidden" : "block"}`}>
             СМС:{" "}
-            <span className="font-extralight ml-[4px]">
+            <span className="font-light ml-[4px]">
               {cardInfo?.type === 'CUSTOMIZABLE' ? (cardInfo as ITariff)?.tariffResourceDto?.stepsSms?.map((interval: number, index: number) => (
                 <>{(cardInfo as ITariff)?.tariffResourceDto?.stepsSms?.length === index + 1 
                   ? `${interval} ` : `${interval}, `} 

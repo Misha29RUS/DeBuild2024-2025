@@ -62,7 +62,7 @@ export const Selector = <T extends object>({
                 onChange={handleChange}
                 onFocus={() => setShowDropdown(true)}
                 value={searchQuery}
-                className={`py-3 px-4 pr-[60px] w-full outline-none border font-extralight text-[18px] 
+                className={`py-3 px-4 pr-[60px] w-full outline-none border font-light text-[18px] 
                 ${showDropdown ?
                 `rounded-t-lg ${type ? 'border-s-white' : 'border-s-dark-grey'} `
                 : `rounded-lg ${type ? 'border-s-white' : 'border-s-light-grey'}`}
@@ -108,7 +108,7 @@ export const Selector = <T extends object>({
                             ${type === 'ACTIVE' ? 'bg-s-red'
                             : (type === 'HIDDEN' ? 'bg-s-black'
                             : (type === 'more' && 'bg-s-dark-grey'))}`}>
-                            <p className={`font-extralight text-[18px]
+                            <p className={`font-light text-[18px]
                             ${type && 'text-s-white'}`}>
                                 {String(getValueByPath(data, labelKey as string))}
                             </p>

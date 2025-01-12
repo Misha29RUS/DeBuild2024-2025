@@ -2,6 +2,7 @@ import { useState } from "react"
 import { TableTag } from "./UI/TableTag"
 import { AbonentSidebar } from "./AbonentSidebar"
 import { IUsers } from "../app/services/types"
+import {formatPhoneNumber} from "../utils/phoneUtils.ts";
 
 export const UsersTable = ({ users }: {users: IUsers | undefined}) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -43,16 +44,16 @@ export const UsersTable = ({ users }: {users: IUsers | undefined}) => {
                                 setUserId(user.id)
                                 setIsSidebarOpen(true)
                             }}>
-                                <td className="font-extralight py-[15px] pl-5 truncate">
-                                    {user.phoneNumber}
+                                <td className="font-light py-[15px] pl-5 truncate">
+                                    {formatPhoneNumber(user.phoneNumber)}
                                 </td>
-                                <td className="font-extralight py-[15px] pl-5 truncate">
+                                <td className="font-light py-[15px] pl-5 truncate">
                                     {user.user.surname}
                                 </td>
-                                <td className="font-extralight py-[15px] pl-5 truncate">
+                                <td className="font-light py-[15px] pl-5 truncate">
                                     {user.user.name}
                                 </td>
-                                <td className="font-extralight py-[15px] pl-5 truncate">
+                                <td className="font-light py-[15px] pl-5 truncate">
                                     {user.user.patronymic}
                                 </td>
                                 <td className="py-[15px] pl-5 flex">
