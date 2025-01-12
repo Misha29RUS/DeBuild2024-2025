@@ -9,8 +9,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.alfa.data.dto.abonentsTable.RequestFiltersForAbonentsTableDto;
-import ru.alfa.data.dto.abonentsTable.ResponseEntitiesListSizeDto;
 import ru.alfa.data.dto.abonentsTable.ResponseAbonetsTableDto;
+import ru.alfa.data.dto.abonentsTable.ResponseEntitiesListSizeDto;
 import ru.alfa.data.entity.phoneNumber.PhoneNumber;
 import ru.alfa.data.mapper.abonentsTable.AbonentsTableMapper;
 import ru.alfa.data.repository.phoneNumber.PhoneNumberRepository;
@@ -78,7 +78,15 @@ public class AbonentsTableService {
                 and(AbonentsTableSpecification.hasTariffsIds(requestFiltersForAbonentsTableDto.tariffsIds())).
                 and(AbonentsTableSpecification.hasMobileServicesIds(requestFiltersForAbonentsTableDto.mobileServicesIds()));
 
-        return new ResponseEntitiesListSizeDto(phoneNumberRepository.count(phoneNumberSpecification),
+        long countAfterFilters = (requestFiltersForAbonentsTableDto.name() == null
+                && requestFiltersForAbonentsTableDto.surname() == null
+                && requestFiltersForAbonentsTableDto.patronymic() == null
+                && requestFiltersForAbonentsTableDto.phoneNumber() == null
+                && requestFiltersForAbonentsTableDto.tariffsIds() == null
+                && requestFiltersForAbonentsTableDto.mobileServicesIds() == null)
+                ? 0L
+                : phoneNumberRepository.count(phoneNumberSpecification);
+        return new ResponseEntitiesListSizeDto(countAfterFilters,
                 phoneNumberRepository.count());
     }
 }
