@@ -21,7 +21,7 @@ export const Textarea = ({
                 placeholder={placeholder}
                 maxLength={100}
                 className={`border w-full border-s-light-grey rounded-lg text-s-black
-                px-4 py-3 pr-9 font-extralight text-[18px] placeholder:text-s-light-grey
+                px-4 py-3 pr-9 font-light text-[18px] placeholder:text-s-light-grey
                 hover:border-s-dark-grey hover:placeholder:text-s-dark-grey
                 outline-none resize-none`} />
             {value && (

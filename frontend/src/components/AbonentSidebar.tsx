@@ -1,22 +1,21 @@
-// @ts-ignore
 import { useEffect, useState } from "react";
 
 import { FinanceItem } from "./UI/FinanceItem.tsx";
 import { Button } from "./UI/Button.tsx";
 import { SidebarCard } from "./UI/SidebarCard.tsx";
 
-import { 
-  useGetUserInfoQuery, 
-  useGetBalanceInfoQuery, 
+import {
+  useGetUserInfoQuery,
+  useGetBalanceInfoQuery,
   useGetTariffInfoQuery,
   useGetServicesInfoQuery,
   useActivateServiceMutation,
   useDeactivateServiceMutation,
-  useChangeTariffMutation
+  useChangeTariffMutation,
 } from "../app/services/users.ts";
-import { 
-  IUserInfo, 
-  IBalanceOperation, 
+import {
+  IUserInfo,
+  IBalanceOperation,
   IUserTariffInfo,
   ITariff,
   IUserServicesInfo,
@@ -33,6 +32,7 @@ import Save from "../img/abonent_sidebar_svg/check.svg?react";
 import Cancel from "../img/abonent_sidebar_svg/cancel.svg?react";
 // @ts-ignore
 import Add from "../img/abonent_sidebar_svg/add.svg?react";
+import { formatPhoneNumber } from "../utils/phoneUtils.ts";
 
 // @ts-nocheck
 export const AbonentSidebar = ({
@@ -42,11 +42,10 @@ export const AbonentSidebar = ({
   onClose: () => void;
   userID: number;
 }) => {
-  const {data: userInfo} = useGetUserInfoQuery(userID)
-  const {data: tariffInfo} = useGetTariffInfoQuery(userID)
-  const {data: servicesInfo} = useGetServicesInfoQuery(userID)
-  const {data: balanceInfo} = useGetBalanceInfoQuery(userID)
-
+  const { data: userInfo } = useGetUserInfoQuery(userID);
+  const { data: tariffInfo } = useGetTariffInfoQuery(userID);
+  const { data: servicesInfo } = useGetServicesInfoQuery(userID);
+  const { data: balanceInfo } = useGetBalanceInfoQuery(userID);
   const [tab, setTab] = useState("userInfo");
 
   useEffect(() => {
@@ -58,7 +57,13 @@ export const AbonentSidebar = ({
       case "userInfo":
         return userInfo ? <UserInfo data={userInfo} /> : null;
       case "tariffInfo":
-        return tariffInfo ? <TariffInfo data={tariffInfo} services={servicesInfo!} /> : null;
+        return tariffInfo ? (
+          <TariffInfo
+            data={tariffInfo}
+            services={servicesInfo!}
+            setKey={setKey}
+          />
+        ) : null;
       case "balanceInfo":
         return balanceInfo ? <BalanceInfo data={balanceInfo} /> : null;
       default:
@@ -69,16 +74,19 @@ export const AbonentSidebar = ({
   return (
       // @ts-ignore
     <div className="absolute shadow-[-5px_0_10px_0_rgba(0,0,0,0.10)] z-10 right-[0] top-[80px] w-[680px] h-[calc(100vh-80px)] bg-s-white">
-      <div className="flex flex-col h-[calc(100vh-80px)] p-[30px]">
-        <div className="border-b-[1px] border-s-light-grey flex justify-between pb-[20px]">
-          <p className={`text-[26px] text-s-black font-light`}>
-            {userInfo?.phoneNumber}
-          </p>
-          <button title="close" onClick={onClose}>
-            <Close />
-          </button>
+      <div className="flex flex-col h-[calc(100vh-80px)] p-[0px_0px_30px_0px]">
+        <div className="p-[30px_30px_0px_30px]">
+          <div className="flex justify-between border-b-[1px] border-s-light-grey pb-[20px]">
+            <p className={`text-[26px] text-s-black font-light`}>
+              {userInfo?.phoneNumber !== undefined &&
+                formatPhoneNumber(userInfo?.phoneNumber)}
+            </p>
+            <button title="close" onClick={onClose}>
+              <Close />
+            </button>
+          </div>
         </div>
-        <div className="mt-5">
+        <div className="mt-5 p-[0px_30px_0px_30px]">
           <ul className="flex font-medium text-[18px] text-s-light-grey tabs-ul">
             {["userInfo", "tariffInfo", "balanceInfo"].map((id) => (
               <li key={id} className="relative">
@@ -99,58 +107,87 @@ export const AbonentSidebar = ({
             ))}
           </ul>
         </div>
-        // @ts-ignore
-        <div className="flex-grow overflow-y-auto">{renderTabContent()}</div>
+          // @ts-ignore
+        <div className="flex-grow overflow-y-auto" key={key}>
+          {renderTabContent()}
+        </div>
       </div>
     </div>
   );
 };
+
 const UserInfo = ({ data }: { data: IUserInfo }) => (
   <div>
-    <ul className="mt-5 font-normal text-[18px] user-info-ul text-s-black">
+    <ul className="mt-5 font-normal text-[18px] user-info-ul text-s-black p-[0px_30px_0px_30px]">
       <li>
-        <p className="font-normal">Фамилия:</p>
-        <p className="ml-[6px] font-extralight">{data.user.surname}</p>
+        <p className="font-normal w-[35%]">Фамилия:</p>
+        <p className="ml-[6px] font-light w-[65%]">{data.user.surname}</p>
       </li>
       <li>
-        <p className="font-normal">Имя:</p>
-        <p className="ml-[6px] font-extralight">{data.user.name}</p>
+        <p className="font-normal w-[35%]">Имя:</p>
+        <p className="ml-[6px] font-light w-[65%]">{data.user.name}</p>
       </li>
       <li>
-        <p className="text-s-black font-normal">Отчество:</p>
-        <p className="ml-[6px] font-extralight">{data.user.patronymic}</p>
+        <p className="text-s-black font-normal w-[35%]">Отчество:</p>
+        <p className="ml-[6px] font-light w-[65%]">{data.user.patronymic}</p>
       </li>
       <li>
-        <p className="text-s-black font-normal">Дата рождения:</p>
-        <p className="ml-[6px] font-extralight">{data.user.userPassport.dateOfBirth}</p>
+        <p className="text-s-black font-normal w-[35%]">Дата рождения:</p>
+        <p className="ml-[6px] font-light w-[65%]">
+          {`${data.user.userPassport.dateOfBirth.split("-")[2]}.${
+            data.user.userPassport.dateOfBirth.split("-")[1]
+          }.${data.user.userPassport.dateOfBirth.split("-")[0]}`}
+        </p>
       </li>
       <li>
-        <p className="text-s-black font-normal">Серия паспорта:</p>
-        <p className="ml-[6px] font-extralight">{data.user.userPassport.passportSeries}</p>
+        <p className="text-s-black font-normal w-[35%]">Серия паспорта:</p>
+        <p className="ml-[6px] font-light w-[65%]">
+          {data.user.userPassport.passportSeries}
+        </p>
       </li>
       <li>
-        <p className="text-s-black font-normal">Номер паспорта:</p>
-        <p className="ml-[6px] font-extralight">{data.user.userPassport.passportNumber}</p>
+        <p className="text-s-black font-normal w-[35%]">Номер паспорта:</p>
+        <p className="ml-[6px] font-light w-[65%]">
+          {data.user.userPassport.passportNumber}
+        </p>
       </li>
     </ul>
   </div>
 );
 
-const TariffInfo = ({ data, services }: { data: IUserTariffInfo, services: IUserServicesInfo }) => {
+const TariffInfo = ({
+  data,
+  services,
+  setKey,
+}: {
+  data: IUserTariffInfo;
+  services: IUserServicesInfo;
+  setKey: any;
+}) => {
   const [isEditingTariff, setIsEditingTariff] = useState(false);
   const [isEditingService, setIsEditingService] = useState(false);
   const [newServices, setNewServices] = useState<IMobileService[]>([]);
   const [disabledServices, setDisabledServices] = useState(new Set());
-  const [selectedTariff, setSelectedTariff] = useState(data.phoneNumberTariff.tariff);
+  const [selectedTariff, setSelectedTariff] = useState(
+    data.phoneNumberTariff.tariff,
+  );
+  const [curTariffInfo, setCurTariffInfo] = useState(data.phoneNumberTariff);
 
   const [activateService] = useActivateServiceMutation();
   const [deactivateService] = useDeactivateServiceMutation();
-  const [changeTariff] = useChangeTariffMutation()
+  const [changeTariff] = useChangeTariffMutation();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const [selectedGigabytes, setSelectedGigabytes] = useState<number | null>(
+    null,
+  );
+  const [selectedMinutes, setSelectedMinutes] = useState<number | null>(null);
+  const [selectedSms, setSelectedSms] = useState<number | null>(null);
+
   const MAX_SERVICES = 15;
-  const totalServices = services?.phoneNumberMobileServices?.length + newServices.length;
-  
+  const totalServices =
+    services?.phoneNumberMobileServices?.length + newServices.length;
+
   const handleDisableService = (service: IMobileService) => {
     setDisabledServices((prev) => {
       const newSet = new Set(prev);
@@ -179,60 +216,71 @@ const TariffInfo = ({ data, services }: { data: IUserTariffInfo, services: IUser
   };
 
   const handleSaveChangesService = async () => {
-    // Фильтрация данных
     const remainingServices = services.phoneNumberMobileServices?.filter(
       (service) => disabledServices.has(service),
     );
-  
+
     const filteredRemainingServices = remainingServices.filter(
       (remainingService) =>
-        !newServices.some((newService) => newService.id === remainingService.mobileService.id),
+        !newServices.some(
+          (newService) => newService.id === remainingService.mobileService.id,
+        ),
     );
-  
+
     const filteredNewServices = newServices.filter(
       (newService) =>
         !remainingServices.some(
-          (remainingService) => newService.id === remainingService.mobileService.id,
+          (remainingService) =>
+            newService.id === remainingService.mobileService.id,
         ) &&
         !services.phoneNumberMobileServices.some(
-          (existingService) => newService.id === existingService.mobileService.id,
+          (existingService) =>
+            newService.id === existingService.mobileService.id,
         ),
     );
-  
+
     try {
-      // Активируем услуги
       await Promise.all(
         filteredNewServices.map((service) =>
           activateService({ phoneNumberId: data.id, serviceId: service.id })
             .unwrap()
             .catch((error) => {
-              console.error(`Ошибка при активации услуги ${service.id}:`, error);
+              console.error(
+                `Ошибка при активации услуги ${service.id}:`,
+                error,
+              );
               setErrorMessage(`Ошибка при активации услуги "${service.name}"`);
               setTimeout(() => setErrorMessage(null), 5000);
             }),
         ),
       );
-  
-      // Деактивируем услуги
+
       await Promise.all(
         filteredRemainingServices.map((service) =>
-          deactivateService({ phoneNumberId: data.id, serviceId: service.mobileService.id })
+          deactivateService({
+            phoneNumberId: data.id,
+            serviceId: service.mobileService.id,
+          })
             .unwrap()
             .catch((error) => {
-              console.error(`Ошибка при деактивации услуги ${service.mobileService.id}:`, error);
-              setErrorMessage(`Ошибка при деактивации услуги "${service.mobileService.name}"`);
+              console.error(
+                `Ошибка при деактивации услуги ${service.mobileService.id}:`,
+                error,
+              );
+              setErrorMessage(
+                `Ошибка при деактивации услуги "${service.mobileService.name}"`,
+              );
               setTimeout(() => setErrorMessage(null), 5000);
             }),
         ),
       );
-  
-      // Сброс состояния после успешной активации и деактивации
+
       setDisabledServices(new Set());
       setNewServices([]);
       setIsEditingService(false);
     } catch (error) {
-      console.error('Ошибка при обработке изменений:', error);
-      setErrorMessage('Произошла общая ошибка при сохранении изменений.');
+      console.error("Ошибка при обработке изменений:", error);
+      setErrorMessage("Произошла общая ошибка при сохранении изменений.");
       setTimeout(() => setErrorMessage(null), 5000);
     }
   };
@@ -266,26 +314,38 @@ const TariffInfo = ({ data, services }: { data: IUserTariffInfo, services: IUser
       // @ts-ignore
     (service) => service.type === "more",
   );
-
-
   const handleSaveTariff = async () => {
     try {
-      await changeTariff({ phoneNumberId: data.id, tariffId: selectedTariff.id }).unwrap();
+      await changeTariff({
+        phoneNumberId: data.id,
+        tariffId: selectedTariff.id,
+        minutesStep: selectedMinutes,
+        smsStep: selectedSms,
+        gigabyteStep: selectedGigabytes,
+      }).unwrap();
       console.log(`Тариф "${selectedTariff.name}" успешно сохранен`);
+      setTimeout(() => {
+        setKey((prev) => prev + 1);
+      }, 500); // Задержка в 2000 мс (2 секунды)
     } catch (error) {
-      setSelectedTariff(data.phoneNumberTariff.tariff)
+      setSelectedTariff(data.phoneNumberTariff.tariff);
+      setCurTariffInfo(data.phoneNumberTariff);
       console.error(`Ошибка при смене тарифа "${selectedTariff.name}":`, error);
       setErrorMessage(`Ошибка при смене тарифа "${selectedTariff.name}"`);
       setTimeout(() => setErrorMessage(null), 5000);
     } finally {
       setIsEditingTariff(false);
+
     }
   };
 
   const handleCancelTariff = () => {
     setSelectedTariff(data.phoneNumberTariff.tariff);
+    setCurTariffInfo(data.phoneNumberTariff);
     setIsEditingTariff(false);
   };
+
+
 
   return (
       // @ts-ignore
@@ -296,51 +356,67 @@ const TariffInfo = ({ data, services }: { data: IUserTariffInfo, services: IUser
           {errorMessage}
         </div>
       )}
-      <div className="mt-5">
-        <div className="flex justify-between">
+      <div className="mt-5 p-[0px_30px_0px_30px]">
+        <div className="flex justify-between items-center">
           <p className="text-s-black text-[26px] font-light">Тариф</p>
           {!isEditingTariff ? (
-              <Button
-                  text="Изменить"
-                  type="grey"
-                  iconLeft={<Edit />}
-                  onClick={() => setIsEditingTariff(true)}
-                  disabled={isEditingService}
-              />
+            <Button
+              text="Изменить"
+              type="grey"
+              iconLeft={<Edit />}
+              onClick={() => {
+                setIsEditingTariff(true);
+              }}
+              disabled={isEditingService}
+            />
           ) : (
               // @ts-ignore
-              <div className="flex">
-                <Button
-                    text="Сохранить"
-                    type="red"
-                    iconLeft={<Save />}
-                    onClick={handleSaveTariff}
-                    disabled={!selectedTariff?.name}
-                />
-                <Button
-                    text="Отменить"
-                    type="grey"
-                    iconLeft={<Cancel />}
-                    onClick={handleCancelTariff}
-                    styles="ml-[26px]"
-                />
-              </div>
+            <div className="flex">
+              <Button
+                text="Сохранить"
+                type="red"
+                iconLeft={<Save />}
+                onClick={handleSaveTariff}
+                disabled={
+                  !selectedTariff?.name ||
+                  (selectedTariff.type === "CUSTOMIZABLE" &&
+                    selectedSms === null) ||
+                  (selectedTariff.type === "CUSTOMIZABLE" &&
+                    selectedMinutes === null) ||
+                  (selectedTariff.type === "CUSTOMIZABLE" &&
+                    selectedGigabytes === null)
+                }
+              />
+              <Button
+                text="Отменить"
+                type="grey"
+                iconLeft={<Cancel />}
+                onClick={handleCancelTariff}
+                styles="ml-[26px]"
+              />
+            </div>
           )}
         </div>
         <div className="mt-5">
           <SidebarCard
             type={selectedTariff?.status}
             cardInfo={selectedTariff}
+            curTariffInfo={curTariffInfo}
             isEdit={isEditingTariff}
             setNewService={(value) => {
-                setSelectedTariff(value as ITariff)
+              setSelectedTariff(value as ITariff);
             }}
+            setSelectedSms={setSelectedSms}
+            setSelectedMinutes={setSelectedMinutes}
+            setSelectedGigabytes={setSelectedGigabytes}
+            selectedSms={selectedSms}
+            selectedMinutes={selectedMinutes}
+            selectedGigabytes={selectedGigabytes}
           />
         </div>
       </div>
-
       <div className="mt-5 flex flex-col h-full overflow-hidden">
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center p-[0px_30px_0px_30px]">
           <p className="text-s-black text-[26px] font-light">Услуги</p>
           {!isEditingService ? (
             <Button
@@ -379,7 +455,7 @@ const TariffInfo = ({ data, services }: { data: IUserTariffInfo, services: IUser
             />
           </div>
         )}
-        <ul className="flex-grow overflow-y-auto user-service-info mt-5">
+        <ul className="flex-grow overflow-y-auto user-service-info mt-[10px] p-[10px_24px_10px_30px] scrollbar-gutter-stable">
           {newServices.map((service, index) => (
             <li key={index}>
               <SidebarCard
@@ -390,7 +466,9 @@ const TariffInfo = ({ data, services }: { data: IUserTariffInfo, services: IUser
                   const defaultService = {
                     type: "more",
                     name_tariff: "",
-                    details: { name_tariff: "" },
+                    price: 0,
+                    service_format: "",
+                    details: { name_tariff: "", price: 0, service_format: "" },
                   };
 
                   updateNewService(index, updatedService || defaultService);
@@ -419,7 +497,8 @@ const TariffInfo = ({ data, services }: { data: IUserTariffInfo, services: IUser
               </li>
             ) : null,
           )}
-          {services.phoneNumberMobileServices?.length > 0 || isEditingService ? (
+          {services.phoneNumberMobileServices?.length > 0 ||
+          isEditingService ? (
             <></>
           ) : (
               // @ts-ignore
@@ -436,7 +515,7 @@ const TariffInfo = ({ data, services }: { data: IUserTariffInfo, services: IUser
 const BalanceInfo = ({ data }: { data: IBalanceOperation }) => (
   <div className="flex flex-col h-full">
     <div className="flex-grow overflow-x-auto">
-      <div className="mt-5 relative">
+      <div className="mt-5 relative p-[0px_30px_0px_30px]">
         {data.historyOfTransaction.length > 0 ? (
           data.historyOfTransaction.map((operation, index) => (
             <FinanceItem key={index} operation={operation} />
@@ -449,8 +528,8 @@ const BalanceInfo = ({ data }: { data: IBalanceOperation }) => (
         )}
       </div>
     </div>
-    <div className="pt-5">
-      // @ts-ignore
+    <div className="pt-5 p-[0px_30px_0px_30px]">
+        // @ts-ignore
       <p className="text-[26px] font-light">Баланс: {data.balance} ₽</p>
     </div>
   </div>

@@ -125,7 +125,7 @@ export const TariffField: React.FC<TariffFieldProps> = ({
             <input
                 ref={inputRef}
                 className={`border w-[inherit] rounded-lg text-s-black
-                px-3 py-3 font-extralight text-[18px] placeholder:text-s-light-grey
+                px-3 py-3 font-light text-[18px] placeholder:text-s-light-grey
                 hover:border-s-dark-grey hover:placeholder:text-s-dark-grey
                 outline-none text-center
                 ${isDuplicate ? 'border-yellow-500' : 'border-s-light-grey'}`}

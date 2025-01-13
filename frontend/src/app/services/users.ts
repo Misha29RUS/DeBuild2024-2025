@@ -1,8 +1,8 @@
 // @ts-ignore
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { 
-  ICountUsersInterface, 
-  IUsers,  
+import type {
+  ICountUsersInterface,
+  IUsers,
   IMobileService,
   ITariff,
   IUserInfo,
@@ -22,6 +22,14 @@ export const usersApi = createApi({
     // @ts-ignore
     prepareHeaders: (headers) => {
       headers.set('Content-Type', 'application/json');
+      const accessToken = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('accessToken='))
+          ?.split('=')[1];
+
+      if (accessToken) {
+        headers.set('Authorization', `Bearer ${accessToken}`);
+      }
       return headers;
     },
   }),
@@ -56,15 +64,15 @@ export const usersApi = createApi({
       serializeQueryArgs: ({ endpointName, queryArgs }) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { page, size, ...filters } = queryArgs;
-    
+
         const filtersKey = Object.entries(filters)
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           .filter(([_, value]) => value !== undefined)
           .map(([key, value]) => `${key}:${JSON.stringify(value)}`)
           .join(',');
-    
+
         const key = `${endpointName}-${filtersKey || 'no-filters'}`;
-    
+
         return key;
       },// @ts-ignore
       merge: (currentCache, newItems, { arg: { page } }) => {
@@ -75,11 +83,11 @@ export const usersApi = createApi({
             last: newItems.last, // Обновляем last
           };
         }
-      
+
         // Обновляем только content и last
         currentCache.content.push(...newItems.content);
         currentCache.last = newItems.last;
-      
+
         return currentCache;
       },// @ts-ignore
       forceRefetch({ currentArg, previousArg }) {
@@ -124,7 +132,7 @@ export const usersApi = createApi({
       })
     }),// @ts-ignore
     getUserInfo: builder.query<IUserInfo, number>({// @ts-ignore
-      query: (id) => `phoneNumber/user/${id}` 
+      query: (id) => `phoneNumber/user/${id}`
     }),// @ts-ignore
     getBalanceInfo: builder.query<IBalanceOperation, number>({// @ts-ignore
       query: (id) => `phoneNumber/balance/${id}`,
@@ -144,7 +152,7 @@ export const usersApi = createApi({
         method: 'POST',
         params: {
           page: 0,
-          size: 5
+          size: 20
         },
         body: {
           status: 'ACTIVE',
@@ -158,7 +166,7 @@ export const usersApi = createApi({
         method: 'POST',
         params: {
           page: 0,
-          size: 10
+          size: 20
         },
         body: {
           ...(name ? { name } : {})
@@ -187,26 +195,39 @@ export const usersApi = createApi({
       }),
       invalidatesTags: ['Users'],
     }),// @ts-ignore
-    changeTariff: builder.mutation<IChangeTariff, {phoneNumberId: number; tariffId: number}>({// @ts-ignore
-      query: ({ phoneNumberId, tariffId }) => ({
-        url: 'phoneNumber/tariff',
-        method: 'POST',
-        params: {
+    changeTariff: builder.mutation<IChangeTariff,  {
+      phoneNumberId: number;
+      tariffId: number;
+      gigabyteStep?: number | null;
+      minutesStep?: number | null;
+      smsStep?: number | null;
+    }>({// @ts-ignore
+      query: ({ phoneNumberId, tariffId, gigabyteStep, minutesStep, smsStep }) => {
+        const params: Record<string, number> = {
           phoneNumberId,
-          tariffId
-        }
-      }),
+          tariffId,
+          ...(gigabyteStep !== null && gigabyteStep !== undefined && { gigabyteStep }),
+          ...(minutesStep !== null && minutesStep !== undefined && { minutesStep }),
+          ...(smsStep !== null && smsStep !== undefined && { smsStep }),
+        };
+
+        return {
+          url: "phoneNumber/tariff",
+          method: "POST",
+          params,
+        };
+      },
       invalidatesTags: ['Users'],
     })
   }),
 });
 
-export const { 
+export const {
   useGetUsersQuery, useGetCountUsersQuery,
   useGetServicesQuery, useGetTariffsQuery,
   useGetUserInfoQuery, useGetBalanceInfoQuery,
   useGetTariffInfoQuery, useGetServicesInfoQuery,
   useFetchTariffsMutation, useFetchServicesMutation,
   useActivateServiceMutation, useDeactivateServiceMutation,
-  useChangeTariffMutation 
+  useChangeTariffMutation
 } = usersApi;

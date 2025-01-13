@@ -74,7 +74,7 @@ export const SelectorMock = <T extends object>({
                 value={typeof selectedData === 'object' && selectedData !== null
                     ? String(getValueByPath(selectedData, labelKey as string))
                     : selectedData || ''}
-                className={`py-3 px-4 pr-[60px] w-full outline-none border font-extralight text-[18px] 
+                className={`py-3 px-4 pr-[60px] w-full outline-none border font-light text-[18px] 
                 ${showDropdown ?
                 `rounded-t-lg ${type ? 'border-s-white' : 'border-s-dark-grey'} `
                 : `rounded-lg ${type ? 'border-s-white' : 'border-s-light-grey'}`}
@@ -121,7 +121,7 @@ export const SelectorMock = <T extends object>({
                             ${type === 'ACTIVE' ? 'bg-s-red'
                             : (type === 'HIDDEN' ? 'bg-s-black'
                             : (type === 'more' && 'bg-s-dark-grey'))}`}>
-                            <p className={`font-extralight text-[18px]
+                            <p className={`font-light text-[18px]
                             ${type && 'text-s-white'}`}>
                                 {String(getValueByPath(data, labelKey as string))}
                             </p>

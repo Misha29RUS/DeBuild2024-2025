@@ -10,6 +10,14 @@ export const servicesApi = createApi({
         // @ts-ignore
         prepareHeaders: (headers) => {
             headers.set('Content-Type', 'application/json');
+            const accessToken = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('accessToken='))
+                ?.split('=')[1];
+
+            if (accessToken) {
+                headers.set('Authorization', `Bearer ${accessToken}`);
+            }
             return headers;
         },
     }),
