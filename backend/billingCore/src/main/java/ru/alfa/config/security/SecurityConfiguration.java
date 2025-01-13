@@ -31,12 +31,6 @@ public class SecurityConfiguration {
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
-    private final EmployeesCredentialRepository employeesCredentialRepository;
-
-//    @Bean
-//    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-//        return new MvcRequestMatcher.Builder(introspector);
-//    }
 
     private static final String[] SWAGGER_WHITELIST = {
             "/v3/api-docs/**",
@@ -51,34 +45,24 @@ public class SecurityConfiguration {
             "/"
     };
 
-    private static final String[] ADMIN_WHITELIST = {
-            "/api/abonents/**",
-            "/api/phoneNumber/**",
-            "/api/service/**",
-            "/api/profile/**",
-            "/api/services/**",
-            "/api/tariff/**",
-            "/api/tariffs/**"
-    };
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                //.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-//                        .requestMatchers(mvc.pattern("/api/auth/**")).permitAll()
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
-                        .requestMatchers(HttpMethod.POST, "api/profile/employee").authenticated()
+                        .requestMatchers("api/profile/**").authenticated()
                         .requestMatchers("/api/employees/**").hasRole("SUPER_ADMIN")
-                        .requestMatchers(ADMIN_WHITELIST).hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, ADMIN_WHITELIST).hasRole("OPERATOR")
-                        .requestMatchers(HttpMethod.DELETE, "/api/phoneNumber/service").hasRole("OPERATOR")
-                        .requestMatchers(HttpMethod.POST, "/api/abonents/**", "/api/phoneNumber/service",
-                                "/api/phoneNumber/tariff", "/api/tariffs", "/api/services")
-                        .hasRole("OPERATOR")
+                        .requestMatchers("/api/phoneNumber/**",
+                                "/api/abonents/**",
+                                "/api/services/**",
+                                "/api/tariffs/**").hasAnyRole("OPERATOR", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/tariff/**").hasAnyRole("OPERATOR", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/service/**").hasAnyRole("OPERATOR", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/tariff/**","/api/service/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/tariff/**","/api/service/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/tariff/**","/api/service/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .exceptionHandling(e -> e.authenticationEntryPoint(authenticationEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
