@@ -27,7 +27,7 @@ export function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://62.113.105.104:8080/api/auth/login`,
+        `/api/auth/login`,
         {
           email: email,
           password: password,
@@ -76,7 +76,7 @@ export function Login() {
             errorText: "Неверная почта или пароль",
             isError: true,
           });
-        }else if (error.response.data.message === "Employee is not verified") {
+        } else if (error.response.data.message === "Employee is not verified") {
           navigate("/failed-action", {
             state: {
               email: email,
