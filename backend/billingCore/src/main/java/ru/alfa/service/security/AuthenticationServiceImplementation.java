@@ -191,13 +191,17 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
 
             RegisterVerifyResponse jwtToken = jwtService.generateJwtToken(employee);
             Cookie cookie = new Cookie("accessToken", jwtToken.getAccessToken());
+            Cookie cookie2 = new Cookie("refreshToken", jwtToken.getRefreshToken());
 
             // Устанавливаем путь и время жизни куки
             cookie.setPath("/");
-            cookie.setMaxAge(86400); // 1 день
+            cookie.setMaxAge(86400);
+            cookie2.setPath("/");
+            cookie2.setMaxAge(86400*30);
 
             // Добавляем куку в ответ
             response.addCookie(cookie);
+            response.addCookie(cookie2);
             return new ResponseEntity<>(jwtToken, HttpStatus.OK);
 
         } catch (ResourceNotFoundException ex) {

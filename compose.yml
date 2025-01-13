@@ -1,7 +1,7 @@
 services:
   billing-core-api:
     container_name: billing-core-api
-    image: larchik56/billing-core:1.0.9
+    image: larchik56/billing-core:1.0.10
     environment:
       EMAIL_HOST: ${EMAIL_HOST}
       EMAIL_USER: ${EMAIL_USER}

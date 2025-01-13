@@ -1,5 +1,6 @@
 package ru.alfa.controller.security;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -66,6 +67,25 @@ public class AuthenticationController implements AuthenticationInterface {
         log.info("login request received for email {}", loginRequest.getEmail());
         return authenticationService.loginEmployee(loginRequest, response);
     }
+
+    @PostMapping(value = "/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("accessToken", "");
+        Cookie cookie2 = new Cookie("refreshToken", "");
+
+        // Устанавливаем путь и время жизни куки
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        cookie2.setPath("/");
+        cookie2.setMaxAge(0);
+
+        // Добавляем куку в ответ
+        response.addCookie(cookie);
+        response.addCookie(cookie2);
+        return ResponseEntity.ok().build();
+    }
+
+
 
     /**
      * Обрабатывает запрос на отправку OTP (одноразового пароля) для сброса пароля.
