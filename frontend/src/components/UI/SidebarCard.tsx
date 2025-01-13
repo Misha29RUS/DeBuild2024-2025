@@ -17,22 +17,22 @@ import {
 import { useEffect, useState } from "react";
 import { SelectorChose } from "./SelectorChose.tsx";
 
-type SidebarCardProps = {
-  type: string;
-  isEdit: boolean;
-  curTariffInfo: {};
-  cardInfo: ITariff | IMobileService;
-  setNewService: (value: ITariff | IMobileService) => void;
-  onDisableService?: () => void;
-  onCancelService?: () => void;
-  styles?: string;
-  setSelectedSms?: () => void;
-  setSelectedMinutes?: () => void;
-  setSelectedGigabytes?: () => void;
-  selectedSms?: () => number;
-  selectedMinutes?: () => number;
-  selectedGigabytes?: () => number;
-};
+// type SidebarCardProps = {
+//   type: string;
+//   isEdit: boolean;
+//   curTariffInfo: {};
+//   cardInfo: ITariff | IMobileService;
+//   setNewService: (value: ITariff | IMobileService) => void;
+//   onDisableService?: () => void;
+//   onCancelService?: () => void;
+//   styles?: string;
+//   setSelectedSms?: any;
+//   setSelectedMinutes?: any;
+//   setSelectedGigabytes?: any;
+//   selectedSms?: () => any;
+//   selectedMinutes?: () => any;
+//   selectedGigabytes?: () => any;
+// };
 
 export const SidebarCard = ({
   type,
@@ -49,7 +49,7 @@ export const SidebarCard = ({
   selectedSms,
   selectedMinutes,
   selectedGigabytes,
-}: SidebarCardProps) => {
+}: any) => {
   const [fetchTariffs, { data: tariffsData }] = useFetchTariffsMutation();
   const [fetchServices, { data: servicesData }] = useFetchServicesMutation();
   const [searchQuery, setSearchQuery] = useState<string>("");

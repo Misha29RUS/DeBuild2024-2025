@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import { Input } from "../components/UI/Input.tsx";
@@ -9,9 +9,9 @@ import LogoSvg from "../img/header_svg/logo_header.svg?react";
 
 export function ResetPassEnterEmail() {
   axios.defaults.withCredentials = true;
-  const [errorText, setErrorText] = useState("");
+  // const [errorText, setErrorText] = useState("");
   const [email, setEmail] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   axios.defaults.withCredentials = true;
   const handleClickPrimaryButton = async (e) => {

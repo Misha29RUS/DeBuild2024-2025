@@ -44,6 +44,15 @@ services:
       - ./backend/migrations:/liquibase/changelog
     networks:
       - backend
+  billing-ui:
+    container_name: billing-ui
+    image: buildfront/buildfront:1.0.2
+    ports:
+      - 5173:5173
+    networks:
+      - backend
+#    depends_on:
+#      - billing-core-api
 
 volumes:
   postgresql: { }

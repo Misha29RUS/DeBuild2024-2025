@@ -25,6 +25,7 @@ export function FailedAction() {
               },
             },
         );
+        console.log(response);
       } catch (err) {
       } finally {
       }

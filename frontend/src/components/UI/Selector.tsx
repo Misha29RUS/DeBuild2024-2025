@@ -3,12 +3,12 @@ import ArrowSvg from "../../img/selectors_svg/keyboard_arrow_down.svg?react";
 import CloseSvg from "../../img/selectors_svg/close.svg?react";
 import { getValueByPath } from "../../utils/getValueByPath";
 
-type SelectorProps<T> = {
+type SelectorProps = {
   placeholder: string;
-  selectList: T[];
-  setTakeValue: React.Dispatch<React.SetStateAction<T>>;
-  value: T;
-  labelKey: keyof T;
+  selectList: any[];
+  setTakeValue: React.Dispatch<React.SetStateAction<any>>;
+  value: any;
+  labelKey: keyof any;
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
   type?: string;
@@ -25,7 +25,7 @@ export const Selector = <T extends object>({
   setSearchQuery,
   type,
   styles,
-}: SelectorProps<T>) => {
+}: SelectorProps) => {
   const [selectedData, setSelectedData] = useState<T | string | null>(value);
   const [showDropdown, setShowDropdown] = useState(false);
   const [list, setList] = useState(selectList);
@@ -58,7 +58,7 @@ export const Selector = <T extends object>({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  const [initialValue, setInitialValue] = useState<string | null>(value.name || "");
+  const [initialValue, setInitialValue] = useState<any>(value.name || "");
   return (
     <div className={`relative group w-full ${styles}`} ref={dropdownRef}>
       <input
@@ -127,7 +127,7 @@ export const Selector = <T extends object>({
         >
           {list?.map((data, index) => (
             <li
-              onClick={() => {
+              onClick={(): any => {
                 setSearchQuery(data.name);
                 setInitialValue(data.name);
                 setSelectedData(data);

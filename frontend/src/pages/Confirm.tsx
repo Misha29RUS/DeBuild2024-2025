@@ -1,7 +1,7 @@
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import LogoSvg from "../img/header_svg/logo_header.svg?react";
-import { Button } from "../components/UI/Button.tsx";
+// import { Button } from "../components/UI/Button.tsx";
 import { useState, useRef } from "react";
 
 export function Confirm() {
@@ -67,6 +67,7 @@ export function Confirm() {
           },
         },
       );
+      console.log(response);
       setSuccessfully("Код отправлен повторно");
       console.log("Код отправлен повторно");
     } catch (err) {

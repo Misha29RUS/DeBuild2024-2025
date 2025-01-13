@@ -33,8 +33,8 @@ export const Header = () => {
             <LogoSvg className="mr-auto" />
             <div className="flex items-center">
                 <NavButton styles="mr-5" text="Абоненты"
-                iconLeft={<UsersSvg />} to="/"
-                isActive={lastPartURL === 'root'} />
+                iconLeft={<UsersSvg />} to="/users"
+                isActive={lastPartURL === 'users'} />
                 <div className="relative">
                     <NavButton styles="mr-5" text="Тарифы"
                     to="/active_tariffs"

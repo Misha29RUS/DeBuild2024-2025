@@ -52,7 +52,7 @@ export const ServicesSidebar = ({
   };
   const handleCostChange = (newCost: string) => {
     // Разрешаем только цифры и одну точку
-    let formattedValue = newCost.replace(/[^0-9.]/g, "");
+    let formattedValue: any = newCost.replace(/[^0-9.]/g, "");
 
     // Разрешаем только одну точку
     if (formattedValue.indexOf(".") !== formattedValue.lastIndexOf(".")) {
@@ -86,7 +86,7 @@ export const ServicesSidebar = ({
   // Обработчик для сохранения данных
   const handleSave = async () => {
     try {
-      const updatedData = {
+      const updatedData: any = {
         id: serviceID,
         oneTimeService: serviceInfo?.oneTimeService,
         status: "ACTIVE",
@@ -125,44 +125,44 @@ export const ServicesSidebar = ({
     }
   };
 
-    const [isAdmin, setIsAdmin] = useState<boolean | null>(false)
-    useEffect(() => {
-        const fetchEmployeeData = async () => {
-            const accessToken = document.cookie
-                .split("; ")
-                .find((row) => row.startsWith("accessToken="))
-                ?.split("=")[1];
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(false);
+  useEffect(() => {
+    const fetchEmployeeData = async () => {
+      const accessToken = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("accessToken="))
+        ?.split("=")[1];
 
-            if (!accessToken) {
-                console.error("Access token not found");
-                return;
-            }
+      if (!accessToken) {
+        console.error("Access token not found");
+        return;
+      }
 
-            try {
-                const resp = await axios.post(
-                    `/api/profile/employee`,
-                    {},
-                    {
-                        withCredentials: true,
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    }
-                );
+      try {
+        const resp = await axios.post(
+          `/api/profile/employee`,
+          {},
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
 
-                if (resp.data.role === "ROLE_ADMIN") {
-                    setIsAdmin(true)
-                }
-            }finally {
+        if (resp.data.role === "ROLE_ADMIN") {
+          setIsAdmin(true);
+        }
+      } finally {
+      }
+    };
 
-            }
-        };
+    fetchEmployeeData();
+  }, []);
 
-        fetchEmployeeData();
-    }, []);
-
-  return (        // @ts-ignore
+  return (
+    // @ts-ignore
     <div className="absolute shadow-[-5px_0_10px_0_rgba(0,0,0,0.10)] z-10 right-[0] top-[80px] w-[680px] h-[calc(100vh-80px)] bg-s-white">
       <div className="flex flex-col h-[calc(100vh-80px)] p-[30px]">
         <div className="border-b-[1px] border-s-light-grey flex justify-between pb-[20px]">

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LogoSvg from "../img/header_svg/logo_header.svg?react";
 
@@ -9,7 +9,7 @@ import { SelectorMock } from "../components/UI/SelectorMock.tsx";
 
 export function SuperAdmin() {
   axios.defaults.withCredentials = true;
-  const [errorText, setErrorText] = useState("");
+  // const [errorText, setErrorText] = useState("");
   const [email, setEmail] = useState("");
   const [surname, setSurname] = useState("");
   const [name, setName] = useState("");

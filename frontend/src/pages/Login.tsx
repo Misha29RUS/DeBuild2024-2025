@@ -7,7 +7,7 @@ import { Input } from "../components/UI/Input.tsx";
 import { Button } from "../components/UI/Button.tsx";
 
 export function Login() {
-  const [errorText, setErrorText] = useState("");
+  // const [errorText, setErrorText] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ export function Login() {
           if (resp.data.role === "ROLE_SUPER_ADMIN") {
             navigate("/super-admin");
           } else {
-            navigate("/");
+            navigate("/users");
           }
         } catch (error) {}
       }

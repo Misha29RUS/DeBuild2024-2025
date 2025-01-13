@@ -202,7 +202,7 @@ export const TariffsSidebar = ({
   // Обработчик для сохранения данных
   const handleSave = async () => {
     try {
-      const updatedData = {
+      const updatedData: any = {
         id: tariffID,
         type: tariffInfo?.type,
         status: tariffInfo?.status,
@@ -236,7 +236,7 @@ export const TariffsSidebar = ({
   // Обработчик для сохранения данных
   const handleArchivate = async () => {
     try {
-      const updatedData = {
+      const updatedData: any = {
         id: tariffID,
         type: tariffInfo?.type,
         status: "HIDDEN",
@@ -335,7 +335,8 @@ export const TariffsSidebar = ({
     fetchEmployeeData();
   }, []);
 
-  return (// @ts-ignore
+  return (
+    // @ts-ignore
     <div className="absolute shadow-[-5px_0_10px_0_rgba(0,0,0,0.10)] z-10 right-[0] top-[80px] w-[680px] h-[calc(100vh-80px)] bg-s-white">
       <div className="flex flex-col h-[calc(100vh-80px)] p-[30px]">
         <div className="border-b-[1px] border-s-light-grey flex justify-between pb-[20px]">

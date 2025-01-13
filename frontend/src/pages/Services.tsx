@@ -222,7 +222,6 @@ export const Services = () => {
             setIsSidebarOpen(!isSidebarOpen);
             setServiceId(null);
           }}
-          isAdmin={true}
         />
       )}
       {isSidebarNewService && (

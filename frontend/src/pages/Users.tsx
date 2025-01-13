@@ -104,7 +104,7 @@ useEffect(() => {
 }, [page, isFetching]);
 
 // Запрашиваем количество всех пользователей и соответствующих фильтрам
-const { data: countUsersData } = useGetCountUsersQuery(shouldFetchUsers ? filteredUsers : {});
+const { data: countUsersData } : any = useGetCountUsersQuery(shouldFetchUsers ? filteredUsers : {});
 
 // Подсчёт количества примененных фильтров
 const nonFalseValuesCount = Object.values(appliedFilters).filter(value => {

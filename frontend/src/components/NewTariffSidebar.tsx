@@ -218,31 +218,32 @@ export const NewTariffSidebar = ({ onClose }: { onClose: () => void }) => {
   // Обработчик для сохранения данных
   const handleSave = async () => {
     try {
-      const updatedData = {
-        type: typeTariff!.type,
+      const updatedData: any = {
+        type: typeTariff?.type || "FIXED", // Убедимся, что тип задан
         status: "ACTIVE",
         name,
         description,
-        cost: Number(cost),
+        cost: Number(cost) || 0, // Преобразуем в число и задаем 0 по умолчанию
         tariffResourceDto: {
-          countMinutes: typeTariff!.type === "FIXED" ? Number(countMinutes) : 0,
-          costOneMinute: Number(costMinute),
+          countMinutes: typeTariff?.type === "FIXED" ? Number(countMinutes) || 0 : 0,
+          costOneMinute: Number(costMinute) || 0,
           stepsMinutes:
-            valuesMinutes.length > 0 && typeTariff!.type === "CUSTOMIZABLE"
-              ? [...valuesMinutes].sort((a, b) => a - b)
-              : null,
-          countSms: typeTariff!.type === "FIXED" ? Number(countSms) : 0,
-          costOneSms: Number(costSms),
+              valuesMinutes.length > 0 && typeTariff?.type === "CUSTOMIZABLE"
+                  ? [...valuesMinutes.map(Number)].sort((a, b) => a - b) // Убедимся, что значения - числа
+                  : null,
+          countSms: typeTariff?.type === "FIXED" ? Number(countSms) || 0 : 0,
+          costOneSms: Number(costSms) || 0,
           stepsSms:
-            valuesSms.length > 0 && typeTariff!.type === "CUSTOMIZABLE"
-              ? [...valuesSms].sort((a, b) => a - b)
-              : null,
-          countGigabytes: typeTariff!.type === "FIXED" ? Number(countGigabytes) : 0,
-          costOneGigabyte: Number(costGigabyte),
+              valuesSms.length > 0 && typeTariff?.type === "CUSTOMIZABLE"
+                  ? [...valuesSms.map(Number)].sort((a, b) => a - b)
+                  : null,
+          countGigabytes:
+              typeTariff?.type === "FIXED" ? Number(countGigabytes) || 0 : 0,
+          costOneGigabyte: Number(costGigabyte) || 0,
           stepsGigabytes:
-            valuesGigabytes.length > 0 && typeTariff!.type === "CUSTOMIZABLE"
-              ? [...valuesGigabytes].sort((a, b) => a - b)
-              : null,
+              valuesGigabytes.length > 0 && typeTariff?.type === "CUSTOMIZABLE"
+                  ? [...valuesGigabytes.map(Number)].sort((a, b) => a - b)
+                  : null,
         },
       };
 
@@ -281,7 +282,8 @@ export const NewTariffSidebar = ({ onClose }: { onClose: () => void }) => {
     costSms,
   ]);
 
-  return (// @ts-ignore
+  return (
+    // @ts-ignore
     <div className="absolute shadow-[-5px_0_10px_0_rgba(0,0,0,0.10)] z-10 right-[0] top-[80px] w-[680px] h-[calc(100vh-80px)] bg-s-white">
       <div className="flex flex-col h-[calc(100vh-80px)] p-[30px]">
         <div className="border-b-[1px] border-s-light-grey flex justify-between pb-[20px]">

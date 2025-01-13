@@ -51,7 +51,7 @@ export const AbonentSidebar = ({
   useEffect(() => {
     setTab("userInfo");
   }, [userID]);
-
+  const [key, setKey] = useState<number>(0);
   const renderTabContent = () => {
     switch (tab) {
       case "userInfo":
@@ -72,7 +72,7 @@ export const AbonentSidebar = ({
   };
 
   return (
-      // @ts-ignore
+    // @ts-ignore
     <div className="absolute shadow-[-5px_0_10px_0_rgba(0,0,0,0.10)] z-10 right-[0] top-[80px] w-[680px] h-[calc(100vh-80px)] bg-s-white">
       <div className="flex flex-col h-[calc(100vh-80px)] p-[0px_0px_30px_0px]">
         <div className="p-[30px_30px_0px_30px]">
@@ -107,7 +107,7 @@ export const AbonentSidebar = ({
             ))}
           </ul>
         </div>
-          // @ts-ignore
+        // @ts-ignore
         <div className="flex-grow overflow-y-auto" key={key}>
           {renderTabContent()}
         </div>
@@ -178,11 +178,13 @@ const TariffInfo = ({
   const [changeTariff] = useChangeTariffMutation();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const [selectedGigabytes, setSelectedGigabytes] = useState<number | null>(
+  const [selectedGigabytes, setSelectedGigabytes] = useState<
+    number | null | any
+  >(null);
+  const [selectedMinutes, setSelectedMinutes] = useState<number | null | any>(
     null,
   );
-  const [selectedMinutes, setSelectedMinutes] = useState<number | null>(null);
-  const [selectedSms, setSelectedSms] = useState<number | null>(null);
+  const [selectedSms, setSelectedSms] = useState<number | null | any>(null);
 
   const MAX_SERVICES = 15;
   const totalServices =
@@ -303,7 +305,7 @@ const TariffInfo = ({
   const updateNewService = (index: number, updatedService) => {
     // @ts-ignore
     setNewServices((prevServices) =>
-        // @ts-ignore
+      // @ts-ignore
       prevServices.map((service, i) =>
         i === index ? updatedService : service,
       ),
@@ -311,7 +313,7 @@ const TariffInfo = ({
   };
 
   const hasIncompleteService = newServices.some(
-      // @ts-ignore
+    // @ts-ignore
     (service) => service.type === "more",
   );
   const handleSaveTariff = async () => {
@@ -325,7 +327,7 @@ const TariffInfo = ({
       }).unwrap();
       console.log(`Тариф "${selectedTariff.name}" успешно сохранен`);
       setTimeout(() => {
-        setKey((prev) => prev + 1);
+        setKey((prev: number) => prev + 1);
       }, 500); // Задержка в 2000 мс (2 секунды)
     } catch (error) {
       setSelectedTariff(data.phoneNumberTariff.tariff);
@@ -335,7 +337,6 @@ const TariffInfo = ({
       setTimeout(() => setErrorMessage(null), 5000);
     } finally {
       setIsEditingTariff(false);
-
     }
   };
 
@@ -345,13 +346,11 @@ const TariffInfo = ({
     setIsEditingTariff(false);
   };
 
-
-
   return (
-      // @ts-ignore
+    // @ts-ignore
     <div className="flex flex-col h-full relative">
       {errorMessage && (
-          // @ts-ignore
+        // @ts-ignore
         <div className="absolute top-2 left-1/2 transform -translate-x-1/2 bg-red-500 text-white p-3 rounded shadow">
           {errorMessage}
         </div>
@@ -370,7 +369,7 @@ const TariffInfo = ({
               disabled={isEditingService}
             />
           ) : (
-              // @ts-ignore
+            // @ts-ignore
             <div className="flex">
               <Button
                 text="Сохранить"
@@ -475,7 +474,7 @@ const TariffInfo = ({
                 }}
                 onDisableService={() => handleDisableService(service)}
                 onCancelService={() =>
-                    // @ts-ignore
+                  // @ts-ignore
                   setNewServices((prev) => prev.filter((s) => s !== service))
                 }
               />
@@ -483,15 +482,15 @@ const TariffInfo = ({
           ))}
           {services.phoneNumberMobileServices?.map((service, index) =>
             !disabledServices.has(service) ? (
-                // @ts-ignore
+              // @ts-ignore
               <li key={index}>
                 <SidebarCard
                   type={service.type}
                   cardInfo={service.mobileService}
                   isEdit={isEditingService}
-                    // @ts-ignore
+                  // @ts-ignore
                   onDisableService={() => handleDisableService(service)}
-                    // @ts-ignore
+                  // @ts-ignore
                   onCancelService={() => handleEnableService(service)}
                 />
               </li>
@@ -501,7 +500,7 @@ const TariffInfo = ({
           isEditingService ? (
             <></>
           ) : (
-              // @ts-ignore
+            // @ts-ignore
             <p className="text-s-light-grey text-[26px] font-light mx-auto w-fit">
               Услуги не подключены
             </p>
@@ -521,7 +520,7 @@ const BalanceInfo = ({ data }: { data: IBalanceOperation }) => (
             <FinanceItem key={index} operation={operation} />
           ))
         ) : (
-            // @ts-ignore
+          // @ts-ignore
           <p className="text-s-light-grey text-[26px] font-light mx-auto w-fit">
             Нет операций
           </p>
@@ -529,7 +528,7 @@ const BalanceInfo = ({ data }: { data: IBalanceOperation }) => (
       </div>
     </div>
     <div className="pt-5 p-[0px_30px_0px_30px]">
-        // @ts-ignore
+      // @ts-ignore
       <p className="text-[26px] font-light">Баланс: {data.balance} ₽</p>
     </div>
   </div>
