@@ -46,13 +46,13 @@ services:
       - backend
   billing-ui:
     container_name: billing-ui
-    image: buildfront/buildfront:1.0.2
+    image: larchik56/billing-ui:1.0.0
     ports:
-      - 5173:5173
+      - 3000:3000
     networks:
       - backend
-#    depends_on:
-#      - billing-core-api
+    depends_on:
+      - billing-core-api
 
 volumes:
   postgresql: { }

@@ -1,43 +1,44 @@
-#name: Billing Core UI Pipeline
-#
-#on:
-#  push:
-#    branches:
-#      - master
-#    paths:
-#      - frontend/**
-#      - 'compose.yml'
-#      - .github/workflows/*-frontend.yml
-#jobs:
-#  build-image:
-#    name: Build Docker image
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#      - name: Extract project version
-#        id: extract_version
-#        run: |
-#          cd frontend
-#          echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
-#
-#      - name: Login to DockerHub
-#        uses: docker/login-action@v3
-#        with:
-#          username: ${{ secrets.DOCKERHUB_USERNAME }}
-#          password: ${{ secrets.DOCKERHUB_TOKEN }}
-#
-#      - name: Build & Push to DockerHub
-#        uses: docker/build-push-action@v5
-#        with:
-#          context: frontend
-#          file: frontend/Dockerfile
-#          push: true
-#          platforms: linux/amd64
-#          tags: ${{ secrets.DOCKERHUB_USERNAME }}/billing-ui:latest,${{ secrets.DOCKERHUB_USERNAME }}/billing-ui:${{ steps.extract_version.outputs.VERSION }}
-#
+name: Billing Core UI Pipeline
+
+on:
+  push:
+    branches:
+      - master
+      - hosting
+    paths:
+      - frontend/**
+      - 'compose.yml'
+      - .github/workflows/*-frontend.yml
+jobs:
+  build-image:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Extract project version
+        id: extract_version
+        run: |
+          cd frontend
+          echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build & Push to DockerHub
+        uses: docker/build-push-action@v5
+        with:
+          context: frontend
+          file: frontend/Dockerfile
+          push: true
+          platforms: linux/amd64
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/billing-ui:latest,${{ secrets.DOCKERHUB_USERNAME }}/billing-ui:${{ steps.extract_version.outputs.VERSION }}
+
 #  deploy:
 #    name: Deploy Frontend
 #    runs-on: ubuntu-latest
