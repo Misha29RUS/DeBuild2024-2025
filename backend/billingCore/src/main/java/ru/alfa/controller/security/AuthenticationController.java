@@ -78,7 +78,6 @@ public class AuthenticationController implements AuthenticationInterface {
         cookie.setMaxAge(0);
         cookie2.setPath("/");
         cookie2.setMaxAge(0);
-
         // Добавляем куку в ответ
         response.addCookie(cookie);
         response.addCookie(cookie2);
