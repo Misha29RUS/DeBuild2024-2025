@@ -36,7 +36,7 @@ function App() {
 
     // Проверяем, если текущий маршрут в noLayoutRoutes
     const isNoLayoutPath = noLayoutRoutes.some((path) =>
-      matchPath({ path, end: false }, location.pathname),
+        matchPath({ path, end: false }, location.pathname),
     );
 
     // Проверяем отдельно маршрут "/"

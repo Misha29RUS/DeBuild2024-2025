@@ -56,8 +56,6 @@ export function Login() {
       console.log(response2, "2");
       if (response.status === 200) {
         const { accessToken, refreshToken } = response.data;
-        document.cookie = `accessToken=${accessToken}; path=/; max-age=${24 * 60 * 60}; secure; samesite=strict`;
-        document.cookie = `refreshToken=${refreshToken}; path=/; max-age=${7 * 24 * 60 * 60}; secure; samesite=strict`;
         try {
           const resp = await axios.post(
             `/api/profile/employee`,

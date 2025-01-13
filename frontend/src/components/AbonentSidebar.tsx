@@ -90,7 +90,6 @@ export const AbonentSidebar = ({
           <ul className="flex font-medium text-[18px] text-s-light-grey tabs-ul">
             {["userInfo", "tariffInfo", "balanceInfo"].map((id) => (
               <li key={id} className="relative">
-                // @ts-ignore
                 <button
                   className={`transition-colors pb-1 relative ${tab === id ? "text-s-red" : ""}`}
                   onClick={() => setTab(id)}
@@ -98,7 +97,6 @@ export const AbonentSidebar = ({
                   {id === "userInfo" && "Об абоненте"}
                   {id === "tariffInfo" && "Тариф и услуги"}
                   {id === "balanceInfo" && "Баланс"}
-                  // @ts-ignore
                   <span
                     className={`absolute bottom-0 left-0 w-full h-[1px] bg-s-red transform transition-transform duration-300 ease-in-out ${tab === id ? "scale-x-100" : "scale-x-0"}`}
                   ></span>
@@ -107,7 +105,6 @@ export const AbonentSidebar = ({
             ))}
           </ul>
         </div>
-        // @ts-ignore
         <div className="flex-grow overflow-y-auto" key={key}>
           {renderTabContent()}
         </div>
@@ -528,7 +525,6 @@ const BalanceInfo = ({ data }: { data: IBalanceOperation }) => (
       </div>
     </div>
     <div className="pt-5 p-[0px_30px_0px_30px]">
-      // @ts-ignore
       <p className="text-[26px] font-light">Баланс: {data.balance} ₽</p>
     </div>
   </div>

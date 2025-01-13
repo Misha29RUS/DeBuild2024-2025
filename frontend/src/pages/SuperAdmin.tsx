@@ -71,12 +71,31 @@ export function SuperAdmin() {
     } catch (error) {}
   };
 
-  const handleLogout = () => {
-    document.cookie = `accessToken=; path=/; max-age=0; secure; samesite=strict`;
-    document.cookie = `refreshToken=; path=/; max-age=0; secure; samesite=strict`;
+  // const handleLogout = () => {
+  //   document.cookie = `accessToken=; path=/; max-age=0; secure; samesite=strict`;
+  //   document.cookie = `refreshToken=; path=/; max-age=0; secure; samesite=strict`;
+  //
+  //   // Перенаправляем на страницу входа
+  //   navigate("/login");
+  // };
 
-    // Перенаправляем на страницу входа
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(
+          `/api/auth/logout`,
+          {},
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+      );
+      console.log(response);
+      navigate("/login");
+    } catch (error) {
+      navigate("/login");
+    }
   };
   const isButtonDisabled = !email || !surname || !name || !patronymic || !role;
   return (
