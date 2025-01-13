@@ -47,7 +47,7 @@ services:
       - backend
   billing-ui:
     container_name: billing-ui
-    image: larchik56/billing-ui:1.0.8
+    image: larchik56/billing-ui:1.0.9
     ports:
       - "3000:80"
     networks:
