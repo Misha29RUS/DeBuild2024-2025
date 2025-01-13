@@ -7,9 +7,10 @@ services:
       EMAIL_USER: ${EMAIL_USER}
       EMAIL_PASSWORD: ${EMAIL_PASSWORD}
     ports:
-      - 8080:8080
+      - "8080:8080"
     networks:
       - backend
+      - frontend
     depends_on:
       - liquibase-migrations
   postgresql:
@@ -46,11 +47,11 @@ services:
       - backend
   billing-ui:
     container_name: billing-ui
-    image: larchik56/billing-ui:1.0.4
+    image: larchik56/billing-ui:1.0.5
     ports:
-      - 3000:3000
+      - "3000:80"
     networks:
-      - backend
+      - frontend
     depends_on:
       - billing-core-api
 
@@ -59,4 +60,4 @@ volumes:
 
 networks:
   backend:
-    driver: bridge
+  frontend:
