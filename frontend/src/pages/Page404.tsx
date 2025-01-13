@@ -11,14 +11,9 @@ export function Page404() {
   const navigate = useNavigate();
 
   const handleGoHome = () => {
-    const accessToken = document.cookie.includes("accessToken");
-    const refreshToken = document.cookie.includes("refreshToken");
 
-    if (accessToken && refreshToken) {
-      navigate("/");
-    } else {
       navigate("/login");
-    }
+
   };
 
   return (

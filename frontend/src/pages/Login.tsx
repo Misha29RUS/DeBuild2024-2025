@@ -41,8 +41,6 @@ export function Login() {
       );
       if (response.status === 200) {
         const { accessToken, refreshToken } = response.data;
-        document.cookie = `accessToken=${accessToken}; path=/; max-age=${24 * 60 * 60}; secure; samesite=strict`;
-        document.cookie = `refreshToken=${refreshToken}; path=/; max-age=${7 * 24 * 60 * 60}; secure; samesite=strict`;
         try {
           const resp = await axios.post(
             `/api/profile/employee`,
@@ -65,7 +63,7 @@ export function Login() {
           if (resp.data.role === "ROLE_SUPER_ADMIN") {
             navigate("/super-admin");
           } else {
-            navigate("/");
+            navigate("/users");
           }
         } catch (error) {}
       }

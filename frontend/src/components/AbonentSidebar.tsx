@@ -22,19 +22,18 @@ import {
   IMobileService,
 } from "../app/services/types.ts";
 
-// @ts-ignore
+
 import Close from "../img/abonent_sidebar_svg/close.svg?react";
-// @ts-ignore
+
 import Edit from "../img/abonent_sidebar_svg/mode_edit.svg?react";
-// @ts-ignore
+
 import Save from "../img/abonent_sidebar_svg/check.svg?react";
-// @ts-ignore
+
 import Cancel from "../img/abonent_sidebar_svg/cancel.svg?react";
-// @ts-ignore
+
 import Add from "../img/abonent_sidebar_svg/add.svg?react";
 import { formatPhoneNumber } from "../utils/phoneUtils.ts";
 
-// @ts-nocheck
 export const AbonentSidebar = ({
   onClose,
   userID,
@@ -47,7 +46,7 @@ export const AbonentSidebar = ({
   const { data: servicesInfo } = useGetServicesInfoQuery(userID);
   const { data: balanceInfo } = useGetBalanceInfoQuery(userID);
   const [tab, setTab] = useState("userInfo");
-
+  const [key, setKey] = useState(0);
   useEffect(() => {
     setTab("userInfo");
   }, [userID]);
@@ -72,7 +71,6 @@ export const AbonentSidebar = ({
   };
 
   return (
-      // @ts-ignore
     <div className="absolute shadow-[-5px_0_10px_0_rgba(0,0,0,0.10)] z-10 right-[0] top-[80px] w-[680px] h-[calc(100vh-80px)] bg-s-white">
       <div className="flex flex-col h-[calc(100vh-80px)] p-[0px_0px_30px_0px]">
         <div className="p-[30px_30px_0px_30px]">
@@ -90,7 +88,6 @@ export const AbonentSidebar = ({
           <ul className="flex font-medium text-[18px] text-s-light-grey tabs-ul">
             {["userInfo", "tariffInfo", "balanceInfo"].map((id) => (
               <li key={id} className="relative">
-                // @ts-ignore
                 <button
                   className={`transition-colors pb-1 relative ${tab === id ? "text-s-red" : ""}`}
                   onClick={() => setTab(id)}
@@ -98,7 +95,6 @@ export const AbonentSidebar = ({
                   {id === "userInfo" && "Об абоненте"}
                   {id === "tariffInfo" && "Тариф и услуги"}
                   {id === "balanceInfo" && "Баланс"}
-                  // @ts-ignore
                   <span
                     className={`absolute bottom-0 left-0 w-full h-[1px] bg-s-red transform transition-transform duration-300 ease-in-out ${tab === id ? "scale-x-100" : "scale-x-0"}`}
                   ></span>
@@ -107,7 +103,6 @@ export const AbonentSidebar = ({
             ))}
           </ul>
         </div>
-          // @ts-ignore
         <div className="flex-grow overflow-y-auto" key={key}>
           {renderTabContent()}
         </div>
@@ -288,9 +283,7 @@ const TariffInfo = ({
   const addNewServiceCard = () => {
     if (totalServices < MAX_SERVICES) {
       const newService = { type: "more", name_tariff: "" };
-      // @ts-ignore
       setNewServices((prevServices) => [newService, ...prevServices]);
-      // @ts-ignore
       setDisabledServices((prev) => {
         const newSet = new Set(prev);
         newSet.add(newService);
@@ -299,11 +292,11 @@ const TariffInfo = ({
     }
   };
 
-  // @ts-ignore
+
   const updateNewService = (index: number, updatedService) => {
-    // @ts-ignore
+
     setNewServices((prevServices) =>
-        // @ts-ignore
+
       prevServices.map((service, i) =>
         i === index ? updatedService : service,
       ),
@@ -311,7 +304,7 @@ const TariffInfo = ({
   };
 
   const hasIncompleteService = newServices.some(
-      // @ts-ignore
+
     (service) => service.type === "more",
   );
   const handleSaveTariff = async () => {
@@ -348,10 +341,9 @@ const TariffInfo = ({
 
 
   return (
-      // @ts-ignore
+
     <div className="flex flex-col h-full relative">
       {errorMessage && (
-          // @ts-ignore
         <div className="absolute top-2 left-1/2 transform -translate-x-1/2 bg-red-500 text-white p-3 rounded shadow">
           {errorMessage}
         </div>
@@ -370,7 +362,6 @@ const TariffInfo = ({
               disabled={isEditingService}
             />
           ) : (
-              // @ts-ignore
             <div className="flex">
               <Button
                 text="Сохранить"
@@ -475,7 +466,6 @@ const TariffInfo = ({
                 }}
                 onDisableService={() => handleDisableService(service)}
                 onCancelService={() =>
-                    // @ts-ignore
                   setNewServices((prev) => prev.filter((s) => s !== service))
                 }
               />
@@ -529,7 +519,6 @@ const BalanceInfo = ({ data }: { data: IBalanceOperation }) => (
       </div>
     </div>
     <div className="pt-5 p-[0px_30px_0px_30px]">
-        // @ts-ignore
       <p className="text-[26px] font-light">Баланс: {data.balance} ₽</p>
     </div>
   </div>
