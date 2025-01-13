@@ -56,7 +56,7 @@ RUN yarn build
 FROM nginx:stable-alpine
 
 # Копируем собранные файлы фронтенда в папку Nginx
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Копируем кастомный Nginx конфиг, если нужно
 COPY nginx.conf /etc/nginx/nginx.conf
