@@ -1,4 +1,4 @@
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import { Button } from "../components/UI/Button"
 import { Counter } from "../components/UI/Counter"
 import FilterSvg from "../img/filter_alt.svg?react"
@@ -10,6 +10,7 @@ import { SelectorMock } from "../components/UI/SelectorMock"
 import { useGetTariffsQuery } from "../app/services/tariffs"
 import {TariffsSidebar} from "../components/TariffsSidebar.tsx";
 import {NewTariffSidebar} from "../components/NewTariffSidebar.tsx";
+import axios from "axios";
 
 const typesTariff = [
     {
@@ -75,6 +76,44 @@ export const ActiveTariffs = () => {
         });
     };
 
+    const [isAdmin, setIsAdmin] = useState<boolean | null>(false)
+    useEffect(() => {
+        const fetchEmployeeData = async () => {
+            const accessToken = document.cookie
+                .split("; ")
+                .find((row) => row.startsWith("accessToken="))
+                ?.split("=")[1];
+
+            if (!accessToken) {
+                console.error("Access token not found");
+                return;
+            }
+
+            try {
+                const resp = await axios.post(
+                    `/api/profile/employee`,
+                    {},
+                    {
+                        withCredentials: true,
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    }
+                );
+
+                if (resp.data.role === "ROLE_ADMIN") {
+                    setIsAdmin(true)
+                }
+            }finally {
+
+            }
+        };
+
+        fetchEmployeeData();
+    }, []);
+
+
     return (
         <div className="grow px-[90px] py-10 overflow-y-auto">
             <div className="flex items-center mb-2.5">
@@ -82,11 +121,11 @@ export const ActiveTariffs = () => {
                     <h2 className="text-[34px] text-s-black mr-3">
                         Тарифы
                     </h2>
-                    {/*<Counter */}
+                    {/*<Counter*/}
                     {/*desired_entries={typeTariff === 'active'*/}
                     {/*    ? activeFilteredTariffs.length*/}
                     {/*    : archiveFilteredTariffs.length*/}
-                    {/*} */}
+                    {/*}*/}
                     {/*all_entries={tariffs.length} />*/}
                 </div>
                 <Button type="red" text={nonFalseValuesCount} 
@@ -126,8 +165,8 @@ export const ActiveTariffs = () => {
                     onClick={() => setStatusTariff('HIDDEN')}
                     styles="text-[26px] font-medium" />
                 </div>
-                <Button onClick={() => setIsSidebarNewTariff(true)}
-                    text="Новый тариф" type="red" iconLeft={<AddSvg />} />
+                {isAdmin && <Button onClick={() => setIsSidebarNewTariff(true)}
+                                    text="Новый тариф" type="red" iconLeft={<AddSvg />} />}
             </div>
             <div className="grid grid-cols-3 gap-12">
                 {tariffsData?.content.map((tariff, index) => (
@@ -147,7 +186,6 @@ export const ActiveTariffs = () => {
                    setIsSidebarOpen(!isSidebarOpen)
                    setTariffId(null)
                }}
-               isAdmin={true}
             />
             }
             {isSidebarNewTariff && <NewTariffSidebar

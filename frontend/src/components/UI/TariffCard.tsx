@@ -25,7 +25,7 @@ export const TariffCard = ({ type, cardInfo, onClick, styles }: TariffCardProps)
     return (
         <div
             onClick={onClick}
-            className={`rounded-[20px] shadow-[0px_0px_8px_0px_rgba(0,0,0,0.50)] ${styles}`}
+            className={`rounded-[20px] shadow-[0px_0px_8px_0px_rgba(0,0,0,0.50)] ${styles} cursor-pointer`}
         >
             <div className={`flex p-5 rounded-t-[20px] ${getTypeColor()}`}>
                 <span className="text-[26px] mr-auto text-s-white truncate">{cardInfo.name}</span>

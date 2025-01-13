@@ -143,7 +143,7 @@ export const MultiSelector = <T extends object>({
                     <ul className={`max-h-[200px]
                     overflow-y-auto border rounded-b-lg z-10
                     ${type ? 'border-s-white' : 'border-s-dark-grey bg-white'}`}>
-                        {list?.slice(0, 10).map((data, index) => {
+                        {list?.map((data, index) => {
                             const isChecked = selectedData.some(
                                 (item) => JSON.stringify(item) === JSON.stringify(data)
                             );

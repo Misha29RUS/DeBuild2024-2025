@@ -1,6 +1,6 @@
-import { 
+import {
   useGetUsersQuery, useGetCountUsersQuery,
-  useGetServicesQuery, useGetTariffsQuery 
+  useGetServicesQuery, useGetTariffsQuery
 } from "../app/services/users";
 import { Counter } from "../components/UI/Counter";
 import { Button } from "../components/UI/Button";
@@ -34,10 +34,10 @@ const [phone, setPhone] = useState('');
 const [name, setName] = useState('');
 const [surname, setSurname] = useState('');
 const [patronymic, setPatronymic] = useState('');
-  
+
 // Запрашиваем все тарифы и услуги для фильтров
 let { data: servicesData } = useGetServicesQuery('')
-servicesData = servicesData?.filter(service => service.status !== "DELETED") 
+servicesData = servicesData?.filter(service => service.status !== "DELETED")
 let { data: tariffsData } = useGetTariffsQuery('')
 tariffsData = tariffsData?.filter(tariff => tariff.status !== "DELETED")
 
@@ -78,7 +78,7 @@ const filteredUsers: UserFilters = {
     tariffsIds: appliedFilters.selectTariffs,
   }),
   page: page,
-  size: 10
+  size: 20
 };
 const { data: usersData, isFetching } = useGetUsersQuery(shouldFetchUsers ? filteredUsers : skipToken);
 useEffect(() => {
@@ -103,7 +103,7 @@ useEffect(() => {
 }, [page, isFetching]);
 
 // Запрашиваем количество всех пользователей и соответствующих фильтрам
-const { data: countUsersData } = useGetCountUsersQuery(shouldFetchUsers ? filteredUsers : {name: ''});
+const { data: countUsersData } = useGetCountUsersQuery(shouldFetchUsers ? filteredUsers : {});
 
 // Подсчёт количества примененных фильтров
 const nonFalseValuesCount = Object.values(appliedFilters).filter(value => {
@@ -145,12 +145,12 @@ useEffect(() => {
 
 // Сброс фильтров
 const resetFilters = () => {
-  setSelectTariffs([]); 
-  setSelectServices([]); 
-  setPhone(''); 
-  setName(''); 
-  setSurname(''); 
-  setPatronymic(''); 
+  setSelectTariffs([]);
+  setSelectServices([]);
+  setPhone('');
+  setName('');
+  setSurname('');
+  setPatronymic('');
   setAppliedFilters({
     selectTariffs: [],
     selectServices: [],
@@ -177,10 +177,10 @@ return (
         <h2 className="text-[34px] text-s-black mr-3">
           Таблица абонентов
         </h2>
-        <Counter desired_entries={countUsersData?.countEntityAfterFilters?? 0}
+        <Counter desired_entries={countUsersData?.countEntityAfterFilters ?? 0}
         all_entries={countUsersData?.countAllEntities ?? 0} />
       </div>
-      <Button type="red" text={nonFalseValuesCount} 
+      <Button type="red" text={nonFalseValuesCount}
       iconRight={<FilterSvg className="w-[22px] h-[22px]" />}
       onClick={() => setIsFiltersIsOpen(!isFiltersOpen)} />
     </div>
@@ -189,7 +189,7 @@ return (
       ? 'opacity-100 max-h-screen translate-y-0' 
       : 'opacity-0 max-h-0 overflow-hidden translate-y-4'}`}>
       <div className="flex gap-[30px] mb-2.5">
-        <Input setTakeValue={handlePhoneChange} value={phone} 
+        <Input setTakeValue={handlePhoneChange} value={phone}
         placeholder="Введите номер" />
         <MultiSelector placeholder="Выберите тарифы"
         value={selectTariffs} setTakeValue={setSelectTariffs}
@@ -199,11 +199,11 @@ return (
         selectList={servicesData ?? []} labelKey='name' />
       </div>
       <div className="flex items-center gap-[30px] mb-2.5">
-        <Input setTakeValue={setSurname} value={surname} 
+        <Input setTakeValue={setSurname} value={surname}
         placeholder="Введите фамилию" />
-        <Input setTakeValue={setName} value={name} 
+        <Input setTakeValue={setName} value={name}
         placeholder="Введите имя" />
-        <Input setTakeValue={setPatronymic} value={patronymic} 
+        <Input setTakeValue={setPatronymic} value={patronymic}
         placeholder="Введите отчество" />
       </div>
       <div className="flex items-center">
