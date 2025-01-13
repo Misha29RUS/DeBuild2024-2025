@@ -27,7 +27,7 @@ export function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `/api/auth/login`,
+        `http://billing-core-api:8080/api/auth/login`,
         {
           email: email,
           password: password,
