@@ -55,7 +55,7 @@ export function Login() {
       );
       console.log(response2, "2");
       if (response.status === 200) {
-        const { accessToken, refreshToken } = response.data;
+        const { accessToken } = response.data;
         try {
           const resp = await axios.post(
             `/api/profile/employee`,
