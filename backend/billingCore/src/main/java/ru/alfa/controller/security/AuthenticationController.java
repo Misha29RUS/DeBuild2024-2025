@@ -1,5 +1,6 @@
 package ru.alfa.controller.security;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,9 +62,9 @@ public class AuthenticationController implements AuthenticationInterface {
      * @return ResponseEntity с результатом входа
      */
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         log.info("login request received for email {}", loginRequest.getEmail());
-        return authenticationService.loginEmployee(loginRequest);
+        return authenticationService.loginEmployee(loginRequest, response);
     }
 
     /**

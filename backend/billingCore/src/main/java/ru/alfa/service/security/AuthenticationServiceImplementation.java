@@ -1,10 +1,11 @@
 package ru.alfa.service.security;
 
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -171,10 +172,11 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
      * Аутентифицирует сотрудника на основе введенных учетных данных.
      *
      * @param loginRequest запрос на вход, содержащий адрес электронной почты и пароль.
+     * @param response
      * @return ResponseEntity с результатом аутентификации, включая JWT-токен при успешной аутентификации.
      */
     @Override
-    public ResponseEntity<?> loginEmployee(LoginRequest loginRequest) {
+    public ResponseEntity<?> loginEmployee(LoginRequest loginRequest, HttpServletResponse response) {
         String email = loginRequest.getEmail().trim().toLowerCase();
         String password = loginRequest.getPassword();
         try {
@@ -188,6 +190,14 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
             }
 
             RegisterVerifyResponse jwtToken = jwtService.generateJwtToken(employee);
+            Cookie cookie = new Cookie("accessToken", jwtToken.getAccessToken());
+
+            // Устанавливаем путь и время жизни куки
+            cookie.setPath("/");
+            cookie.setMaxAge(86400); // 1 день
+
+            // Добавляем куку в ответ
+            response.addCookie(cookie);
             return new ResponseEntity<>(jwtToken, HttpStatus.OK);
 
         } catch (ResourceNotFoundException ex) {

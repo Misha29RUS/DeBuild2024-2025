@@ -1,5 +1,6 @@
 package ru.alfa.service.security;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import ru.alfa.data.dto.security.requests.*;
 import ru.alfa.data.dto.security.responses.RegisterResponse;
@@ -29,9 +30,10 @@ public interface AuthenticationService {
      * Аутентифицирует пользователя на основе введенных учетных данных.
      *
      * @param loginRequest запрос на вход, содержащий адрес электронной почты и пароль.
+     * @param response
      * @return ResponseEntity с результатом аутентификации, включая JWT-токен при успешной аутентификации.
      */
-    ResponseEntity<?> loginEmployee(LoginRequest loginRequest);
+    ResponseEntity<?> loginEmployee(LoginRequest loginRequest, HttpServletResponse response);
 
     /**
      * Повторно отправляет OTP на адрес электронной почты пользователя для восстановления доступа.

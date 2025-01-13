@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,7 +53,7 @@ public interface AuthenticationInterface {
      * @return ResponseEntity с результатом входа
      */
     @Operation(summary = "Авторизация пользователя", description = "Выполнить аутентификацию и вход в систему пользователя.")
-    ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest);
+    ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response);
 
     /**
      * Запрос на сброс пароля.
