@@ -5,13 +5,19 @@ type InputProps = {
     setTakeValue: React.Dispatch<React.SetStateAction<string>> | ((newValue: string) => void);
     value: string;
     styles?: string;
+    stylesInput?: string;
+    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+    onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
 };
 
 export const Input = ({
     placeholder,
     setTakeValue,
     value,
-    styles
+    styles,
+    stylesInput,
+    onBlur,
+    onFocus
 }: InputProps) => {
     return (
         <div className={`relative w-full ${styles}`}>
@@ -20,10 +26,12 @@ export const Input = ({
                 value={value}
                 placeholder={placeholder}
                 type="text"
+                onBlur={onBlur}
+                onFocus={onFocus}
                 className={`border w-full border-s-light-grey rounded-lg text-s-black
-                px-4 py-3 pr-9 font-extralight text-[18px] placeholder:text-s-light-grey
+                px-4 py-3 pr-9 font-light text-[18px] placeholder:text-s-light-grey
                 hover:border-s-dark-grey hover:placeholder:text-s-dark-grey
-                outline-none`} />
+                outline-none ${stylesInput}`} />
             {value && (
                 <CloseSvg className="absolute top-3 right-4 cursor-pointer"
                 onClick={() => setTakeValue("")} />

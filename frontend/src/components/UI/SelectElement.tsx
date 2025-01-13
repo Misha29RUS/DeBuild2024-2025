@@ -14,7 +14,7 @@ export const SelectElement = <T, >({handleSelect, data, data_name, styles}: Sele
         bg-s-light-grey rounded-lg ${styles}`}>
             <CancelSvg onClick={() => handleSelect(data)}
             className="mr-1.5 w-4 h-4 cursor-pointer" />
-            <span className="font-extralight text-[14px]">
+            <span className="font-light text-[14px]">
                 {String(getValueByPath(data, data_name as string))}
             </span>
         </div>

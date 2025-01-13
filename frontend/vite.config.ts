@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8080', // Адрес вашего бэкенда
+        target: 'http://62.113.105.104:8080', // Адрес вашего бэкенда
         changeOrigin: true, // Изменяет заголовок Origin для обхода CORS
         rewrite: (path) => path.replace(/^\/api/, '/api'), 
       },

@@ -98,7 +98,7 @@ export const MultiSelector = <T extends object>({
                     : selectedData.length > 0
                     ? `Выбрано: ${selectedData.length}`
                     : ""}
-                className={`py-3 px-4 pr-[60px]  outline-none border font-extralight text-[18px] w-[inherit]
+                className={`py-3 px-4 pr-[60px]  outline-none border font-light text-[18px] w-[inherit]
                 hover:placeholder:text-s-dark-grey 
                 ${showDropdown ?
                 `rounded-t-lg ${type ? 'border-s-white' : 'border-s-dark-grey'} `
@@ -143,7 +143,7 @@ export const MultiSelector = <T extends object>({
                     <ul className={`max-h-[200px]
                     overflow-y-auto border rounded-b-lg z-10
                     ${type ? 'border-s-white' : 'border-s-dark-grey bg-white'}`}>
-                        {list?.slice(0, 10).map((data, index) => {
+                        {list?.map((data, index) => {
                             const isChecked = selectedData.some(
                                 (item) => JSON.stringify(item) === JSON.stringify(data)
                             );
@@ -158,7 +158,7 @@ export const MultiSelector = <T extends object>({
                                     : (type === 'archive' ? 'bg-s-black'
                                     : (type === 'more' && 'bg-s-dark-grey'))}`}>
                                     <Checkbox filterChecked={isChecked} />    
-                                    <p className={`font-extralight text-[18px] ml-4
+                                    <p className={`font-light text-[18px] ml-4
                                     ${type && 'text-s-white'}`}> 
                                         {String(getValueByPath(data, labelKey as string))}
                                     </p>
