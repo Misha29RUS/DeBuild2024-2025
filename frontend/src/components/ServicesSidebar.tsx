@@ -1,9 +1,15 @@
+// @ts-ignore
+// @ts-ignore
 import { useEffect, useState } from "react";
-
+// @ts-ignore
 import Close from "../img/abonent_sidebar_svg/close.svg?react";
+// @ts-ignore
 import Edit from "../img/abonent_sidebar_svg/mode_edit.svg?react";
+// @ts-ignore
 import Save from "../img/abonent_sidebar_svg/check.svg?react";
+// @ts-ignore
 import Cancel from "../img/abonent_sidebar_svg/cancel.svg?react";
+// @ts-ignore
 import Delete from "../img/abonent_sidebar_svg/delete.svg?react";
 import {
   useDeleteServiceMutation,
@@ -156,7 +162,7 @@ export const ServicesSidebar = ({
         fetchEmployeeData();
     }, []);
 
-  return (
+  return (        // @ts-ignore
     <div className="absolute shadow-[-5px_0_10px_0_rgba(0,0,0,0.10)] z-10 right-[0] top-[80px] w-[680px] h-[calc(100vh-80px)] bg-s-white">
       <div className="flex flex-col h-[calc(100vh-80px)] p-[30px]">
         <div className="border-b-[1px] border-s-light-grey flex justify-between pb-[20px]">

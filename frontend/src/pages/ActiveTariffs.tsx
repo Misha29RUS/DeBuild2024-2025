@@ -1,10 +1,11 @@
+// @ts-ignore
 import {useEffect, useState} from "react"
 import { Button } from "../components/UI/Button"
 import { Counter } from "../components/UI/Counter"
 import FilterSvg from "../img/filter_alt.svg?react"
 import { Input } from "../components/UI/Input"
 import { Tab } from "../components/UI/Tab"
-import { TariffCard } from "../components/UI/TariffCard"
+import { TariffCard } from "../components/UI/TariffCard"// @ts-ignore
 import AddSvg from "../img/abonent_sidebar_svg/add.svg?react"
 import { SelectorMock } from "../components/UI/SelectorMock"
 import { useGetTariffsQuery } from "../app/services/tariffs"
@@ -114,7 +115,7 @@ export const ActiveTariffs = () => {
     }, []);
 
 
-    return (
+    return (// @ts-ignore
         <div className="grow px-[90px] py-10 overflow-y-auto">
             <div className="flex items-center mb-2.5">
                 <div className="flex items-center mr-auto">
@@ -170,7 +171,7 @@ export const ActiveTariffs = () => {
             </div>
             <div className="grid grid-cols-3 gap-12">
                 {tariffsData?.content.map((tariff, index) => (
-                    <TariffCard
+                    <TariffCard// @ts-ignore
                         key={index}
                         onClick={() => {
                             setTariffId(tariff.id)

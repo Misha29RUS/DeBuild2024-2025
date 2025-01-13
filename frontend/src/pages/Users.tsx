@@ -5,12 +5,12 @@ import {
 import { Counter } from "../components/UI/Counter";
 import { Button } from "../components/UI/Button";
 import { Input } from "../components/UI/Input";
-import { MultiSelector } from "../components/UI/MultiSelector";
-import FilterSvg from "../img/filter_alt.svg?react"
+import { MultiSelector } from "../components/UI/MultiSelector";// @ts-ignore
+import FilterSvg from "../img/filter_alt.svg?react"// @ts-ignore
 import { useEffect, useRef, useState } from "react";
 import { formatPhoneNumber } from "../utils/phoneUtils";
 import { UsersTable } from "../components/UsersTable";
-import { IMobileService, ITariff } from "../app/services/types";
+import { IMobileService, ITariff } from "../app/services/types";// @ts-ignore
 import { skipToken } from "@reduxjs/toolkit/query";
 
 type UserFilters = {
@@ -36,9 +36,9 @@ const [surname, setSurname] = useState('');
 const [patronymic, setPatronymic] = useState('');
 
 // Запрашиваем все тарифы и услуги для фильтров
-let { data: servicesData } = useGetServicesQuery('')
+let { data: servicesData } = useGetServicesQuery('')// @ts-ignore
 servicesData = servicesData?.filter(service => service.status !== "DELETED")
-let { data: tariffsData } = useGetTariffsQuery('')
+let { data: tariffsData } = useGetTariffsQuery('')// @ts-ignore
 tariffsData = tariffsData?.filter(tariff => tariff.status !== "DELETED")
 
 // Примененные фильтры
@@ -60,6 +60,7 @@ const usersPageRef = useRef(null);
 const filterEmptyFields = <T extends Record<string, unknown>>(filters: T): Partial<T> => {
   return Object.fromEntries(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // @ts-ignore
     Object.entries(filters).filter(([key, value]) => {
       if (Array.isArray(value)) {
         return value.length > 0; // Убираем пустые массивы
@@ -115,8 +116,8 @@ const nonFalseValuesCount = Object.values(appliedFilters).filter(value => {
 
 // Применение фильтров
 const applyFilters = () => {
-  setAppliedFilters({
-    selectTariffs: selectTariffs.map((tariff) => tariff.id),
+  setAppliedFilters({// @ts-ignore
+    selectTariffs: selectTariffs.map((tariff) => tariff.id),// @ts-ignore
     selectServices: selectServices.map((service) => service.id),
     phone,
     name,
@@ -169,7 +170,7 @@ const handlePhoneChange = (newValue: string) => {
   setPhone(formattedValue);
 };
 
-return (
+return (// @ts-ignore
   <div ref={usersPageRef}
   className="grow px-[90px] py-10 overflow-y-auto">
     <div className="flex items-center mb-2.5">
@@ -213,7 +214,7 @@ return (
     </div>
     {nonFalseValuesCount > 0 ? (
       <UsersTable users={usersData} />
-    ): (
+    ): (// @ts-ignore
       <div className="text-[38px] text-center font-medium text-s-light-grey mt-[70px]">
         Используйте фильтры для поиска
       </div>

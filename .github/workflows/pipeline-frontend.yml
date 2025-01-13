@@ -1,0 +1,68 @@
+#name: Billing Core UI Pipeline
+#
+#on:
+#  push:
+#    branches:
+#      - master
+#    paths:
+#      - frontend/**
+#      - 'compose.yml'
+#      - .github/workflows/*-frontend.yml
+#jobs:
+#  build-image:
+#    name: Build Docker image
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#      - name: Extract project version
+#        id: extract_version
+#        run: |
+#          cd frontend
+#          echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+#
+#      - name: Login to DockerHub
+#        uses: docker/login-action@v3
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_TOKEN }}
+#
+#      - name: Build & Push to DockerHub
+#        uses: docker/build-push-action@v5
+#        with:
+#          context: frontend
+#          file: frontend/Dockerfile
+#          push: true
+#          platforms: linux/amd64
+#          tags: ${{ secrets.DOCKERHUB_USERNAME }}/billing-ui:latest,${{ secrets.DOCKERHUB_USERNAME }}/billing-ui:${{ steps.extract_version.outputs.VERSION }}
+#
+#  deploy:
+#    name: Deploy Frontend
+#    runs-on: ubuntu-latest
+#    needs: [ build-image ]
+#    steps:
+#      - name: Setup SSH
+#        uses: webfactory/ssh-agent@v0.5.3
+#        with:
+#          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+#
+#      - name: Create deployment folder
+#        run: ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} "mkdir -p ci-cd"
+#
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#
+#      - name: Copy docker-compose file
+#        run: scp -oStrictHostKeyChecking=no compose.yml ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:ci-cd/compose.yml
+#
+#      - name: Set ENV variable and deploy
+#        run: |
+#          ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} <<EOF
+#          cd ci-cd
+#          docker compose -f docker-compose.yml pull -q
+#          docker compose -f docker-compose.yml up -d
+#          EOF
