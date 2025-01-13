@@ -4,7 +4,7 @@ import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
   target: "http://billing-core-api:8080",
-  plugins: [react(), svgr()],
+  plugins: [react(), svgr()]
   // server: {
   //   proxy: {
   //     "/api": {
