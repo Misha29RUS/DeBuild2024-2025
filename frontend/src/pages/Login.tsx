@@ -27,7 +27,7 @@ export function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `/api/auth/login`,
+        `http://62.113.105.104:8080/api/auth/login`,
         {
           email: email,
           password: password,
@@ -39,6 +39,21 @@ export function Login() {
           },
         },
       );
+      console.log(response, "1");
+      const response2 = await axios.post(
+        `http://billing-core-api/api/auth/login`,
+        {
+          email: email,
+          password: password,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      console.log(response2, "2");
       if (response.status === 200) {
         const { accessToken, refreshToken } = response.data;
         document.cookie = `accessToken=${accessToken}; path=/; max-age=${24 * 60 * 60}; secure; samesite=strict`;
