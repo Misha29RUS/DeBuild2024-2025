@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
+//@Configuration
 public class MvcConfiguration implements WebMvcConfigurer {
     //    @Override
 //    public void addCorsMappings(CorsRegistry registry) {
@@ -16,8 +16,8 @@ public class MvcConfiguration implements WebMvcConfigurer {
 //                .allowCredentials(true)
 //                .maxAge(1728000);
 //    }
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE");
-    }
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/api/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE");
+//    }
 }

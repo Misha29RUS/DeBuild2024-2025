@@ -72,17 +72,18 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(List.of("*")); // Разрешить все источники
-//        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Разрешить методы
-//        configuration.setAllowedHeaders(List.of("*")); // Разрешить любые заголовки
-//        configuration.setAllowCredentials(true);
-//        configuration.setMaxAge(3600L);
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://62.113.105.104:3000", "http://62.113.105.104:5173")); // Разрешить все источники
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Разрешить методы
+        configuration.setAllowedHeaders(List.of("*")); // Разрешить любые заголовки
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
 }
