@@ -12,6 +12,7 @@ services:
       - backend
     depends_on:
       - liquibase-migrations
+
   postgresql:
     container_name: postgresql-billing-system
     image: postgres:16
@@ -25,6 +26,7 @@ services:
       - postgresql:/var/lib/postgresql/data
     networks:
       - backend
+
   liquibase-migrations:
     container_name: billing-system-db-migrations
     image: liquibase/liquibase:4.25
